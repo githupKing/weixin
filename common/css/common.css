@@ -9,8 +9,21 @@ html,body,.container{
 .font24{
 	font-size: 0.24rem;
 }
+.padding30{
+	padding-bottom: .3rem;
+}
+.margin50{
+	margin-top: .5rem;	
+}
+.margin24{
+	margin-bottom: .24rem;	
+}
 .ee7b42{
 	background-color: #ee7b42;
 	color: #fff;
 	padding: 0.1rem;
+}
+* { touch-action: pan-y; } 
+.ccc{
+	color: #ccc;
 }
