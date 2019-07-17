@@ -9,6 +9,12 @@ html,body,.container{
 .font24{
 	font-size: 0.24rem;
 }
+.font32{
+	font-size: 0.32rem;
+}
+.font36{
+	font-size: 0.36rem;
+}
 .padding30{
 	padding-bottom: .3rem;
 }
@@ -26,4 +32,12 @@ html,body,.container{
 * { touch-action: pan-y; } 
 .ccc{
 	color: #ccc;
+}
+.display{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.red{
+	color: red;
 }
