@@ -91,3 +91,22 @@ html,body,.container{
 	margin-top: .6rem;
 	width: 80%;
 }
+.suport{
+	margin-top: 1rem;
+	font-size: .24rem;
+	color: #333;
+	margin-bottom: .5rem;
+	position: relative;
+	text-align: center;
+}
+.hezuo{
+	width: .9rem;
+	height: .9rem;
+	position: absolute;
+	top: -.8rem;
+	right: 10px;
+}
+.calls{
+	width: .84rem;
+	height: .46rem;
+}
