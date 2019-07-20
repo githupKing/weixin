@@ -110,3 +110,4 @@ html,body,.container{
 	width: .84rem;
 	height: .46rem;
 }
+.btn:focus{outline:0;}
