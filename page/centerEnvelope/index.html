@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,user-scalable=no">
+	<link rel="stylesheet" href="../../common/css/weui.css">
+	<link rel="stylesheet" href="../../common/css/weuix.css">
+	<link rel="stylesheet" href="../../common/css/common.css">
+	<link rel="stylesheet" href="index.css">
+	<title>红包</title>
+</head>
+<body>
+	<div class="container">
+		<div class="head">
+			<div class="Headtitle">
+				<div class="padding30_left_right" >
+					<p>总资产 (元)</p>
+					<h2 class="money">49,228.20</h2>
+				</div>
+				<a class="padding30_left_right btnDefault"><img src="../../img/tixian@2x.png" alt="">提现</a>
+			</div>
+		</div>
+		<div class="weui-tab" id="t1" style="height:44px;">
+	        <div class="weui-navbar">
+	            <div class="weui-navbar__item">体现记录</div>
+	            <div class="weui-navbar__item">红包记录</div>
+	        </div>
+	    </div>
+	    <div class="index0 index">
+        	<div class="itemLeft">
+        		<p>2019-01-12</p>
+        	</div>
+        	<div class="itemRight">
+        		<p>提现20元</p>
+        	</div>
+        </div>
+         <div class="index1 index">
+            <div class="itemLeft">
+               <img src="" alt="">
+               <span>用户点击了你的链接</span>
+            </div>
+            <div class="itemRight">
+                <p>提现20元</p>
+            </div>
+        </div>
+	</div>
+	<script src="../../common/js/zepto.min.js"></script>
+	<script src="../../common/js/zepto.weui.min.js"></script>
+	<script src="../../common/js/iscroll-lite.js"></script>
+	<script src="../../common/js/common.js"></script>
+	<script>
+        $(function(){
+        	$('.index').hide()
+        	$('.index1').show()
+            $('#t1').tab({
+                defaultIndex: 0,
+                activeClass: 'tab-ee7b42',
+                onToggle: function (index) {
+        	$('.index').hide()
+					$('.index'+index).show()
+                }
+            })
+        })
+	</script>
+</body>
+</html>

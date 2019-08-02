@@ -2641,6 +2641,12 @@ input.b-orange {
     color: #07c160;
     transition: right 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, left 0.3s cubic-bezier(0.35, 0, 0.25, 1);
 }
+.weui-navbar__item.tab-ee7b42 {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border-bottom: 3px solid #ee7b42;
+    color: #ee7b42;
+    transition: right 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, left 0.3s cubic-bezier(0.35, 0, 0.25, 1);
+}
 .weui-navbar__item.tab-red {
     background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
     border-bottom: 3px solid #fa5151;

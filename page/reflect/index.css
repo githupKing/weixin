@@ -6,34 +6,60 @@
 */
 .container{
 	font-size: 10px;
-	text-align: center;
+	
+}
+.dec{
+	margin-top: .9rem;
+	margin-bottom: .6rem;
+	font-size: .32rem;
+	color: #202120;
+	padding-left: .4rem;
+}
+.moneys,.inputPrice {
+	padding-left: .4rem;
+}
+.dec > span,.moneys{
+	color: #666;
+	font-size: .28rem;
+}
+.inputPrice{
+	margin-top: .4rem;
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	border-bottom: 1px solid #ccc;
 }
-.container > div{
-	height: 80%;
+.inputPrice > p{
+	font-size: .8rem;
+	color: #202120;
 }
-.container > div > .titles{
-	font-size: .38rem;
-	margin-top: .5rem;
-	margin-bottom: .5rem;
-}
-.money{
-	font-size: .58rem;
-	font-weight: 800;
-	margin-bottom: .5rem;
-}
-.container > div > img{
-	width: 1.8rem;
-	height: 1.8rem;
-}
-.btnReflect{
-	width: 3rem;
-	height: .8rem;
-	border-radius: 6px;
+.inputPrice > input{
 	border: 0px;
+	width: 70%;
+	font-size: .6rem;
+	color: #ee7b42;
+	outline:medium;
+}
+.btnTixian{
+	width: 90%;
+	margin: 0 auto;
+	display: inline-block;
+	background-color: #ee7b42;
+	border-radius: 50px;
+	text-align: center;
+	height: .8rem;
+	line-height: .8rem;
 	color: #fff;
-	background-color: #26ab28;
-	margin-top: 2rem;
+	font-size: .32rem;
+	margin-top: .8rem;
+	margin-bottom: .3rem;
+}
+.center{
+	text-align: center;
+}
+.mydec{
+	margin-top: 0rem;
+	margin-bottom: 0rem;
+}
+.mydec > span{
+	color: #ee7b42;
 }

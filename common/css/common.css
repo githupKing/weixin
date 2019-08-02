@@ -15,6 +15,9 @@ html,body,.container{
 .font36{
 	font-size: 0.36rem;
 }
+.paddingTop30{
+	padding-top: .3rem;
+}
 .padding30{
 	padding-bottom: .3rem;
 }
@@ -109,5 +112,9 @@ html,body,.container{
 .calls{
 	width: .84rem;
 	height: .46rem;
+}
+.padding30_left_right{
+	padding-right: .3rem;
+	padding-left: .3rem;
 }
 .btn:focus{outline:0;}
