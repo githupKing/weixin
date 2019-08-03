@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,user-scalable=no">
+	<link rel="stylesheet" href="../../common/css/weui.css">
+	<link rel="stylesheet" href="../../common/css/weuix.css">
+	<link rel="stylesheet" href="../../common/css/common.css">
+	<link rel="stylesheet" href="index.css">
+	<title>个人中心</title>
+</head>
+<body>
+	<div class="container">
+		<div class="head">
+			<div class="headImg padding30_left_right">
+				<img src="../../img/head@2x.png" alt="">
+				<p class="font32">prince</p>
+			</div>
+			<div class="Headtitle">
+				<div class="padding30_left_right">
+					<p>总资产 (元)</p>
+					<h2 class="money">49,228.20</h2>
+				</div>
+				<a class="padding30_left_right btnDefault"><img src="../../img/baomin.png" alt="">活动报名</a>
+			</div>
+		</div>
+		<p class="listTitle">优惠券</p>
+		<div class="weui-tab" id="t1" style="height:44px;">
+	        <div class="weui-navbar">
+	            <div class="weui-navbar__item">未使用(10)</div>
+	            <div class="weui-navbar__item">已使用(20)</div>
+	            <div class="weui-navbar__item">已过期(30)</div>
+	        </div>
+	    </div>
+	    <div class="index0 index">
+        	<div class="itemLeft">
+        		<div>
+        			<span class="moneyCont">10</span>
+	        		<span>￥</span>
+	        		<p>抵扣券</p>
+        		</div>
+        	</div>
+        	<div class="itemRight">
+        		<p class="font28 paddingTop30">部分自营商品使用</p>
+        		<div class="display">
+        			<span>2018.12.12-2018.12.12</span>
+        			<a href="../coupons/index.html" class="useBtn">立即使用</a>
+        		</div>
+        	</div>
+        </div>
+        <div class="index1 index">
+        	<div class="itemLeft">
+        		<div>
+        			<span class="moneyCont">10</span>
+	        		<span>￥</span>
+	        		<p>抵扣券</p>
+        		</div>
+        	</div>
+        	<div class="itemRight">
+        		<p class="font28 paddingTop30">部分自营商品使用</p>
+        		<span>2018.12.12-2018.12.12</span>
+        	</div>
+        	<img class="itemCenter" src="../../img/yishiyong@2x.png" alt="">
+        </div>
+        <div class="index2 index">
+        	<div class="itemLeft">
+        		<div>
+        			<span class="moneyCont">10</span>
+	        		<span>￥</span>
+	        		<p>抵扣券</p>
+        		</div>
+        	</div>
+        	<div class="itemRight">
+        		<p class="font28 paddingTop30">部分自营商品使用</p>
+        		<span>2018.12.12-2018.12.12</span>
+        	</div>
+        	<img class="itemCenter" src="../../img/yiguoqi@2x.png" alt="">
+        </div>
+	</div>
+	<script src="../../common/js/zepto.min.js"></script>
+	<script src="../../common/js/zepto.weui.min.js"></script>
+	<script src="../../common/js/iscroll-lite.js"></script>
+	<script src="../../common/js/common.js"></script>
+	<script>
+        $(function(){
+        	$('.index').hide()
+        	$('.index1').show()
+            $('#t1').tab({
+                defaultIndex: 0,
+                activeClass: 'tab-ee7b42',
+                onToggle: function (index) {
+        	$('.index').hide()
+					$('.index'+index).show()
+                }
+            })
+        })
+	</script>
+</body>
+</html>
