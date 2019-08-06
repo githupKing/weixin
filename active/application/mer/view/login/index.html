@@ -1,0 +1,41 @@
+{extend name="mer@index/index"}
+
+{block name="body"}
+<div class="login-container" data-supersized="__ROOT__/static/theme/img/login/bg1.jpg,__ROOT__/static/theme/img/login/bg2.jpg">
+    <div class="header notselect layui-hide-xs">
+        <a href="{:url('/mer')}" class="title">{:sysconf('app_name')}<span class="padding-left-5 font-s10">{:sysconf('app_version')}</span></a>
+    </div>
+    <form data-login-form onsubmit="return false;" method="post" class="layui-anim layui-anim-upbit" autocomplete="off">
+        <h2 class="notselect">商家账户验证</h2>
+        <ul>
+            <li class="username">
+                <label>
+                    <i class="layui-icon layui-icon-username"></i>
+                    <input class="layui-input" required pattern="^\S{4,}$" name="username" autofocus autocomplete="off" placeholder="请输入账号">
+                </label>
+            </li>
+            <li class="password" style="display: none !important;">
+                <label>
+                    <i class="layui-icon layui-icon-password"></i>
+                    <input class="layui-input" required pattern="^\S{4,}$" name="password" maxlength="32" type="password" autocomplete="off" placeholder="请输入密码">
+                </label>
+            </li>
+            <li class="text-center padding-top-20">
+                <input type="hidden" name="skey" value="{$loginskey|default=''}">
+                <button type="submit" class="layui-btn layui-disabled full-width" data-form-loaded="立即验证">正在载入</button>
+            </li>
+        </ul>
+    </form>
+
+</div>
+{/block}
+
+{block name='style'}
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<script>if (location.href.indexOf('#') > -1) location.replace(location.href.split('#')[0])</script>
+<link rel="stylesheet" href="__ROOT__/static/theme/css/login.css">
+{/block}
+
+{block name='script'}
+<script src="__ROOT__/static/plugs/supersized/supersized.3.2.7.min.js"></script>
+{/block}

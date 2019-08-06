@@ -1,0 +1,312 @@
+{extend name='mer@main'}
+
+{block name="content"}
+
+{include file='mer@goods/form_style'}
+<style>
+    #demo{
+    }
+</style>
+<form onsubmit="return false;" id="GoodsForm" data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
+
+    <div class="layui-card-body think-box-shadow padding-left-40">
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">商品分类</span>
+                <select class="layui-select" required name="max_classify" lay-search>
+                    {foreach $cates as $cate}
+                    {if isset($vo.max_classify) and $vo.max_classify eq $cate.id}
+                    <option selected value="{$cate.id}">{$cate.classification_name}</option>
+                    {else}
+                    <option value="{$cate.id}">{$cate.classification_name|default=''}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </label>
+            <label class="layui-col-xs9 relative">
+                <span class="color-green">商品名称</span>
+                <input name="name" required class="layui-input" placeholder="请输入商品名称" value="{$vo.name|default=''}">
+            </label>
+        </div>
+
+
+        <div class="layui-form-item">
+            <span class="color-green label-required-prev">商品LOGO图集</span>
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th class="text-left">IMG</th>
+                </tr>
+                <tr>
+                    <td width="auto" class="text-left"><input name="min_img" type="hidden" value="{$vo.min_img|default=''}"></td>
+                </tr>
+                </thead>
+            </table>
+            <script>$('[name="min_img"]').uploadMultipleImage()</script>
+        </div>
+
+        <div class="layui-form-item">
+            <span class="color-green label-required-prev">商品详情图集</span>
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th class="text-left">IMG</th>
+                </tr>
+                <tr>
+                    <td width="auto" class="text-left"><input name="max_img" type="hidden" value="{$vo.max_img|default=''}"></td>
+                </tr>
+                </thead>
+            </table>
+            <script>$('[name="max_img"]').uploadMultipleImage()</script>
+        </div>
+
+        <div class="layui-form-item">
+            <table id="demo" lay-filter="test" ></table>
+            <button class="layui-btn layui-btn-sm" id="submit" lay-event="sub">提交</button>
+            <script type="text/html" id="toolbarDemo">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+                </div>
+            </script>
+            <script type="text/html" id="bar">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="del">删除</button>
+                </div>
+            </script>
+        </div>
+        <div style="display: none !important;" class="layui-form-item block">
+            <span class="label-required-prev color-green">商品详细内容</span>
+            <textarea name="content">{$vo.content|default=''|raw}</textarea>
+        </div>
+
+        <div class="layui-form-item text-center">
+            {notempty name='vo.id'}<input type="hidden" name="id" value="{$vo.id}">{/notempty}
+            <button class="layui-btn layui-btn-danger" ng-click="hsitoryBack()" type="button">取消编辑</button>
+            <button class="layui-btn" type="submit">保存商品</button>
+        </div>
+
+    </div>
+</form>
+{/block}
+
+{block name='script'}
+<textarea class="layui-hide" id="goods-specs">{$vo.specs|raw|default=''}</textarea>
+<textarea class="layui-hide" id="goods-value">{$defaultValues|raw|default=''}</textarea>
+<script>
+    window.form.render();
+    require(['ckeditor', 'angular'], function () {
+        window.createEditor('[name="content"]', {height: 500});
+        var app = angular.module("GoodsForm", []).run(callback);
+        angular.bootstrap(document.getElementById(app.name), [app.name]);
+
+        function callback($rootScope) {
+            $rootScope.isAddMode = parseInt('{$isAddMode|default=0}');
+            $rootScope.maps = JSON.parse(angular.element('#goods-value').val() || '[]') || {};
+            $rootScope.specs = JSON.parse(angular.element('#goods-specs').val() || '[{"name":"默认分组","list":[{"name":"默认规格","check":true}]}]');
+            // 批量设置数值
+            $rootScope.batchSet = function (type, fixed) {
+                layer.prompt({title: '请输入数值', formType: 0}, function (value, index) {
+                    $rootScope.$apply(function () {
+                        var val = (parseFloat(value) || 0).toFixed(fixed);
+                        for (var i in $rootScope.specsTreeData) for (var j in $rootScope.specsTreeData[i]) {
+                            $rootScope.specsTreeData[i][j][type] = val;
+                        }
+                    });
+                    layer.close(index);
+                });
+            };
+            // 返回商品列表
+            $rootScope.hsitoryBack = function () {
+                $.msg.confirm('确定要取消编辑吗？', function (index) {
+                    history.back(), $.msg.close(index);
+                });
+            };
+            // 设置默认值
+            $rootScope.setValue = function (key, type, value, call) {
+                $rootScope.maps[key] || ($rootScope.maps[key] = {});
+                return $rootScope.maps[key][type] = eval(call.replace('_', "'" + value + "'"));
+            };
+            // 读取默认值
+            $rootScope.getValue = function (key, callback) {
+                if (typeof callback === 'function') {
+                    return callback($rootScope.maps[key] || {});
+                }
+                return {};
+            };
+            // 去除空白字符
+            $rootScope.trimSpace = function (value) {
+                return (value + '').replace(/\s*/ig, '');
+            };
+            // 生成交叉表格数据
+            $rootScope.specsTreeData = [];
+            $rootScope.specsTreeNava = [];
+            // 当前商品规格发生变化时重新计算规格列表
+            $rootScope.$watch('specs', function () {
+                var data = $rootScope.specs, list = [], navs = [], table = [[]];
+                // 过滤无效记录
+                for (var i in data) {
+                    var tmp = [];
+                    for (var j in data[i].list) if (data[i].list[j].check && data[i].list[j].name.length > 0) {
+                        data[i].list[j].span = 1, data[i].list[j].show = true, data[i].list[j].group = data[i].name;
+                        tmp.push(data[i].list[j]);
+                    }
+                    list.push(tmp), navs.push(data[i].name);
+                }
+                $rootScope.specsTreeNava = navs;
+                // 表格交叉
+                for (var i in list) {
+                    var tmp = [];
+                    for (var j in table) for (var k in list[i]) tmp.push(table[j].concat(list[i][k]));
+                    table = tmp;
+                }
+                // 表格合并
+                list = angular.fromJson(angular.toJson(table));
+                for (var i in list) {
+                    var key = [], _key = '';
+                    for (var td in list[i]) key.push(list[i][td].group + '::' + list[i][td].name);
+                    for (var td in list[i]) if (_key.length === 0) {
+                        list[i][0].key = _key = key.join(';;');
+                        list[i][0].sku = $rootScope.getValue(_key, function (data) {
+                            return data.sku || '0';
+                        });
+                        list[i][0].virtual = $rootScope.getValue(_key, function (data) {
+                            return data.virtual || '0';
+                        });
+                        list[i][0].express = $rootScope.getValue(_key, function (data) {
+                            return data.express || '1';
+                        });
+                        list[i][0].market = $rootScope.getValue(_key, function (data) {
+                            return data.market || '0.00';
+                        });
+                        list[i][0].selling = $rootScope.getValue(_key, function (data) {
+                            return data.selling || '0.00';
+                        });
+                        list[i][0].status = $rootScope.getValue(_key, function (data) {
+                            return !!(typeof data.status !== 'undefined' ? data.status : true);
+                        });
+                    }
+                }
+                $rootScope.specsTreeData = list;
+            }, true);
+            // 判断规则是否能取消选择
+            $rootScope.checkListChecked = function (list, check) {
+                for (var i in list) if (list[i].check) return check;
+                return true;
+            };
+            // 增加整行规格分组
+            $rootScope.addSpecRow = function (data) {
+                data.push({name: '规格分组', list: [{name: '规格属性', check: true}]})
+            };
+            // 下移整行规格分组
+            $rootScope.dnSpecRow = function (data, $index) {
+                var tmp = [], cur = data[$index];
+                if ($index > data.length - 2) return false;
+                for (var i in data) {
+                    (parseInt(i) !== parseInt($index)) && tmp.push(data[i]);
+                    (parseInt(i) === parseInt($index) + 1) && tmp.push(cur);
+                }
+                return $rootScope.specs = tmp;
+            };
+            // 上移整行规格分组
+            $rootScope.upSpecRow = function (data, $index) {
+                var tmp = [], cur = data[$index];
+                if ($index < 1) return false;
+                for (var i in data) {
+                    (parseInt(i) === parseInt($index) - 1) && tmp.push(cur);
+                    (parseInt(i) !== parseInt($index)) && tmp.push(data[i]);
+                }
+                return $rootScope.specs = tmp;
+            };
+            // 移除整行规格分组
+            $rootScope.delSpecRow = function (data, $index) {
+                var tmp = [];
+                for (var i in data) if (parseInt(i) !== parseInt($index)) tmp.push(data[i]);
+                return $rootScope.specs = tmp;
+            };
+            // 增加分组的属性
+            $rootScope.addSpecVal = function (list) {
+                list.push({name: '规格属性', check: true});
+            };
+            // 移除分组的属性
+            $rootScope.delSpecVal = function (data, $index) {
+                var temp = [];
+                for (var i in data) if (parseInt(i) !== parseInt($index)) temp.push(data[i]);
+                return temp;
+            };
+        }
+    })
+    var data = "{$vo.attribute}";
+
+    layui.use('table', function(){
+        data = JSON.stringify(data);
+        var table = layui.table;
+        //第一个实例
+        table.render({
+            elem: '#demo',
+            id: 'idTest',
+            height: 312,
+            toolbar:'#toolbarDemo',
+            data:data,
+            height:500,
+            page: false, //开启分页
+            cols: [[ //表头
+                {
+                    field: 'name',
+                    title: '属性名称',
+                    width:'45%',
+                    edit:true
+                },
+                {
+                    field: 'value',
+                    title: '属性值',
+                    width:'45%',
+                    edit:true
+                },
+                {
+                    field: '1',
+                    title: '操作',
+                    width:'10%',
+                    toolbar: '#bar'
+                },
+            ]]
+        });
+        table.on('edit(test)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+            console.log(obj.value); //得到修改后的值
+            console.log(obj.field); //当前编辑的字段名
+            console.log(obj.data); //所在行的所有相关数据
+        });
+        table.on('toolbar(test)', function(obj){
+            switch(obj.event){
+                case 'add':
+                    var oldData =  table.cache["idTest"];
+                    oldData.push({
+                        name:'',
+                        value:''
+                    })
+                    table.reload('idTest',{data : oldData});
+                    break;
+                case 'del':
+                    console.log(obj)
+                    break;
+            };
+        });
+        table.on('tool(test)', function(obj){
+            switch(obj.event){
+                case 'del':
+                    var tr = obj.tr; //获得当前行 tr 的DOM对象
+                    var oldData =  table.cache["idTest"];
+                    oldData.splice(obj.tr.data('index'),1);
+                    layer.msg("删除成功",{time: 10},function(){
+                        table.reload('idTest',{data : oldData});
+                    });
+                    break;
+            };
+        });
+        document.getElementById('submit').addEventListener('click',function () {
+            var oldData =  table.cache;
+        });
+    });
+
+</script>
+{/block}

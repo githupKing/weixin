@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,user-scalable=no">
+    <link rel="stylesheet" href="/static/weixin/common/css/weui.css">
+    <link rel="stylesheet" href="/static/weixin/common/css/weuix.css">
+    <link rel="stylesheet" href="/static/weixin/common/css/common.css">
+    <link rel="stylesheet" href="/static/weixin/page/userCenter/index.css">
+    <title>个人中心</title>
+</head>
+<body>
+<div class="container">
+    <div class="head">
+        <div class="headImg padding30_left_right">
+            <img style="border-radius: 50px;" src="{$info.fansinfo.headimgurl}" alt="头像">
+            <p class="font32">{$info.fansinfo.nickname}</p>
+        </div>
+        <div class="Headtitle">
+            <div class="padding30_left_right" onclick="location.href='{:url('reflect')}'">
+                <p>总资产 (元)</p>
+                <h2 class="money">{$info.fansinfo.price}</h2>
+            </div>
+            <a href="{:url('signUp')}" class="padding30_left_right btnDefault"><img src="/static/weixin/img/baomin.png" alt="">活动报名</a>
+        </div>
+    </div>
+    <p class="listTitle">优惠券</p>
+    <div class="weui-tab" id="t1" style="height:44px;">
+        <div class="weui-navbar">
+            <div class="weui-navbar__item">未使用(0)</div>
+            <div class="weui-navbar__item">已使用(0)</div>
+            <div class="weui-navbar__item">已过期(0)</div>
+        </div>
+    </div>
+    {notempty name="vouchers.unused"}
+    {foreach $vouchers.unused as $vo=>$key}
+    <div class="index0 index">
+        <div class="itemLeft">
+            <div>
+                <span class="moneyCont">{$key.worth}</span>
+                <span>￥</span>
+                <p>{$key.name}</p>
+            </div>
+        </div>
+        <div class="itemRight">
+            <p class="font28 paddingTop30">{$key.name}</p>
+            <div class="display">
+                <span>到期时间: {$key.stop_time}</span>
+                <a href="{:url('coupons')}?id={$key.id}" class="useBtn">立即使用</a>
+            </div>
+        </div>
+    </div>
+    {/foreach}
+    {/notempty}
+    {notempty name="vouchers.have"}
+    <div class="index1 index">
+        {foreach $vouchers.have as $vo=>$key}
+        <div class="itemLeft">
+            <div>
+                <span class="moneyCont">10</span>
+                <span>￥</span>
+                <p>抵扣券</p>
+            </div>
+        </div>
+        <div class="itemRight">
+            <p class="font28 paddingTop30">部分自营商品使用</p>
+            <span>到期时间: 2018.12.12</span>
+        </div>
+        <img class="itemCenter" src="/static/weixin/img/yishiyong@2x.png" alt="">
+        {/foreach}
+    </div>
+    {/notempty}
+    {notempty name="vouchers.expired"}
+    <div class="index2 index">
+        {foreach $vouchers.expired as $vo=>$key}
+        <div class="itemLeft">
+            <div>
+                <span class="moneyCont">10</span>
+                <span>￥</span>
+                <p>抵扣券</p>
+            </div>
+        </div>
+        <div class="itemRight">
+            <p class="font28 paddingTop30">部分自营商品使用</p>
+            <span>到期时间: 2018.12.12</span>
+        </div>
+        <img class="itemCenter" src="/static/weixin/img/yiguoqi@2x.png" alt="">
+        {/foreach}
+    </div>
+    {/notempty}
+</div>
+<script src="/static/weixin/common/js/zepto.min.js"></script>
+<script src="/static/weixin/common/js/zepto.weui.min.js"></script>
+<script src="/static/weixin/common/js/iscroll-lite.js"></script>
+<script src="/static/weixin/common/js/common.js"></script>
+<script>
+    $(function () {
+        $('.index').hide()
+        $('.index1').show()
+        $('#t1').tab({
+            defaultIndex: 0,
+            activeClass: 'tab-ee7b42',
+            onToggle: function (index) {
+                $('.index').hide()
+                $('.index' + index).show()
+            }
+        })
+    })
+</script>
+</body>
+</html>

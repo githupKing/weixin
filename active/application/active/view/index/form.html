@@ -1,0 +1,134 @@
+{extend name='admin@main'}
+
+{block name="content"}
+
+{include file='active@index/form_style'}
+
+<form onsubmit="return false;" id="GoodsForm" data-auto="true" method="post" class='layui-form layui-card'
+      autocomplete="off">
+
+    <div class="layui-card-body think-box-shadow padding-left-40">
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <!--<label class="layui-col-xs3 relative">-->
+            <!--<span class="color-green">活动类型</span>-->
+            <!--<select class="layui-select" required name="active_tags" lay-search>-->
+            <!--{foreach ['0'=>'单商家','1'=>'多商家'] as $k=>$v}-->
+            <!--{if isset($vo.active_tags) and $k eq $vo.active_tags}-->
+            <!--<option selected value="{$k}">{$v}</option>-->
+            <!--{else}-->
+            <!--<option value="{$k}">{$v}</option>-->
+            <!--{/if}-->
+            <!--{/foreach}-->
+            <!--</select>-->
+            <!--</label>-->
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">活动名称</span>
+                <input name="active_name" required class="layui-input" placeholder="请输入活动名称"
+                       value="{$vo.active_name|default=''}">
+            </label>
+            <!--<label class="layui-col-xs4 relative">-->
+            <!--<span class="color-green">商家名称</span>-->
+            <!--<input name="m_name" required class="layui-input" placeholder="请输入商家名称" value="{$vo.m_name|default=''}">-->
+            <!--</label>-->
+        </div>
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">活动开始时间</span>
+                <input name="start_time" id="start_time" autocomplete="off" required class="layui-input"
+                       autocomplete="off" value="{$vo.start_time|default=''}">
+            </label>
+        </div>
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">活动结束时间</span>
+                <input name="stop_time" id="stop_time" autocomplete="off" required class="layui-input"
+                       autocomplete="off" value="{$vo.stop_time|default=''}">
+            </label>
+        </div>
+
+        <div class="layui-form-item">
+            <span class="color-green label-required-prev">活动背景图</span>
+            <table>
+                <thead>
+                <tr>
+                    <th class="text-leftr">背景图</th>
+                </tr>
+                <tr class="layui-table layui-col-xs4 relative">
+                    <td width="50%" class="text-leftr"><input name="active_bg_images" type="hidden"
+                                                              value="{$vo.active_bg_images|default=''}"></td>
+                </tr>
+                </thead>
+            </table>
+            <script>$('[name="active_bg_images"]').uploadOneImage()</script>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">开关-默认开</label>
+            <div class="layui-input-block">
+                <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item block">
+            <span class="label-required-prev color-green">活动规则（设置活动规则说明）</span>
+            <textarea name="active_rules">{$vo.active_rules|default=''|raw}</textarea>
+        </div>
+
+        <div class="layui-form-item block">
+            <span class="label-required-prev color-green">活动详情(文字|图片|视频)</span>
+            <textarea name="active_instructions">{$vo.active_instructions|default=''|raw}</textarea>
+        </div>
+
+        <div class="layui-form-item text-center">
+            {notempty name='vo.id'}<input type="hidden" name="id" value="{$vo.id}">{/notempty}
+            <button class="layui-btn layui-btn-danger" ng-click="hsitoryBack()" type="button">返回列表</button>
+            <button class="layui-btn" type="submit">Save</button>
+        </div>
+
+    </div>
+</form>
+
+{/block}
+
+{block name='script'}
+<textarea class="layui-hide" id="goods-specs">{$vo.specs|raw|default=''}</textarea>
+<textarea class="layui-hide" id="goods-value">{$defaultValues|raw|default=''}</textarea>
+<script>
+    window.form.render();
+    require(['ckeditor', 'angular'], function () {
+        window.createEditor('[name="active_rules"]', {height: 200});
+        window.createEditor('[name="active_instructions"]', {height: 200});
+        var app = angular.module("GoodsForm", []).run(callback);
+        angular.bootstrap(document.getElementById(app.name), [app.name]);
+
+        function callback($rootScope) {
+            // 返回商品列表
+            $rootScope.hsitoryBack = function () {
+                $.msg.confirm('确定要取消编辑吗？', function (index) {
+                    history.back(), $.msg.close(index);
+                });
+            };
+
+        }
+    })
+
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        //日期
+        laydate.render({
+            elem: '#stop_time'
+        });
+        laydate.render({
+            elem: '#start_time'
+        });
+        //监听指定开关
+        form.on('switch(switchTest)', function(data){
+            layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+                offset: '6px'
+            });
+            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+        });
+    })
+</script>
+{/block}

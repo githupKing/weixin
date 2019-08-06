@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,user-scalable=no">
+    <link rel="stylesheet" href="/static/weixin/page/shopActive/shopActive.css">
+    <link rel="stylesheet" href="/static/weixin/common/css/weui.css">
+    <link rel="stylesheet" href="/static/weixin/common/css/weuix.css">
+    <link rel="stylesheet" href="/static/weixin/common/css/common.css">
+</head>
+<body>
+<div class="container" style="background-image: url({$actInfo.active_bg_images});">
+    <div class="contBox">
+        <div class="card ">
+            <div class="bold c20212">活动倒计时</div>
+            <div class="code ccc">---------------------------</div>
+            <div class="time">
+                <span class="font28">距离结束：</span>
+                <span class="font24 ee7b42">00</span>
+                <span class="font24">天</span>
+                <span class="font24 ee7b42">00</span>
+                <span class="font24">时</span>
+                <span class="font24 ee7b42">00</span>
+                <span class="font24">分</span>
+                <span class="font24 ee7b42">00</span>
+                <span class="font24">秒</span>
+                <span class="font24 ee7b42">00</span>
+            </div>
+            <div class="progressbarbox margin24">
+                <div class="success"></div>
+            </div>
+            <div class="numBox activeClor">
+                <div>活动限额:<span class="red">3000</span>人</div>
+                <div>已购：<span class="red">3000</span>人</div>
+                <div>进度：<span class="red">45%</span></div>
+            </div>
+            <div class="c20212 margin50">--已有<span class="red">3243212</span>人参加--</div>
+        </div>
+        <div class="envelope">
+            <img src="/static/weixin/img/btn-shopping@2x.png" alt="">
+            <div class="display">
+                <p>您已消费<span class="red">1</span>元</p>
+                <p>排行第<span class="red">1</span>名</p>
+            </div>
+            <div class="display titles">
+                <p>排名</p>
+                <p>客户</p>
+                <p>消费金额</p>
+            </div>
+            <div class="ranking">
+                <div class="display contents">
+                    <p>1</p>
+                    <div class="centerBoxy">
+                        <img src="/static/weixin/img/head50@2x.png" alt="">
+                        <span class="name">花花</span>
+                    </div>
+                    <p class="red">120.00元</p>
+                </div>
+                <div class="display contents">
+                    <p>2</p>
+                    <div class="centerBoxy">
+                        <img src="/static/weixin/img/head50@2x.png" alt="">
+                        <span class="name">花花</span>
+                    </div>
+                    <p class="red">120.00元</p>
+                </div>
+                <div class="display contents">
+                    <p>3</p>
+                    <div class="centerBoxy">
+                        <img src="/static/weixin/img/head50@2x.png" alt="">
+                        <span class="name">花花</span>
+                    </div>
+                    <p class="red">120.00元</p>
+                </div>
+                <div class="display contents">
+                    <p>4</p>
+                    <div class="centerBoxy">
+                        <img src="/static/weixin/img/head50@2x.png" alt="">
+                        <span class="name">花花</span>
+                    </div>
+                    <p class="red">120.00元</p>
+                </div>
+            </div>
+        </div>
+        <div class="myActive">
+            <div class="display">
+                <img src="/static/weixin/img/left@2x.png" alt="">
+                <p class="titke">活动规则</p>
+                <img src="/static/weixin/img/right@2x.png" alt="">
+            </div>
+            <div class="word">
+                {$actInfo.active_rules|raw}
+            </div>
+        </div>
+        <div class="envelope">
+            <img src="/static/weixin/img/btn-invatation@2x.png" alt="">
+            <div class="display">
+                <p>您已消费<span class="red">1</span>元</p>
+                <p>排行第<span class="red">1</span>名</p>
+            </div>
+            <div class="display titles">
+                <p>排名</p>
+                <p>客户</p>
+                <p>消费金额</p>
+            </div>
+            <div class="ranking">
+                <div class="display contents">
+                    <p>1</p>
+                    <div class="centerBoxy">
+                        <img src="/static/weixin/img/head50@2x.png" alt="">
+                        <span class="name">花花</span>
+                    </div>
+                    <p class="red">120.00元</p>
+                </div>
+                <div class="display contents">
+                    <p>2</p>
+                    <div class="centerBoxy">
+                        <img src="/static/weixin/img/head50@2x.png" alt="">
+                        <span class="name">花花</span>
+                    </div>
+                    <p class="red">120.00元</p>
+                </div>
+                <div class="display contents">
+                    <p>3</p>
+                    <div class="centerBoxy">
+                        <img src="/static/weixin/img/head50@2x.png" alt="">
+                        <span class="name">花花</span>
+                    </div>
+                    <p class="red">120.00元</p>
+                </div>
+                <div class="display contents">
+                    <p>4</p>
+                    <div class="centerBoxy">
+                        <img src="/static/weixin/img/head50@2x.png" alt="">
+                        <span class="name">花花</span>
+                    </div>
+                    <p class="red">120.00元</p>
+                </div>
+            </div>
+        </div>
+        <div class="myActive">
+            <div class="display">
+                <img src="/static/weixin/img/left@2x.png" alt="">
+                <p class="titke">参与商</p>
+                <img src="/static/weixin/img/right@2x.png" alt="">
+            </div>
+            <div class="shops">
+                <div class="list">
+                    <img src="/static/weixin/img/headshangjia@2x.png" alt="">
+                    <div class="shopsBox">
+                        <p>爱达乐</p>
+                        <span>中江县中江人民路幼J L园斜对面</span>
+                    </div>
+                    <p class="shopLokBtn">点击查看</p>
+                </div>
+            </div>
+        </div>
+        <div class="suport">
+            <img class="hezuo" src="/static/weixin/img/btn-shangjia@2x.png" alt="">
+            <p>活动策划:xx公司</p>
+            <p>技术支持：岑泽网络</p>
+        </div>
+        <div class="footer">
+            <button class="connext">联系客服</button>
+            <button class="baoming" id="sd3">现在报名￥230</button>
+        </div>
+    </div>
+</div>
+<script src="/static/weixin/common/js/zepto.min.js"></script>
+<script src="/static/weixin/common/js/zepto.weui.min.js"></script>
+<script src="/static/weixin/common/js/common.js"></script>
+<script>
+    $(function () {
+        $(document).on("click", "#sd3", function () {
+            $.modal({
+                title: "报名购买",
+                text: '<input type="text" class="weui-input weui-prompt-input input_defalt" id="weui-prompt-input" placeholder="输入姓名"/>'
+                + '<input type="text" class="weui-input weui-prompt-input input_defalt" id="weui-prompt-input" value="" placeholder="输入	联系方式"/>',
+                empty: false,
+                buttons: [
+                    {
+                        text: "确定",
+                        onClick: function () {
+                            console.log(1)
+                        }
+                    },
+                    {
+                        text: "取消",
+                        className: "default",
+                        onClick: function () {
+                            console.log(3)
+                        }
+                    },
+                ]
+            });
+        });
+    });
+</script>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+<script>
+    wx.config({
+        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: "{$jsSdk['configJso']['appId']}", // 必填，公众号的唯一标识
+        timestamp: "{$jsSdk['configJso']['timestamp']}", // 必填，生成签名的时间戳
+        nonceStr: "{$jsSdk['configJso']['nonceStr']}", // 必填，生成签名的随机串
+        signature: "{$jsSdk['configJso']['signature']}",// 必填，签名
+        jsApiList: [
+            'hideMenuItems',
+            'hideAllNonBaseMenuItem'
+        ] // 必填，需要使用的JS接口列表
+    });
+</script>
+</body>
+</html>

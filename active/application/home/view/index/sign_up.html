@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,user-scalable=no">
+    <link rel="stylesheet" href="/static/weixin/common/css/weui.css">
+    <link rel="stylesheet" href="/static/weixin/common/css/weuix.css">
+    <link rel="stylesheet" href="/static/weixin/common/css/common.css">
+    <link rel="stylesheet" href="/static/weixin/page/signUp/index.css">
+    <title>个人中心</title>
+</head>
+<body>
+<div class="container">
+    <div class="weui-tab" id="t1" style="height:44px;">
+        <div class="weui-navbar">
+            <div class="weui-navbar__item">未使用</div>
+            <div class="weui-navbar__item">已使用</div>
+            <div class="weui-navbar__item">已过期</div>
+        </div>
+    </div>
+    <div class="index0 index">
+        <span>优惠活动</span>
+        <p class="font28 paddingTop30">沃尔玛优惠活动，每周六，周天，沃尔玛好货打折不停,欢迎进店选购</p>
+        <div class="display">
+            <span>2018.12.12-2018.12.12</span>
+            <a href="{:url('coupons')}?id=1" class="useBtn">立即使用</a>
+        </div>
+    </div>
+    <div class="index1 index">
+        <span>优惠活动</span>
+        <p class="font28 paddingTop30">沃尔玛优惠活动，每周六，周天，沃尔玛好货打折不停,欢迎进店选购</p>
+        <div class="display">
+            <span>2018.12.12-2018.12.12</span>
+            <img class="itemCenter" src="/static/weixin/img/yishiyong@2x.png" alt="">
+        </div>
+    </div>
+    <div class="index2 index">
+        <span>优惠活动</span>
+        <p class="font28 paddingTop30">沃尔玛优惠活动，每周六，周天，沃尔玛好货打折不停,欢迎进店选购</p>
+        <div class="display">
+            <span>2018.12.12-2018.12.12</span>
+            <img class="itemCenter" src="/static/weixin/img/yiguoqi@2x.png" alt="">
+        </div>
+    </div>
+</div>
+<script src="/static/weixin/common/js/zepto.min.js"></script>
+<script src="/static/weixin/common/js/zepto.weui.min.js"></script>
+<script src="/static/weixin/common/js/iscroll-lite.js"></script>
+<script src="/static/weixin/common/js/common.js"></script>
+<script>
+    $(function(){
+        $('.index').hide()
+        $('.index1').show()
+        $('#t1').tab({
+            defaultIndex: 0,
+            activeClass: 'tab-ee7b42',
+            onToggle: function (index) {
+                $('.index').hide()
+                $('.index'+index).show()
+            }
+        })
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+/*
+* @Author: wangyongping
+* @Date:   2019-07-20 10:20:48
+* @Last Modified by:   princebot
+* @Last Modified time: 2019-07-20 10:38:30
+*/
+.container{
+	background-color: #f5f5f5 !important;
+	height: 100%;
+	font-size: 10px;
+}
+.content{
+	padding-right: .3rem;
+	padding-left: .3rem;
+	
+	padding-top: .5rem;
+	padding-bottom: .5rem;
+	background-color: #fff;
+}
+.QrcodeBoxs > p{
+	font-size: .32rem;
+	color: #333;
+}
+.QrcodeBoxs > input{
+	font-size: .28rem;
+}
+.orderNum{
+	margin-top: .3rem;
+}
+.useBtn {
+	margin-top: .5rem;
+	text-align: center
+}
+.useBtn > button{
+	width: 3.2rem;
+	height: .8rem;
+	font-size: .32rem;
+	color: #fff;
+	background-color: #fd842f;
+	border-radius: 50px;
+	border: 0;
+}
+.history{
+	margin-top: .3rem;
+	background-color: #fff;
+	padding-left: .3rem;
+	padding-top: .3rem;
+	padding-bottom: .3rem;
+}
+.history > p{
+	font-size: .32rem;
+	color: #333;
+}

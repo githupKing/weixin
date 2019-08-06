@@ -1,0 +1,955 @@
+body{
+    font-size: 10px !important;
+}
+.container
+{
+    position: relative;
+
+    background-image: url('../../img/banner.png');
+    background-repeat: no-repeat;
+    background-size: 100% 5rem;
+
+    -webkit-overflow-scrolling: touch;
+}
+.contBox
+{
+    position: absolute;
+    top: 4.1rem;
+    right: 0;
+    left: 0;
+
+    text-align: center;
+}
+.card,
+.shopInfo,
+.myActive
+{
+    font-size: 10px;
+
+    margin-right: .2rem;
+    margin-left: .2rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 8px -2px;
+}
+.code
+{
+    padding-top: .3rem;
+    padding-bottom: .3rem;
+}
+.bold
+{
+    font-size: .38rem;
+    font-weight: 800;
+}
+.c20212
+{
+    color: #20212c;
+}
+.activeClor
+{
+    color: #827f7e;
+}
+.progressbarbox
+{
+    position: relative;
+
+    height: .3rem;
+    margin-top: .5rem;
+    margin-right: .8rem;
+    margin-left: .8rem;
+
+    border-radius: 25px;
+    background-color: #e4dad9;
+}
+.success
+{
+    position: absolute;
+
+    width: 70%;
+    height: 100%;
+
+    border-radius: 25px;
+    background-color: #ee7b42;
+}
+.numBox
+{
+    display: flex;
+
+    margin-right: .8rem;
+    margin-left: .8rem;
+
+    align-items: center;
+    justify-content: space-between;
+}
+
+.envelope
+{
+    font-size: 10px;
+
+    position: relative;
+
+    max-height: 4rem;
+    margin-top: .5rem;
+    margin-right: .2rem;
+    margin-left: .2rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+
+    border: 1px solid #544888;
+    border-radius: 10px;
+    background-color: #fff;
+}
+.ranking
+{
+    overflow-y: auto;
+
+    height: 3rem;
+}
+.envelope > img
+{
+    position: absolute;
+    top: -7%;
+    right: 0;
+    left: 0;
+
+    width: 40%;
+    margin: 0 auto;
+}
+.envelope > .display,
+.ranking > .display
+{
+    font-size: .32rem;
+
+    width: 80%;
+    margin: 0 auto;
+
+    color: #20212c;
+}
+.titles
+{
+    font-size: .24rem !important;
+
+    margin-top: .3rem !important;
+
+    color: #544888 !important;
+}
+.centerBoxy
+{
+    font-size: .24rem !important;
+
+    margin-top: .3rem !important;
+
+    color: #544888 ;
+}
+.centerBoxy > img
+{
+    width: .5rem;
+    height: .5rem;
+    margin-right: .2rem;
+
+    vertical-align: middle;
+
+    border-radius: 25px;
+}
+.shopInfo
+{
+    margin-top: .5rem;
+}
+.titke
+{
+    font-size: .36rem;
+
+    padding-right: .18rem;
+    padding-left: .18rem;
+
+    color: #20212c;
+}
+.shopInfo > .display,
+.myActive > .display
+{
+    display: flex;
+
+    align-items: center;
+    justify-content: center !important;
+}
+.shopname
+{
+    font-size: .5rem;
+    font-weight: 800;
+
+    margin-left: .3rem;
+
+    text-align: left;
+
+    color: #20212c;
+}
+.infos
+{
+    font-size: .32rem;
+
+    display: flex;
+
+    margin-right: .3rem;
+    margin-left: .3rem;
+
+    text-align: left;
+
+    color: #666;
+
+    align-items: center;
+    justify-content: space-between;
+}
+.infos > .btns
+{
+    font-size: .24rem;
+    line-height: .46rem;
+
+    width: .84rem;
+    height: .46rem;
+
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    background-color: #ee7b42;
+}
+.myActive
+{
+    margin-top: .5rem;
+}
+.word
+{
+    font-size: .28rem;
+
+    margin-right: .3rem;
+    margin-left: .6rem;
+
+    text-align: left;
+
+    color: #666;
+}
+.bannerImgs
+{
+    font-size: 10px;
+
+    display: flex;
+
+    margin-top: .5rem;
+    margin-right: .3rem;
+    margin-left: .3rem;
+    padding-top: .3rem;
+    background-image: url('../../img/youhuiquan@2x.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    align-items: center;
+    height: 1.6rem;
+}
+.bannerImgsLeft > img
+{
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-right: .3rem;
+    margin-left: .3rem;
+
+    vertical-align: middle;
+
+    border-radius: 25px;
+}
+.bannerImgsCenter
+{
+    text-align: left;
+    width: 63%;
+    color: #fff;
+}
+.bannerImgsCenter > p > img
+{
+    width: .2rem;
+    height: .2rem;
+}
+.bannerImgsRight
+{
+    font-size: .4rem;
+
+    color: #fff;
+}
+.lista
+{
+    display: flex;
+
+    width: 80%;
+
+    align-items: center;
+}
+.hui
+{
+    display: flex;
+
+    margin-top: .6rem;
+    margin-right: .3rem;
+    margin-left: .3rem;
+
+    align-items: center;
+    justify-content: space-around;
+}
+.hui > p
+{
+    font-size: .36rem;
+    font-weight: 800;
+
+    color: #20122c;
+}
+.hui > img
+{
+    width: .36rem;
+    height: .4rem;
+}
+.detalisy
+{
+    margin-top: .3rem;
+    margin-right: .3rem;
+    margin-left: .3rem;
+    border-radius: 10px;
+}
+.clear
+{
+    margin: 0 !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+.call
+{
+    font-size: 10px;
+
+    display: flex;
+
+    margin-top: .5rem;
+    margin-right: .3rem;
+    margin-left: .3rem;
+    padding-top: .1rem;
+    padding-bottom: .1rem;
+
+    border: 1px solid #ff841c;
+    border-radius: 50px;
+    background-color: #ffc46f;
+
+    align-items: center;
+}
+a
+{
+    color: #fff;
+}
+.call > img
+{
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: .5rem;
+    margin-left: .1rem;
+
+    border-radius: 50px;
+}
+.call > .bannerImgsCenter
+{
+    color: #000;
+}
+.edit
+{
+    font-size: 10px;
+
+    position: relative;
+
+    display: flex;
+
+    min-height: 4rem;
+    margin-top: .6rem;
+    margin-right: .3rem;
+    margin-bottom: .6rem;
+    margin-left: .3rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+
+    text-align: center;
+
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 8px -2px;
+
+    justify-content: center;
+}
+.btnBoxs
+{
+    position: fixed;
+    right: .4rem;
+    bottom: 3.3rem;
+    z-index: 3;
+}
+.btnBoxs > img,
+.shopBtns > img,
+.sharBtns > img,
+.callBtns > a > img
+{
+    display: block;
+
+    width: .9rem;
+    height: .9rem;
+    margin-top: .2rem;
+
+    border-radius: 50px;
+}
+.footer
+{
+    display: flex;
+
+    margin-right: .3rem;
+    margin-bottom: .5rem;
+    margin-left: .3rem;
+
+    align-items: center;
+    justify-content: space-between;
+    margin-top: .5rem;
+}
+.connext
+{
+    width: 3.2rem;
+    height: .8rem;
+
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    background-color: #544888;
+}
+.baoming
+{
+    width: 3.2rem;
+    height: .8rem;
+
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    background-color: #ffc46f;
+}
+.connext:focus
+{
+    outline: 0;
+}
+.baoming:focus
+{
+    outline: 0;
+}
+
+.model_def,
+.model_defshop,
+.canvesBox,
+.model_defshop_join
+{
+    font-size: 10px;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    display: none;
+    overflow-y: hidden;
+
+    width: 100%;
+    height: 100%;
+
+    transform: translateZ(0);
+
+    background: rgba(0, 0, 0, .5);
+    align-items: center;
+}
+
+.phone
+{
+    display: flex;
+
+    padding-top: .2rem;
+    padding-right: .2rem;
+    padding-bottom: .2rem;
+    padding-left: .2rem;
+    color: #000;
+    border-radius: 20px;
+    background-color: #f8ead8;
+    align-items: center;
+    justify-content: space-around;
+}
+.phone > a
+{
+    width: .9rem;
+
+    text-align: center;
+
+    border-radius: 10px;
+    background-color: #f5932e;
+}
+.yclose
+{
+    font-size: .32rem;
+    line-height: .6rem;
+    position: relative;
+    right: 0;
+    bottom: -9.9rem;
+    left: 0;
+    width: .6rem;
+    height: .6rem;
+    margin: 0 auto;
+    text-align: center;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 50px;
+}
+.bgBoxShop > img
+{
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 1rem;
+}
+.model_defshop_join > .bgBoxShop{
+    background-image: url('../../img/banner.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.model_defshop_join > .bgBoxShop > div > input{
+    background-color:#fff;
+    width: 80%;
+    height: .7rem;
+    margin: 0 auto;
+    margin-top: .2rem;
+    border-radius: 8px;
+    padding-left: .2rem;
+}
+.shopFooter{
+    width: 100%;
+}
+.shopFooter > button{
+    margin-top: .3rem;
+}
+.bgBoxShop > .font28
+{
+    margin: .5rem;
+
+    color: #ccc;
+}
+.model_def > .bgBoxs
+{
+    position: absolute;
+    z-index: 3;
+    top: 10%;
+    right: 0;
+    left: 0;
+
+    width: 80%;
+    height: 80%;
+    margin: 0 auto;
+
+    opacity: 1;
+    background-color: #fff;
+}
+.bgBoxShop
+{
+    position: absolute;
+    z-index: 3;
+    top: 10%;
+    right: 0;
+    left: 0;
+    width: 70%;
+    height: 70%;
+    margin: 0 auto;
+    text-align: center;
+    opacity: 1;
+    border-radius: 8px;
+    background-color: #fff;
+}
+.model_def > .bgBoxs > .bgImg
+{
+    font-size: 10px;
+
+    width: 100%;
+    height: 80%;
+
+    background-image: url('../../img/hbbk@2x.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.bgBoxs > img
+{
+    position: absolute;
+    right: 0;
+    bottom: .2rem;
+    left: 0;
+
+    width: 90%;
+    height: 80%;
+    margin: 0 auto;
+
+    text-align: center;
+}
+.price
+{
+    font-size: 1.1rem;
+
+    position: absolute;
+    top: 2.5rem;
+    right: 0;
+    left: 0;
+
+    margin: 0 auto;
+
+    text-align: center;
+
+    color: #e42845;
+}
+.price > span
+{
+    font-size: .24rem;
+}
+.agin
+{
+    font-size: .24rem;
+
+    position: absolute;
+    top: 7.4rem;
+    right: 0;
+    left: 0;
+
+    margin: 0 auto;
+
+    text-align: center;
+}
+.share
+{
+    line-height: .76rem;
+
+    position: absolute;
+    right: 0;
+    bottom: .8rem;
+    left: 0;
+
+    width: 70%;
+    height: .76rem;
+    margin: 0 auto;
+
+    text-align: center;
+
+    border: 0;
+    border-radius: 50px;
+    background-color: #fec22d;
+}
+.hogbao123
+{
+    height: 70% !important;
+}
+.showOrhide
+{
+    display: none;
+}
+.rotateBg{
+    background-image: url('../../img/music_off.png');
+    background-size: 100% 100%;
+    position: fixed;
+    z-index: 9;;
+    top: 1px;
+    right: 10px;
+    float: right;
+    width: .60rem;
+    height: .60rem;
+}
+.rotate
+{
+    -webkit-animation: rotating 1.2s linear infinite;
+       -moz-animation: rotating 1.2s linear infinite;
+         -o-animation: rotating 1.2s linear infinite;
+            animation: rotating 1.2s linear infinite;
+
+    
+}
+@-webkit-keyframes rotating
+{
+    from
+    {
+        -webkit-transform: rotate(0deg);
+    }
+    to
+    {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes rotating
+{
+    from
+    {
+        transform: rotate(0deg);
+    }
+    to
+    {
+        transform: rotate(360deg);
+    }
+}
+@-moz-keyframes rotating
+{
+    from
+    {
+        -moz-transform: rotate(0deg);
+    }
+    to
+    {
+        -moz-transform: rotate(360deg);
+    }
+}
+.getHOngb
+{
+    animation: breathe 1s infinite;
+
+    border-radius: 16px;
+}
+@keyframes breathe
+{
+    0%
+    {
+        transform: scale(.99);
+    }
+    50%
+    {
+        transform: scale(1.03);
+    }
+    100%
+    {
+        transform: scale(.99);
+    }
+}
+.codeImgBox
+{
+    -webkit-transform-origin: bottom;
+            transform-origin: bottom;
+    -webkit-animation: move 2s 0s infinite;
+            animation: move 2s 0s infinite;
+}
+@keyframes move
+{
+    0%,
+    65%
+    {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+    }
+    70%
+    {
+        -webkit-transform: rotate(6deg);
+                transform: rotate(6deg);
+    }
+    75%
+    {
+        -webkit-transform: rotate(-6deg);
+                transform: rotate(-6deg);
+    }
+    80%
+    {
+        -webkit-transform: rotate(6deg);
+                transform: rotate(6deg);
+    }
+    85%
+    {
+        -webkit-transform: rotate(-6deg);
+                transform: rotate(-6deg);
+    }
+    90%
+    {
+        -webkit-transform: rotate(6deg);
+                transform: rotate(6deg);
+    }
+    95%
+    {
+        -webkit-transform: rotate(-6deg);
+                transform: rotate(-6deg);
+    }
+    100%
+    {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+    }
+}
+
+@-webkit-keyframes move
+{
+    0%,
+    65%
+    {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+    }
+    70%
+    {
+        -webkit-transform: rotate(6deg);
+                transform: rotate(6deg);
+    }
+    75%
+    {
+        -webkit-transform: rotate(-6deg);
+                transform: rotate(-6deg);
+    }
+    80%
+    {
+        -webkit-transform: rotate(6deg);
+                transform: rotate(6deg);
+    }
+    85%
+    {
+        -webkit-transform: rotate(-6deg);
+                transform: rotate(-6deg);
+    }
+    90%
+    {
+        -webkit-transform: rotate(6deg);
+                transform: rotate(6deg);
+    }
+    95%
+    {
+        -webkit-transform: rotate(-6deg);
+                transform: rotate(-6deg);
+    }
+    100%
+    {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+    }
+}
+.shopBtns
+{
+    position: fixed;
+    right: .4rem;
+    bottom: 5.1rem;
+    z-index: 3;
+}
+.sharBtns
+{
+    position: fixed;
+    right: .4rem;
+    bottom: 6.3rem;
+    z-index: 3;
+}
+.callBtns
+{
+    position: fixed;
+    right: .4rem;
+    z-index: 3;
+    bottom: 9.6rem;
+}
+.shopsBox
+{
+    margin-right: .3rem;
+
+    text-align: left;
+}
+.shopsBox > p
+{
+    font-size: .32rem;
+
+    color: #333;
+}
+.shopsBox > span
+{
+    font-size: .24rem;
+
+    color: #333;
+}
+.list
+{
+    display: flex;
+
+    margin-right: .3rem;
+    margin-left: .3rem;
+    padding: .3rem;
+
+    border-radius: 8px;
+    background-color: #ffc46f;
+
+    align-items: center;
+}
+.list > img
+{
+    width: .9rem;
+    height: .9rem;
+    margin-right: .3rem;
+
+    vertical-align: middle;
+
+    border-radius: 8px;
+}
+.myActive
+{
+    font-size: 10px;
+
+    margin-top: .5rem;
+    margin-right: .2rem;
+    margin-bottom: .5rem;
+    margin-left: .2rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 8px -2px;
+}
+.myActive > .display
+{
+    display: flex;
+
+    margin-bottom: .3rem;
+
+    align-items: center;
+    justify-content: center !important;
+}
+.canvesBox > .BgCanvasBox
+{
+    position: relative;
+
+    display: flex;
+
+    width: 80%;
+    height: 80%;
+    margin: 0 auto;
+
+    background-color: #fff;
+    background-image: url('../../img/hbbk@2x.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+
+    align-items: flex-end;
+    justify-content: center;
+}
+.canvesBox > .BgCanvasBox > img
+{
+    width: 30%;
+}
+.canvesBox > a
+{
+    position: absolute;
+    right: 0;
+    bottom: .3rem;
+    left: 0;
+
+    margin: 0 auto;
+}
+.canvesBox
+{
+    text-align: center;
+
+    align-items: center;
+    justify-content: center;
+}
+#canImgs
+{
+    width: 80%;
+    height: 80%;
+    margin: 0 auto;
+    margin-top: .4rem;
+}

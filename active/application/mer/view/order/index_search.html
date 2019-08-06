@@ -1,0 +1,46 @@
+<fieldset>
+    <legend>条件搜索</legend>
+    <form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get" autocomplete="off">
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">订单单号</label>
+            <div class="layui-input-inline">
+                <input name="out_trade_no" value="{$Think.get.out_trade_no|default=''}" placeholder="请输入订单单号" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">订单状态</label>
+            <div class="layui-input-inline">
+                <select class="layui-select" name="is_status">
+                    {foreach [''=>'- 全部订单 -','0'=>'待付款','1'=>'待发货','2'=>'已完成','3'=>'已取消'] as $k=>$v}
+                    <!--{eq name='Think.get.status' value='$k.""'}-->
+                    <option selected value="{$k}">{$v}</option>
+                    <!--{else}-->
+                    <option value="{$k}">{$v}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">下单时间</label>
+            <div class="layui-input-inline">
+                <input data-date-range name="create_time" value="{$Think.get.create_time|default=''}" placeholder="请选择下单时间" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">支付时间</label>
+            <div class="layui-input-inline">
+                <input data-date-range name="pay_time" value="{$Think.get.pay_time|default=''}" placeholder="请选择支付时间" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        </div>
+    </form>
+    <script>
+        window.form.render();
+        $('[data-export-list]').on('click', function () {
+            window.location.href = '{:url("@")}?s=store/order/index&' + $(this).parents('form').serialize() + '&action=export'
+        });
+    </script>
+</fieldset>

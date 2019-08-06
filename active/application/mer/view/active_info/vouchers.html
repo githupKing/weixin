@@ -1,0 +1,92 @@
+{extend name='admin@main'}
+
+{block name="content"}
+
+{include file='active@index/form_style'}
+
+<form onsubmit="return false;" id="ActivePacket" data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
+
+    <div class="layui-card-body think-box-shadow padding-left-40">
+        <input type="hidden" name="a_id" value="{$a_id}" />
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs2 relative">
+                <span class="color-green">券名称</span>
+                <input name="vouchers_name"   required class="layui-input" placeholder="券名称" value="{$vo.vouchers_name|default=''}">
+            </label>
+        </div>
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs2 relative">
+                <span class="color-green">券售价</span>
+                <input name="vouchers_price" onkeyup="value=zhzs(this.value)"  required class="layui-input" placeholder="红包个数" value="{$vo.vouchers_price|default=''}">
+            </label>
+        </div>
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs2 relative">
+                <span class="color-green">券面值</span>
+                <input name="vouchers_face_value" onkeyup="value=zhzs(this.value)"  required class="layui-input" placeholder="券面值" value="{$vo.vouchers_face_value|default=''}">
+            </label>
+        </div>
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs2 relative">
+                <span class="color-green">券数量</span>
+                <input name="vouchers_sum"  class="layui-input"  value="{$vo.vouchers_sum|default=''}">
+            </label>
+        </div>
+        <div class="layui-form-item block">
+            <span class="label-required-prev color-green">活动规则</span>
+            <textarea name="vouchers_desc">{$vo.vouchers_desc|default=''|raw}</textarea>
+        </div>
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs2 relative">
+                <span class="color-green">已出售数量</span>
+                <input disabled name="vouchers_sell" onkeyup="value=zhzs(this.value)"   class="layui-input" value="{$vo.vouchers_sell|default=''}">
+            </label>
+        </div>
+        <div class="layui-form-item text-center">
+            {notempty name='vo.id'}<input type="hidden" name="id" value="{$vo.id}">{/notempty}
+            <button class="layui-btn layui-btn-danger" ng-click="hsitoryBack()" type="button">返回列表</button>
+            <button class="layui-btn" type="submit">Save</button>
+        </div>
+
+    </div>
+</form>
+{/block}
+
+{block name='script'}
+<script>
+    window.form.render();
+    require(['ckeditor', 'angular'], function () {
+        window.createEditor('[name="vouchers_desc"]', {height: 200});
+        var app = angular.module("ActivePacket", []).run(callback);
+        angular.bootstrap(document.getElementById(app.name), [app.name]);
+
+        function callback($rootScope) {
+            $rootScope.isAddMode = parseInt('{$isAddMode|default=0}');
+            // 返回商品列表
+            $rootScope.hsitoryBack = function () {
+                $.msg.confirm('确定要取消编辑吗？', function (index) {
+                    history.back(), $.msg.close(index);
+                });
+            };
+        }
+    })
+
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        //日期
+        laydate.render({
+            elem: '#stop_time'
+        });
+        laydate.render({
+            elem: '#start_time'
+        });
+    })
+    function zhzs(value){
+
+        value = value.replace(/[^\d]/g,'');
+        if(''!=value){
+            value = parseInt(value);
+        }
+        return value;
+    }
+</script>
+{/block}

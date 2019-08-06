@@ -1,0 +1,51 @@
+{extend name="mer@main"}
+
+{block name="content"}
+<form onsubmit="return false;" data-auto="true" action="{:url('save')}" method="post" class='layui-form layui-card' autocomplete="off">
+    <div class="layui-card-body">
+        <div class="padding-right-40 padding-bottom-10 margin-top-20">
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">授权到期时间:</label>
+                <div class="layui-input-block">
+                    <input name="mer_auth" disabled="disabled"  required class="layui-input" placeholder="授权到期时间" value="{$info.mer_auth|default=''}">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer;
+        //监听营业状态开关
+        form.on('switch(is_business)', function(data){
+            layer.msg('状态：'+ (this.checked ? '开始营业' : '停止营业'), {
+                offset: '6px'
+            });
+            layer.tips('温馨提示：操作成功', data.othis)
+        });
+
+        //监听自取状态开关
+        form.on('switch(is_invite)', function(data){
+            layer.msg('状态：'+ (this.checked ? '支持自取' : '不支持自取'), {
+                offset: '6px'
+            });
+            layer.tips('温馨提示：操作成功', data.othis)
+        });
+
+        //监听配送状态开关
+        form.on('switch(is_distribution)', function(data){
+            layer.msg('状态：'+ (this.checked ? '支持配送' : '不支持配送'), {
+                offset: '6px'
+            });
+            layer.tips('温馨提示：操作成功', data.othis)
+        });
+
+
+        form.render();
+
+    });
+</script>
+
+{/block}

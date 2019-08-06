@@ -1,0 +1,127 @@
+{extend name='mer@main'}
+
+{block name="button"}
+<button data-open='{:url("add")}' data-title="添加活动" class='layui-btn layui-btn-sm layui-btn-primary'>添加活动</button>
+<button data-action='{:url("remove")}' data-rule="id#{key}" class='layui-btn layui-btn-sm layui-btn-primary'>删除活动</button>
+{/block}
+
+{block name="content"}
+<div class="think-box-shadow">
+    {include file='active_info/index_search'}
+    <table class="layui-table margin-top-10" lay-skin="line">
+        {notempty name='list'}
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='text-left nowrap' width="10%">活动名称</th>
+            <th class='text-left nowrap' width="10%">活动发起商家</th>
+            <th class='text-left nowrap' width="10%">红包规则</th>
+            <th class='text-left nowrap' width="10%">卡券规则</th>
+            <th class='text-left nowrap' width="10%">红包领取记录</th>
+            <th class='text-left nowrap' width="10%">卡券参与记录</th>
+            <th class='text-left nowrap' width="10%">核销记录</th>
+            <th class='text-left nowrap' width="10%">预览</th>
+            <th class='text-left nowrap' width="10%">活动时间</th>
+            <th class='text-left nowrap' width="10%">审核状态</th>
+            <th class='text-left nowrap' width="10%">活动状态</th>
+
+            <th></th>
+        </tr>
+        </thead>
+        {/notempty}
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr data-dbclick>
+            <td class='list-table-check-td think-checkbox'><input class="list-check-box" value='{$vo.id}' type='checkbox'></td>
+            <td class='text-left nowrap'>
+                {$vo.active_name}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.m_name}
+            </td>
+            <td class='text-left nowrap'>
+                {if $vo.active_tags eq 0}
+                <a data-dbclick class="layui-btn layui-btn-sm" data-open='{:url("selectRedPacket")}?id={$vo.id}'>查 看</a>
+                {else}
+                <a data-tips-text="该活动不支持红包发放！" class="layui-btn layui-btn-sm layui-btn-primary layui-disabled">查 看</a>
+                {/if}
+            </td>
+            <td class='text-left nowrap'>
+                {if $vo.active_tags eq 0}
+                <a data-dbclick class="layui-btn layui-btn-sm" data-open='{:url("vouchers")}?id={$vo.id}'>查 看</a>
+                {else}
+                <a data-dbclick class="layui-btn layui-btn-sm" data-open='{:url("vouchers")}?id={$vo.id}'>查 看</a>
+                {/if}
+            </td>
+            <td class='text-left nowrap'>
+                {if $vo.active_tags eq 0}
+                <a data-dbclick class="layui-btn layui-btn-sm" data-open='{:url("selectRedPacket")}?id={$vo.id}'>查 看</a>
+                {else}
+                <a data-tips-text="该活动没有红包记录！" class="layui-btn layui-btn-sm layui-btn-primary layui-disabled">查 看</a>
+                {/if}
+            </td>
+            <td class='text-left nowrap'>
+                <a data-dbclick class="layui-btn layui-btn-sm" data-open='{:url("edit")}?id={$vo.id}'>查 看</a>
+            </td>
+            <td class='text-left nowrap'>
+                <a data-dbclick class="layui-btn layui-btn-sm" data-open='{:url("edit")}?id={$vo.id}'>查 看</a>
+            </td>
+            <td class='text-left nowrap'>
+                <a data-dbclick class="layui-btn layui-btn-sm" onclick="preview({$vo.id})">预 览</a>
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.start_time}
+                <br/>
+                至
+                <br/>
+                {$vo.stop_time}
+            </td>
+            <td class='text-left nowrap'>
+                {if isset($vo.is_status) and $vo.is_status eq 1}
+                <a class="layui-btn layui-btn-sm layui-btn-warm">通过审核</a>
+                {else}
+                <a class="layui-btn layui-btn-sm layui-btn-warm">等待审核</a>
+                {/if}
+            </td>
+            <td class='text-left nowrap'>
+                {if $vo.is_active eq 0}
+                <span class="layui-bg-red">未启用</span>
+                {elseif $vo.is_active eq 1}
+                <span class="layui-bg-blue">进行中</span>
+                {else}
+                <span class="layui-bg-red">已结束</span>
+                {/if}
+            </td>
+            <td class='text-left nowrap'>
+
+                <div class="nowrap margin-bottom-5">
+                    <a data-dbclick class="layui-btn layui-btn-sm" data-open='{:url("edit")}?id={$vo.id}'>编 辑</a>
+                </div>
+
+                <div class="nowrap margin-bottom-5">
+                    <a class="layui-btn layui-btn-sm layui-btn-danger" data-confirm="确定要删除数据吗?" data-action="{:url('remove')}" data-value="id#{$vo.id}">删 除</a>
+                </div>
+
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+
+    {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+
+</div>
+<script>
+    function preview(ids) {
+        console.log("{:url('active/index')}?id="+ids);
+        layer.open({
+            title:'预览效果',
+            area: ['25%', '75%'],
+            type: 2,
+            content: ["{:url('active/index')}?id="+ids] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+        });
+    }
+</script>
+{/block}

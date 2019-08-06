@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,user-scalable=no">
+    <link rel="stylesheet" href="/static/weixin/page/index/index.css">
+    <link rel="stylesheet" href="/static/weixin/common/css/weui.css">
+    <link rel="stylesheet" href="/static/weixin/common/css/weuix.css">
+    <link rel="stylesheet" href="/static/weixin/common/css/common.css">
+</head>
+<body>
+<div class="container" style="background-image: url({$info.active_bg_images});">
+    <div class="contBox">
+        <div class="card ">
+            <div class="time">
+                <span class="font28">距离结束：</span>
+                <span class="font24 ee7b42">00</span>
+                <span class="font24">天</span>
+                <span class="font24 ee7b42">00</span>
+                <span class="font24">时</span>
+                <span class="font24 ee7b42">00</span>
+                <span class="font24">分</span>
+                <span class="font24 ee7b42">00</span>
+                <span class="font24">秒</span>
+                <span class="font24 ee7b42">00</span>
+            </div>
+            <div class="code ccc">---------------------------</div>
+            <!--<div class="bold c20212 padding30">100元提货卡</div>-->
+            <div class="activeClor font24">活动时间：{$info.start_time} —— {$info.stop_time}</div>
+            <div class="progressbarbox margin24">
+                <?php $z = '50%';?>
+                <div class="success" style="position: absolute;width: {$z};height: 100%;background-color: #ee7b42;border-radius: 25px;"></div>
+            </div>
+            <div class="numBox activeClor">
+                <div>已中奖:55份</div>
+                <div>剩余数量：45份</div>
+            </div>
+            <div class="c20212 margin50">已有{$info.active_preview}人预览</div>
+        </div>
+        <!--是否有红包-->
+
+        {if !empty($packet)}
+            <div class="Qrcode margin50">
+                <div class="QrcodeBoxs">
+                    <div class="codeImgBox">
+                        <img src="" alt="">
+                    </div>
+                    <div class="codeWord">
+                        <ol>
+                            <li>长按本图识别二维码</li>
+                            <li>分享链接到朋友圈</li>
+                            <li>0.3元现金红包立即到账</li>
+                            <li>每位好友点击你分享的链接再得0.1元现金红包立马到账</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="btnSharBox">
+                    <img src="/static/weixin/img/btn-share@2x.png" alt="">
+                </div>
+            </div>
+            <!--红包排行榜数据-->
+            <div class="envelope">
+                <img src="/static/weixin/img/btn-honhbao@2x.png" alt="">
+                <div class="display">
+                    <p>您已获得<span class="red">{$qualifying_price}</span>元</p>
+                    <p>排行第<span class="red">{$qualifying}</span>名</p>
+                </div>
+                <div class="display titles">
+                    <p>排名</p>
+                    <p>客户</p>
+                    <p>获得红包</p>
+                </div>
+                <div class="ranking">
+                    {foreach $share as $vo=>$k}
+                        <div class="display contents">
+                            <p>{$vo}</p>
+                            <div class="centerBoxy">
+                                <img src="{$k.u_name_headimages}" alt="">
+                                <span class="name">{$k.u_name}</span>
+                            </div>
+                            <p class="red">{$k.packet_price}元</p>
+                        </div>
+                    {/foreach}
+                </div>
+            </div>
+        {/if}
+
+
+        <div class="shopInfo">
+            <div class="display">
+                <img src="/static/weixin/img/left@2x.png" alt="">
+                <p class="titke">商家信息</p>
+                <img src="/static/weixin/img/right@2x.png" alt="">
+            </div>
+            <p class="shopname">{$mer.mer_name}</p>
+            <div class="infos">
+                <p>商家电话：{$mer.mer_tel}</p>
+                <button class="btns"><a href="tel:{$mer.mer_tel}">拨打</a></button>
+            </div>
+            <div class="infos">
+                <p>{$mer.mer_address}</p>
+                <button class="btns">导航</button>
+            </div>
+        </div>
+        <div class="myActive">
+            <div class="display">
+                <img src="/static/weixin/img/left@2x.png" alt="">
+                <p class="titke">活动规则</p>
+                <img src="/static/weixin/img/right@2x.png" alt="">
+            </div>
+            <div class="word">
+                <!--<p>沃尔玛联合中江爱达乐(邮政街店)送福利啦!</p>-->
+                <!--<ol>-->
+                    <!--<li>集齐‘爱达乐福利大回馈'全部字样，可免费领取价值100元提货卡一张， 领取时间为2019年5月之前有效。 </li>-->
+                    <!--<li>集齐后请按券面规则到中江爱达乐(邮政街店)内兑换</li>-->
+                    <!--<li>活动期间，参与者每天均有初始的3次集字机会!</li>-->
+                    <!--<li>活动期间，参与者通过分享活动链接给好友(分享给朋友、分享到微信群、分享至朋友圈) ,当好 友通过您分享的链接进入活动页面后，即可以多获取3次抽奖机会[每天最多可获取15次机会],分享后请朋友打开链接，再打开页面就可继续抽奖!</li>-->
+                    <!--<li>联系电话: 0838-7206005</li>-->
+                    <!--<li>地址:中江县中江人民路幼J L园斜对面(邮政街店)</li>-->
+                <!--</ol>-->
+                {$info.active_rules|raw}
+            </div>
+        </div>
+       <!--<div>-->
+           <!--<div class="bannerImgs">-->
+               <!--<div class="lista">-->
+                   <!--<div class="bannerImgsLeft">-->
+                       <!--<img src="/static/weixin/img/headshangjia@2x.png" alt="">-->
+                   <!--</div>-->
+                   <!--<div class="bannerImgsCenter">-->
+                       <!--<p class="font32">中国梦想金话筒</p>-->
+                       <!--<p class="font24"><img src="/static/weixin/img/phone_write@2x.png" alt="">1321203912</p>-->
+                       <!--<p class="font24"><img src="/static/weixin/img/location_write@2x.png" alt="">孵化园C区301</p>-->
+                   <!--</div>-->
+               <!--</div>-->
+               <!--<div class="bannerImgsRight">-->
+                   <!--<p>立即</p>-->
+                   <!--<p>抢购</p>-->
+               <!--</div>-->
+           <!--</div>-->
+           <!--<div class="hui">-->
+               <!--<img src="/static/weixin/img/hui@2x.png" alt="">-->
+               <!--<p>预付99尊享原价1280元</p>-->
+           <!--</div>-->
+           <!--<div class="hui">-->
+               <!--<img style="visibility:hidden" src="/static/weixin/img/hui@2x.png" alt="">-->
+               <!--<p>限时680暑期精品课程</p>-->
+           <!--</div>-->
+       <!--</div>-->
+        {foreach $vouchers as $vo=>$k}
+            <div class="detalisy">
+                <div class="bannerImgs clear">
+                    <div class="lista">
+                        <div class="bannerImgsLeft">
+                            <span style="    width: .3rem;display: inline-block;padding: .2rem;color: #fff;font-size: .3rem;font-weight: 800;">{$k.vouchers_face_value}￥</span>
+                        </div>
+                        <div class="bannerImgsCenter">
+                            <p class="font32">{$k.vouchers_name}</p>
+                            <p class="font24"><img src="/static/weixin/img/phone_write@2x.png" alt="">{$mer.mer_tel}</p>
+                            <p class="font24"><img src="/static/weixin/img/location_write@2x.png" alt="">{$mer.mer_address}</p>
+                        </div>
+                    </div>
+                    <div class="bannerImgsRight">
+                        <p>立即</p>
+                        <p>抢购</p>
+                    </div>
+                </div>
+                <div class="hui">
+                    {$k.vouchers_desc|raw}
+                </div>
+            </div>
+        {/foreach}
+
+        <!--<div class="detalisy">-->
+            <!--<div class="bannerImgs clear">-->
+                <!--<div class="lista">-->
+                    <!--<div class="bannerImgsLeft">-->
+                        <!--<img src="/static/weixin/img/headshangjia@2x.png" alt="">-->
+                    <!--</div>-->
+                    <!--<div class="bannerImgsCenter">-->
+                        <!--<p class="font32">中国梦想金话筒</p>-->
+                        <!--<p class="font24"><img src="/static/weixin/img/phone_write@2x.png" alt="">1321203912</p>-->
+                        <!--<p class="font24"><img src="/static/weixin/img/location_write@2x.png" alt="">孵化园C区301</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="bannerImgsRight">-->
+                    <!--<p>立即</p>-->
+                    <!--<p>抢购</p>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="hui">-->
+                <!--<p>预付99尊享原价1280元</p>-->
+            <!--</div>-->
+            <!--<div class="hui">-->
+                <!--<p>限时680暑期精品课程</p>-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="call">
+            <img src="/static/weixin/img/headshangjia@2x.png" alt="">
+            <div class="bannerImgsCenter">
+                <p class="font32">{$mer.mer_name}</p>
+                <p class="font24"><img src="/static/weixin/img/phone_yellow@2x.png" alt="">{$mer.mer_tel}</p>
+                <p class="font24"><img src="/static/weixin/img/location_yellow@2x.png" alt="">{$mer.mer_address}</p>
+            </div>
+        </div>
+        <div class="edit">
+            <!--<p class="font36">图文编辑窗口</p>-->
+            <!--<p class="font28">图片+文字+视频+分享流程图</p>-->
+            {$info.active_instructions|raw}
+            <div class="btnBoxs">
+                {if !empty($packet)}
+                    <img src="/static/weixin/img/btn-zhuan@2x.png" alt="">
+                {/if}
+                <img src="/static/weixin/img/btn-shangjia@2x.png" alt="">
+            </div>
+        </div>
+        <div class="footer">
+            <button class="connext" style="width: 100%">联系客服</button>
+            <!--<button class="baoming">现在报名￥230</button>-->
+        </div>
+    </div>
+</div>
+<script src="/static/weixin/common/js/zepto.min.js"></script>
+<script src="/static/weixin/common/js/zepto.weui.min.js"></script>
+<script src="/static/weixin/common/js/common.js"></script>
+<script src="/static/weixin/page/index/index.js"></script>
+</body>
+</html>

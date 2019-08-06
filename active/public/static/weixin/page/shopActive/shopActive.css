@@ -1,0 +1,351 @@
+body{
+	font-size: 10px !important;
+}
+.container{
+	position: relative;
+	background-image: url('../../img/banner.png');
+	background-repeat: no-repeat;
+	background-size: 100% 5rem;
+}
+.contBox{
+	text-align: center;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 4.1rem;
+}
+.card,.shopInfo,.myActive{
+	box-shadow: 0px 0px 8px -2px;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	background-color: #fff;
+	border-radius: 10px;
+	margin-left: 0.2rem;
+	font-size: 10px;
+    margin-right: 0.2rem;
+}
+.code{
+	padding-top: .3rem;
+	padding-bottom: .3rem
+}
+.bold{
+	font-size: .38rem;
+	
+	font-weight: 800;
+}
+.c20212{
+	color: #20212c;
+}
+.activeClor{
+	color: #827f7e;
+}
+.progressbarbox{
+	margin-top: .5rem;
+	margin-right: 0.8rem;
+	margin-left: 0.8rem;
+	border-radius: 25px;
+	height: .3rem;
+	background-color: #e4dad9;
+	position: relative;
+}
+.success{
+	position: absolute;
+	width: 70%;
+	height: 100%;
+	background-color: #ee7b42;
+	border-radius: 25px;
+}
+.numBox{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-right: 0.8rem;
+	margin-left: 0.8rem;
+}
+
+.envelope{
+	padding-top: 0.5rem;
+	margin-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	background-color: #fff;
+	border: 1px solid #544888;
+	border-radius: 10px;
+	margin-left: 0.2rem;
+	font-size: 10px;
+    margin-right: 0.2rem;
+	position: relative;
+	max-height: 4rem;
+}
+.ranking{
+	/*height: 3rem;*/
+}
+.envelope > img{
+	position: absolute;
+	top: -7%;
+	left: 0;
+	right: 0;
+	width: 40%;
+	margin: 0 auto;
+}
+.envelope > .display,.ranking > .display{
+	width: 80%;
+	margin: 0 auto;
+	font-size: .32rem;
+	color: #20212c;
+}
+.titles{
+	color: #544888 !important;
+	font-size: .24rem !important;
+	margin-top: .3rem !important;
+}
+.centerBoxy{
+	color: #544888 ;
+	font-size: .24rem !important;
+	margin-top: .3rem !important;
+}
+.centerBoxy > img{
+	vertical-align: middle;
+	margin-right: .2rem;
+	width: .5rem;
+	height: .5rem;
+	border-radius: 25px;
+}
+.shopInfo{
+	margin-top: .5rem;
+}
+ .titke{
+	font-size: .36rem;
+	color: #20212c;
+	padding-right: .18rem;
+	padding-left: .18rem;
+}
+.shopInfo >.display,.myActive > .display{
+	display: flex;
+	align-items: center;
+	justify-content: center !important;
+	margin-bottom: .3rem;
+
+}
+.shopname{
+	color: #20212c;
+	font-size: .5rem;
+	text-align: left;
+	margin-left: .3rem;
+	font-weight: 800;
+}
+.infos{
+	font-size: .32rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-left: .3rem;
+	margin-right: .3rem;
+	text-align: left;
+	color: #666;
+}
+.infos > .btns{
+	width: .84rem;
+	height: .46rem;
+	color: #fff;
+	font-size: .24rem;
+	border-radius: 5px;
+	background-color: #ee7b42;
+	border: none;
+	line-height: .46rem;
+}
+.myActive{
+	margin-top: .5rem;
+}
+.word{
+	margin-left: .6rem;
+	margin-right: .3rem;
+	text-align: left;
+	font-size: .28rem;
+	color: #666;
+}
+.bannerImgs{
+	background-image: url('../../img/youhuiquan@2x.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	margin-right: .3rem;
+	margin-left: .3rem;
+	font-size: 10px;
+	margin-top: .5rem;
+	display: flex;
+	align-items: center;
+	padding-bottom: .3rem;
+	padding-top: .3rem;
+}
+.bannerImgsLeft > img{
+	width: 1.1rem;
+	height: 1.1rem;	
+	margin-right: .3rem;
+	border-radius: 25px;
+	vertical-align: middle;
+    margin-left: .3rem;
+}
+.bannerImgsCenter {
+	color: #fff;
+	text-align: left;
+}
+.bannerImgsCenter > p > img{
+	width: .2rem;
+	height: .2rem;
+}
+.bannerImgsRight{
+	font-size: .4rem;
+	color: #fff;
+}
+.lista{
+	display: flex;
+	align-items: center;
+	width: 80%;
+}
+.hui{
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	margin-right: .3rem;
+	margin-left: .3rem;
+	margin-top: .6rem;
+}
+.hui > p{
+	font-size: .36rem;
+	color: #20122c;
+	font-weight: 800;
+}
+.hui > img{
+	width: .36rem;
+	height: .4rem;
+}
+.detalisy{
+	border: 0.2rem solid #514684;
+	border-radius: 10px;
+	margin-right: .3rem;
+	margin-left: .3rem;
+	background-color: #fff;
+	margin-top: .6rem;
+	padding-bottom: .5rem;
+}
+.clear{
+	margin-top: 0px !important;
+    padding-top: 0px !important;
+    margin: 0 !important;
+}
+.call{
+	border: 1px solid #ff841c;
+	margin-right: .3rem;
+	margin-left: .3rem;
+	border-radius: 50px;
+	font-size: 10px;
+	display: flex;
+	align-items: center;
+	background-color: #ffc46f;
+	margin-top: .5rem;
+	padding-bottom: .1rem;
+	padding-top: .1rem;
+
+}
+.call > img{
+	border-radius: 50px;
+	width: 1.4rem;
+	height: 1.4rem;
+	margin-left: .1rem;
+	margin-right: .5rem;
+}
+.call > .bannerImgsCenter{
+	color: #000;
+}
+.edit{
+	margin-left: .3rem;
+	margin-right: .3rem;
+	margin-bottom: .6rem;
+	margin-top: .6rem;
+	box-shadow: 0px 0px 8px -2px;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	background-color: #fff;
+	border-radius: 10px;
+	font-size: 10px;
+	min-height: 4rem;
+	position: relative;
+}
+.btnBoxs{
+	position: absolute;
+	bottom: .3rem;
+	right: 0.01rem;
+}
+.btnBoxs > img{
+	display: block;
+	margin-top: .2rem;
+	width: .9rem;
+	height: .9rem;
+	border-radius: 50px;
+}
+.footer{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-right: .3rem;
+	margin-left: .3rem;
+	
+	margin-bottom: .5rem;
+}
+.connext{
+	width: 3.2rem;
+	height: .8rem;
+	background-color: #544888;
+	border-radius: 50px;
+	border: none;color: #fff;
+}
+.baoming{
+	width: 3.2rem;
+	height: .8rem;
+	border-radius: 50px;
+	background-color: #ffc46f;
+	border: none;color: #fff;
+}
+.connext:focus{outline:0;}
+.baoming:focus{outline:0;}
+.list{
+	display: flex;
+	align-items: center;
+	background-color: #ffc46f;
+	border-radius: 8px;
+	margin-right: .3rem;
+	margin-left: .3rem;
+	padding: .3rem;
+}
+.list > img{
+	width: .9rem;
+	height: .9rem;
+	vertical-align: middle;
+	margin-right: .3rem;
+	border-radius: 8px;
+}
+.shopsBox{
+	text-align: left;
+	margin-right: .3rem;
+}
+.shopsBox > p{
+	font-size: .32rem;
+	color: #333;
+}
+.shopsBox > span{
+	font-size: .24rem;
+	color: #333;
+}
+.shopLokBtn{
+	width: 1.3rem;
+	height: .4rem;
+	font-size: .2rem;
+	color: #ee7b42;
+	background-color: #fff;
+	border-radius: 50px;
+	padding-right: .1rem;
+	padding-left: .1rem;
+}
+.input_defalt{
+	border: 0 !important;
+	border-bottom: 1px solid #ddd !important;
+}
