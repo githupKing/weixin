@@ -425,6 +425,7 @@ $(function () {
                 $(form).bind("submit", function (event) {
                     if (that.checkAllInput() && typeof callback === 'function') {
                         if (typeof CKEDITOR === 'object' && typeof CKEDITOR.instances === 'object') {
+
                             for (var i in CKEDITOR.instances) CKEDITOR.instances[i].updateElement();
                         }
                         callback.call(this, $(form).formToJson());

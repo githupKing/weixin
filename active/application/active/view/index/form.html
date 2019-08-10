@@ -8,7 +8,9 @@
       autocomplete="off">
 
     <div class="layui-card-body think-box-shadow padding-left-40">
-
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend class="color-red">活动基础信息</legend>
+        </fieldset>
         <div class="layui-form-item layui-row layui-col-space15">
             <!--<label class="layui-col-xs3 relative">-->
             <!--<span class="color-green">活动类型</span>-->
@@ -63,17 +65,303 @@
             <script>$('[name="active_bg_images"]').uploadOneImage()</script>
         </div>
 
+        <!--背景音乐Start-->
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend class="color-red">背景音乐设置</legend>
+        </fieldset>
         <div class="layui-form-item">
-            <label class="layui-form-label">开关-默认开</label>
             <div class="layui-input-block">
-                <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+                <label class="layui-col-xs4 relative color-green">活动音乐</label>
+                <input type="checkbox" lay-skin="switch" name="music_switch" lay-filter="musicSwitch" lay-text="ON|OFF">
             </div>
         </div>
 
+        <div id="music" class="layui-form-item" style="display: none;">
+            <div class="layui-form-item" data-keys-type='voice'>
+                <label class="layui-form-label color-red">上传语音</label>
+                <div class="layui-input-block">
+                    <div class="input-group">
+                        <input class='layui-input' value="{$vo.music|default=''}" name="music" required title="请上传音乐文件或输入音乐URL地址">
+                        <a data-file="btn" data-type="mp3" data-field="music" class="input-group-addon"><i class="layui-icon layui-icon-upload"></i></a>
+                    </div>
+                    <p class="help-block">文件最大2Mb，播放长度不超过600s，mp3/格式</p>
+                </div>
+            </div>
+        </div>
+        <!--背景音乐Stop-->
+
+        <!--活动红包Start-->
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend class="color-red">红包设置</legend>
+        </fieldset>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <label class="layui-col-xs4 relative color-green">活动红包</label>
+                <input type="checkbox" name="pack_switch"  lay-skin="switch" lay-filter="packS" lay-text="ON|OFF">
+            </div>
+        </div>
+
+        <div id="pack" class="layui-form-item" style="display: none;">
+            <div class="layui-form-item">
+                <label class="layui-form-label color-red">发放红包金额:</label>
+                <div class="layui-input-block">
+                    <div class="input-group">
+                        <input name="pack_money" required class="layui-input" placeholder="请输入活动红包发放金额"
+                               value="{$vo.pack_money|default=''}">
+                    </div>
+                </div>
+                <div class="layui-input-block">
+                    <label class="layui-form-label color-red">首次分享:</label>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"></label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="pack_share" value="0" title="等额红包" checked="">
+                            <input type="radio" name="pack_share" value="1" title="随机红包">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"></label>
+                        <div class="layui-input-block">
+                            <span class="color-blue">金额最大值:</span><input type="text" name="pack_share_money" value="" placeholder="请输入金额"><br>
+                            <span class="color-blue">金额最小值:</span><input type="text" name="pack_share_moneyx" value="" placeholder="请输入金额">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-input-block">
+                    <label class="layui-form-label color-red" style="width: 320px;">好友分享: *(如不设置及不开启好友分享得红包)</label>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"></label>
+                        <div class="layui-input-block">
+                            <span class="color-blue">单次金额:</span><input type="text" name="pack_friends_share_money" value="" placeholder="请输入金额"><br>
+                            <span class="color-blue">分享次数:</span><input type="text" name="pack_friends_share_sum" value="" placeholder="请输入分享次数">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--活动红包Stop-->
+
+        <!--购买记录Start-->
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <label class="layui-col-xs4 relative color-green">购买记录</label>
+                <input type="checkbox" checked="" name="record_switch" lay-skin="switch" lay-filter="recordSwitch" lay-text="ON|OFF">
+            </div>
+        </div>
+        <!--购买记录Stop-->
+
+        <!--商务合作Start-->
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend class="color-red">商务合作</legend>
+        </fieldset>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <label class="layui-col-xs4 relative color-green">商务合作</label>
+                <input type="checkbox" name="business_switch" lay-skin="switch" lay-filter="businessSwitch" lay-text="ON|OFF">
+            </div>
+        </div>
+
+        <div id="business" class="layui-form-item" style="display: none;">
+            <div class="layui-form-item" data-keys-type='voice'>
+                <label class="layui-form-label color-red">上传二维码</label>
+                <div class="layui-input-block">
+                    <div class="input-group">
+                        <input name="business_images" type="hidden"
+                               value="{$vo.business_images|default=''}">
+                    </div>
+                    <p class="help-block">二维码必须是微信用户二维码</p>
+                </div>
+                <script>$('[name="business_images"]').uploadOneImage()</script>
+            </div>
+            <div class="layui-form-item" data-keys-type='voice'>
+                <label class="layui-form-label color-red">上传背景图</label>
+                <div class="layui-input-block">
+                    <div class="input-group">
+                        <input name="business_bg_images" type="hidden"
+                               value="{$vo.business_bg_images|default=''}">
+                    </div>
+                    <p class="help-block">上传商务合作背景图</p>
+                </div>
+                <script>$('[name="business_bg_images"]').uploadOneImage()</script>
+            </div>
+            <div class="layui-form-item" data-keys-type='voice'>
+                <label class="layui-form-label color-red">联系电话</label>
+                <div class="layui-input-block">
+                    <div class="input-group">
+                        <input name="business_phone" type="text"
+                               value="{$vo.business_phone|default=''}">
+                    </div>
+                    <p class="help-block">联系电话</p>
+                </div>
+            </div>
+        </div>
+        <!--商务合作Stop-->
+
+        <!--活动类型Start-->
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend class="color-red">活动类型设置</legend>
+        </fieldset>
+        <div class="layui-form-item">
+            <label class="layui-form-label">活动类型</label>
+            <div class="layui-input-block">
+                <input type="radio" name="active_type" lay-filter="active_type" value="0" title="纯展示活动" checked="">
+                <input type="radio" name="active_type" lay-filter="active_type" value="1" title="优惠券活动">
+                <input type="radio" name="active_type" lay-filter="active_type" value="2" title="报名活动">
+            </div>
+        </div>
+        <!--优惠券-->
+        <div class="layui-form-item" id="vouchers" style="display: none">
+            <span class="color-green label-required-prev">优惠券</span><br>
+            <div class="layui-inline">
+                <label class="layui-form-label">关联商家</label>
+                <div class="layui-input-inline">
+                    <select name="mer_id" id="mer" lay-verify="required" lay-search="">
+                        <option value="">直接选择或搜索选择</option>
+                        {foreach $mer as $v=>$k}<option value="{$k.id}">{$k.mer_name}</option>{/foreach}
+                    </select>
+                </div>
+            </div>
+            <br>
+            <button onclick="addTab()" type="button" class="layui-btn layui-btn-normal">添加</button>
+            <table id="tablePoSub" name="tablePoSub" class="layui-table" style="width: 100%">
+                <thead>
+                <tr>
+                    <th>券名称</th>
+                    <th>价值</th>
+                    <th>售价</th>
+                    <th>数量</th>
+                    <th>过期时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+
+        <!--报名活动-->
+        <div class="layui-form-item" id="apply" style="display: none">
+            <span class="color-green label-required-prev">参与商</span><br>
+            <button onclick="addTabApply()" type="button" class="layui-btn layui-btn-normal">添加</button>
+            <div class="layui-form-item layui-row layui-col-space15">
+                <label class="layui-col-xs4 relative">
+                    <span class="color-red">报名费用</span>
+                    <input name="apply_price" required class="layui-input" placeholder="请输入活动报名费用"
+                           value="{$vo.apply_price|default=''}">
+                </label>
+                <label class="layui-col-xs4 relative">
+                    <span class="color-red">报名名额</span>
+                    <input name="apply_sum" required class="layui-input" placeholder="请输入活动报名名额"
+                           value="{$vo.apply_sum|default=''}">
+                </label>
+            </div>
+            <table id="tableApply" name="tableApply" class="layui-table" style="width: 100%">
+                <thead>
+                <tr>
+                    <th>选择商家</th>
+                    <th>活动到期时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <br>
+        <br>
+        <!--活动类型Stop-->
+
+        <!--分销模式Start-->
+        <div class="layui-form-item" id="distribution">
+            <div class="layui-input-block">
+                <label class="layui-col-xs4 relative color-green">分销模式</label>
+                <input type="checkbox" name="distribution" lay-skin="switch" lay-filter="distribution" lay-text="ON|OFF">
+            </div>
+        </div>
+
+        <div id="distribution1" class="layui-form-item" style="display: none;">
+            <div class="layui-form-item" data-keys-type='voice'>
+                <label class="layui-form-label color-red">一级分层金额</label>
+                <div class="layui-input-block">
+                    <div class="input-group">
+                        <input class='layui-input' value="{$vo.distribution_one_money|default=''}" name="distribution_one_money">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item" data-keys-type='voice'>
+                <label class="layui-form-label color-red">二级分层金额</label>
+                <div class="layui-input-block">
+                    <div class="input-group">
+                        <input class='layui-input' value="{$vo.distribution_two_money|default=''}" name="distribution_two_money">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="distribution2" class="layui-form-item" style="display: none;">
+            <div class="layui-form-item" data-keys-type='voice'>
+                <label class="layui-form-label color-red">一级分层比例</label>
+                <div class="layui-input-block">
+                    <div class="input-group">
+                        <input class='layui-input' value="{$vo.distribution_one_money|default=''}" name="distribution_one_money">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item" data-keys-type='voice'>
+                <label class="layui-form-label color-red">二级分层比例</label>
+                <div class="layui-input-block">
+                    <div class="input-group">
+                        <input class='layui-input' value="{$vo.distribution_two_money|default=''}" name="distribution_two_money">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--分销模式Stop-->
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend class="color-red">活动元素设置</legend>
+        </fieldset>
+        <!--活动海报Start-->
+        <div  class="layui-form-item">
+            <div class="layui-form-item" data-keys-type='voice'>
+                <label class="layui-form-label color-red">上传海报背景图</label>
+                <div class="layui-input-block">
+                    <div class="input-group">
+                        <input name="active_posters_img" type="hidden"
+                               value="{$vo.active_posters_img|default=''}">
+                    </div>
+                    <p class="help-block">上传海报背景图</p>
+                </div>
+                <script>$('[name="active_posters_img"]').uploadOneImage()</script>
+            </div>
+
+        </div>
+        <!--活动海报Stop-->
+
+        <!--活动核销Start-->
+        <div  class="layui-form-item">
+            <div class="layui-form-item" data-keys-type='voice'>
+                <label class="layui-form-label color-red">上传活动核销背景图</label>
+                <div class="layui-input-block">
+                    <div class="input-group">
+                        <input name="active_verification_img" type="hidden"
+                               value="{$vo.active_verification_img|default=''}">
+                    </div>
+                    <p class="help-block">上传活动核销背景图</p>
+                </div>
+                <script>$('[name="active_verification_img"]').uploadOneImage()</script>
+            </div>
+
+        </div>
+        <!--活动核销Stop-->
 
         <div class="layui-form-item block">
             <span class="label-required-prev color-green">活动规则（设置活动规则说明）</span>
-            <textarea name="active_rules">{$vo.active_rules|default=''|raw}</textarea>
+            <textarea class="text" name="active_rules">{$vo.active_rules|default=''|raw}</textarea>
         </div>
 
         <div class="layui-form-item block">
@@ -84,7 +372,8 @@
         <div class="layui-form-item text-center">
             {notempty name='vo.id'}<input type="hidden" name="id" value="{$vo.id}">{/notempty}
             <button class="layui-btn layui-btn-danger" ng-click="hsitoryBack()" type="button">返回列表</button>
-            <button class="layui-btn" type="submit">Save</button>
+            <!--<button class="layui-btn" type="submit">Save</button>-->
+            <p class="layui-btn" id="Submit">保存活动</p>
         </div>
 
     </div>
@@ -93,13 +382,12 @@
 {/block}
 
 {block name='script'}
-<textarea class="layui-hide" id="goods-specs">{$vo.specs|raw|default=''}</textarea>
-<textarea class="layui-hide" id="goods-value">{$defaultValues|raw|default=''}</textarea>
 <script>
     window.form.render();
     require(['ckeditor', 'angular'], function () {
         window.createEditor('[name="active_rules"]', {height: 200});
         window.createEditor('[name="active_instructions"]', {height: 200});
+
         var app = angular.module("GoodsForm", []).run(callback);
         angular.bootstrap(document.getElementById(app.name), [app.name]);
 
@@ -115,6 +403,10 @@
     })
 
     layui.use(['form', 'layedit', 'laydate'], function () {
+        //初始化edit
+        // window.layedit = layui.layedit;
+        // window.OptionIndex = layedit.build('active_rules');
+        // window.InstructionsIndex = layedit.build('active_instructions');
         //日期
         laydate.render({
             elem: '#stop_time'
@@ -122,13 +414,276 @@
         laydate.render({
             elem: '#start_time'
         });
-        //监听指定开关
-        form.on('switch(switchTest)', function(data){
-            layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+        //同时绑定多个
+        lay('.test-item').each(function(){
+            laydate.render({
+                elem: this
+                ,trigger: 'click'
+            });
+        });
+        //监听红包开关
+        form.on('switch(packS)', function(data){
+            if (this.checked){
+                $("#pack").show();
+            } else {
+                $("#pack").hide();
+            }
+            layer.msg('活动红包:'+ (this.checked ? '开启' : '关闭'), {
                 offset: '6px'
             });
-            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
         });
+        //监听背景音乐
+        form.on('switch(musicSwitch)',function (data) {
+            if (this.checked){
+                $("#music").show();
+            } else {
+                $("#music").hide();
+            }
+            layer.msg('背景音乐:'+(this.checked?'开启':'关闭'),{
+                offset: '6px'
+            })
+        });
+        //recordSwitch
+        form.on('switch(recordSwitch)',function (data) {
+            layer.msg('购买记录:'+(this.checked?'开启':'关闭'),{
+                offset: '6px'
+            })
+        });
+        //businessSwitch
+        form.on('switch(businessSwitch)',function (data) {
+            if (this.checked){
+                $("#business").show();
+            } else {
+                $("#business").hide();
+            }
+            layer.msg('商务合作:'+(this.checked?'开启':'关闭'),{
+                offset: '6px'
+            })
+        })
+
+        //活动类型
+        form.on('radio(active_type)', function (data) {
+            switch (data.value){
+                case '0':
+                    //纯展示
+                    $("#distribution").show();
+                    $("#vouchers").hide();
+                    $("#apply").hide();
+                    if ($("input[name='distribution']:checked ").val() === 'on'){
+                        $("#distribution1").show();
+                        $("#distribution2").hide();
+                    }
+                    break;
+                case '1':
+                    $("#distribution").hide();
+                    $("#vouchers").show();
+                    $("#apply").hide();
+                    break;
+                case '2':
+                    //报名活动类型
+                    $("#distribution").show();
+                    $("#apply").show();
+                    $("#vouchers").hide();
+                    if ($("input[name='distribution']:checked ").val() === 'on'){
+                        $("#distribution2").show();
+                        $("#distribution1").hide();
+                    }
+                    break;
+            }
+        });
+        
+        //分销模式
+        form.on('switch(distribution)',function (data) {
+            switch ($("input[name='active_type']:checked ").val()){
+                case '0':
+                    if (this.checked){
+                        $("#distribution1").show();
+                        $("#distribution2").hide();
+                    } else {
+                        $("#distribution1").hide();
+                    }
+                    break;
+                case '2':
+                    if (this.checked){
+                        $("#distribution2").show();
+                        $("#distribution1").hide();
+                    } else {
+                        $("#distribution2").hide();
+                    }
+                    break;
+            }
+            layer.msg('分销模式开启:'+(this.checked?'开启':'关闭'),{
+                offset: '6px'
+            })
+        })
+    })
+    /**
+     * 删除元素
+     * @param $in
+     */
+    function delTab($in) {
+        $("#tablePoSub").find("#"+$in).remove()
+    }
+
+    /**
+     * 添加元素
+     */
+    function addTab() {
+        var defId = $("input[name='name']").length
+
+        var tr=' <tr id="'+defId+'">\n' +
+            '                        <td>\n' +
+            '                            <input class="layui-input nameSub"  name="name"  value="" placeholder="请输入券名称" type="text">\n' +
+            '                        </td>\n' +
+            '                        <td>\n' +
+            '                            <input class="layui-input valueSub" name="value" value="" placeholder="请输入券价值" type="text">\n' +
+            '                        </td>\n' +
+            '                        <td>\n' +
+            '                            <input class="layui-input valuePrice" name="price" value="" placeholder="请输入券售价" type="text">\n' +
+            '                        </td>\n' +
+            '                        <td>\n' +
+            '                            <input class="layui-input valueSum" name="sum" value="" placeholder="请输入券数量" type="text">\n' +
+            '                        </td>\n' +
+            '                        <td>\n' +
+            '                            <input name="vouchers_time" type="text" class="layui-input test-item valueTime" placeholder="yyyy-MM-dd"">\n' +
+            '                        </td>\n' +
+            '                        <td>\n' +
+            '                             <button onclick="delTab('+defId+')" type="button" class="layui-btn layui-btn-danger">删除</button>\n' +
+            '                        </td>\n' +
+            '                    </tr>';
+        $("#tablePoSub tbody:last").append(tr);
+        layui.use(['form', 'layedit', 'laydate'], function(){
+            var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+            lay('.test-item').each(function(){
+                laydate.render({
+                    elem: this
+                    ,trigger: 'click'
+                });
+            });
+            form.render();
+        });
+    }
+
+    /**
+     * 删除元素
+     * @param $in
+     */
+    function delTabApply($in) {
+        $("#tableApply").find("#apply"+$in).remove()
+    }
+
+    /**
+     * 添加元素
+     */
+    function addTabApply() {
+        var defId = $("input[name='apply_value']").length;
+
+        var tr=' <tr id="apply'+defId+'">\n' +
+            '                        <td>\n' +
+            '                            <select class="layui-input applyName" name="apply_name" lay-verify="required" lay-search=""><option value="">直接选择或搜索选择</option>{foreach $mer as $v=>$k}<option value="{$k.id}">{$k.mer_name}</option>{/foreach}</select>\n' +
+            '                        </td>\n' +
+            '                        <td>\n' +
+            '                            <input class="layui-input test-item applyValue" name="apply_value" value="" placeholder="yyyy-MM-dd" type="text">\n' +
+            '                        </td>\n' +
+            '                        <td>\n' +
+            '                             <button onclick="delTabApply('+defId+')" type="button" class="layui-btn layui-btn-danger">删除</button>\n' +
+            '                        </td>\n' +
+            '                    </tr>';
+        $("#tableApply tbody:last").append(tr);
+        layui.use(['form', 'layedit', 'laydate'], function(){
+            var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+            lay('.test-item').each(function(){
+                laydate.render({
+                    elem: this
+                    ,trigger: 'click'
+                });
+            });
+            form.render();
+        });
+    }
+
+    $('#Submit').on('click',function () {
+        //优惠券
+        var vouchers = [];
+        //活动报名
+        var apply = [];
+        $('#tablePoSub tbody tr').each(function (index,item) {
+            var json = {
+                name:$(item).find('.nameSub').val(),
+                value:$(item).find('.valueSub').val(),
+                price:$(item).find('.valuePrice').val(),
+                vouchers_time:$(item).find('.valueTime').val(),
+                sum:$(item).find('.valueSum').val(),
+            };
+            vouchers.push(json)
+        });
+        $('#tableApply tbody tr').each(function (index,item) {
+            var json = {
+                apply_name:$(item).find('.applyName').val(),
+                apply_value:$(item).find('.applyValue').val(),
+            };
+            apply.push(json)
+        });
+        //富文本内容
+        var content = [];
+        if (typeof CKEDITOR === 'object' && typeof CKEDITOR.instances === 'object') {
+            for (var i in CKEDITOR.instances) content.push(CKEDITOR.instances[i].getData());
+        }
+
+        $.ajax({
+            'url':"{:url('editPost')}",
+            'data':{
+                "m_id":$("#mer option:selected").val(),
+                "m_name":$("#mer option:selected").text(),
+                'active_name':$("input[name='active_name']").val(),
+                'start_time':$("input[name='start_time']").val(),
+                'stop_time':$("input[name='stop_time']").val(),
+                'active_rules':content[0],
+                'active_bg_images':$("input[name='active_bg_images']").val(),
+                'active_instructions':content[1],
+                'active_music_switch':$("input[name='music_switch']:checked ").val()?$("input[name='music_switch']:checked ").val():"",
+                'active_pack_switch':$("input[name='pack_switch']:checked ").val()?$("input[name='pack_switch']:checked ").val():"",
+                'active_record_switch':$("input[name='record_switch']:checked ").val()?$("input[name='record_switch']:checked ").val():"",
+                'active_business_switch':$("input[name='business_switch']:checked ").val()?$("input[name='business_switch']:checked ").val():"",
+                'active_distribution':$("input[name='distribution']:checked ").val()?$("input[name='distribution']:checked ").val():"",
+                'active_bg_music':$("input[name='music']").val(),
+                'active_posters_img':$("input[name='active_posters_img']").val(),
+                'active_verification_img':$("input[name='active_verification_img']").val(),
+                'active_tags':$("input[name='active_type']:checked ").val(),
+                'vouchers':vouchers.length>0?vouchers:"",
+                'apply':apply.length>0?apply:"",
+                'apply_price':$("input[name='apply_price']").val(),
+                'apply_sum':$("input[name='apply_sum']").val(),
+                'pack_money':$("input[name='pack_money']").val(),
+                'pack_share':$("input[name='pack_share']:checked ").val(),
+                'pack_share_money':$("input[name='pack_share_money']").val(),
+                'pack_share_moneyx':$("input[name='pack_share_moneyx']").val(),
+                'pack_friends_share_money':$("input[name='pack_friends_share_money']").val(),
+                'pack_friends_share_sum':$("input[name='pack_friends_share_sum']").val(),
+                'business_bg_images':$("input[name='business_bg_images']").val(),
+                'business_images':$("input[name='business_images']").val(),
+                'business_phone':$("input[name='business_phone']").val(),
+                'distribution_one_money':$("input[name='distribution_one_money']").val(),
+                'distribution_two_money':$("input[name='distribution_two_money']").val(),
+            },
+            'type':'POST',
+            'dataType':'JSON',
+            success:function (suc) {
+               if (suc.code){
+                   $.msg.confirm('保存成功是否返回列表？', function (index) {
+                       history.back(), $.msg.close(index);
+                   });
+               } else {
+                   $.msg.confirm(suc.info, function (index) {
+                       $.msg.close(index);
+                   });
+               }
+            },error:function (err) {
+
+            }
+        })
+        
+        
     })
 </script>
 {/block}

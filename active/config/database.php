@@ -23,9 +23,9 @@ return [
     // 数据库名
     'database'    => 'active',
     // 用户名
-    'username'    => 'root',
+    'username'    => 'active',
     // 密码
-    'password'    => 'root',
+    'password'    => 'HkwtbPNM8sdnttDB',
     // 编码
     'charset'     => 'utf8mb4',
     // 端口

@@ -178,6 +178,10 @@ class WechatService extends \We
     public static function getWebOauthInfo($url, $isfull = 0, $isRedirect = true)
     {
         $appid = self::getAppid();
+//        if (session("{$appid}_openid")){
+//            session("{$appid}_openid",NULL);
+//            session("{$appid}_fansinfo",NUll);
+//        }
         list($openid, $fansinfo) = [session("{$appid}_openid"), session("{$appid}_fansinfo")];
         if ((empty($isfull) && !empty($openid)) || (!empty($isfull) && !empty($openid) && !empty($fansinfo))) {
             empty($fansinfo) || FansService::set($fansinfo);
@@ -190,7 +194,8 @@ class WechatService extends \We
                 $param = (strpos($url, '?') !== false ? '&' : '?') . 'rcode=' . encode($url);
                 $OauthUrl = $wechat->getOauthRedirect($url . $param, $appid, $snsapi);
                 if ($isRedirect) redirect($OauthUrl, [], 301)->send();
-                exit("window.location.href='{$OauthUrl}'");
+                echo "<script>window.location.href='{$OauthUrl}'</script>";
+                exit();
             }
             if (($token = $wechat->getOauthAccessToken()) && isset($token['openid'])) {
                 session("{$appid}_openid", $openid = $token['openid']);

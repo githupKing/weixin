@@ -22,7 +22,7 @@ html,body,.container{
 	padding-bottom: .3rem;
 }
 .margin50{
-	margin-top: .5rem;	
+	margin-top: .3rem;	
 }
 .margin24{
 	margin-bottom: .24rem;	
@@ -86,8 +86,10 @@ html,body,.container{
 	width: 60%;
 }
 .codeWord > ol > li{
-	padding-bottom: .2rem;
-	padding-top: .2rem;
+	padding-bottom: .05rem;
+    padding-top: .05rem;
+    font-size: .27rem;
+
 }
 
 .btnSharBox > img{

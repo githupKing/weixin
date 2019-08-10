@@ -49,6 +49,10 @@ class Index extends Controller
     {
         $this->title = '添加商品信息';
         $this->isAddMode = '1';
+        $this->mer = Db::name('active_mer')->where([
+            'is_status'=>1,
+            'is_permissions'=>1
+        ])->select();
         $this->_form($this->table, 'form');
     }
 
@@ -60,7 +64,96 @@ class Index extends Controller
     {
         $this->title = '编辑商品信息';
         $this->isAddMode = '0';
+        $this->mer = Db::name('active_mer')->where([
+            'is_status'=>1,
+            'is_permissions'=>1
+        ])->select();
         $this->_form($this->table, 'form');
+    }
+
+    /**
+     * 编辑提交
+     */
+    public function editPost()
+    {
+        if ($this->request->isPost()){
+            if (!empty($this->request->param()['active_music_switch']) && empty($this->request->param()['active_bg_music'])){
+                $this->error('请上传背景音乐');
+            }
+            if (empty($this->request->param()['active_bg_images'])){
+                $this->error('请上传活动背景图');
+            }
+            if (empty($this->request->param()['active_name'])){
+                $this->error('请输入活动名称');
+            }
+            if (empty($this->request->param()['start_time'])){
+                $this->error('请输入活动开始时间');
+            }
+            if (empty($this->request->param()['stop_time'])){
+                $this->error('请输入活动结束时间');
+            }
+            if (!empty($this->request->param()['active_pack_switch'])){
+                if (empty($this->request->param()['pack_money'])
+                    ||
+                    empty($this->request->param()['pack_share_money'])
+                    ||
+                    empty($this->request->param()['pack_share_moneyx']))
+                {
+                    $this->error('请设置活动红包');
+                }
+            }
+            if (
+                !empty($this->request->param()['active_business_switch'])
+
+            ){
+                if ( empty($this->request->param()['business_images'])
+                    ||
+                    empty($this->request->param()['business_bg_images'])
+                    ||
+                    empty($this->request->param()['business_phone'])){
+                    $this->error('请设置商务合作信息');
+                }
+
+            }
+            switch ($this->request->param()['active_tags']){
+                case 1:
+                    if (
+                        empty($this->request->param()['m_id'])
+                        ||
+                        empty($this->request->param()['vouchers'])
+
+                    ){
+                        $this->error('请设置优惠券信息');
+                    }
+                    break;
+                case 2:
+                    if (
+                        empty($this->request->param()['apply'])
+                        ||
+                        empty($this->request->param()['apply_price'])
+                        ||
+                        empty($this->request->param()['apply_sum'])
+                    ){
+                        $this->error('请设置报名信息');
+                    }
+                    break;
+            }
+            if (empty($this->request->param()['active_rules'])){
+                $this->error('请设置活动规则');
+            }
+            $data = $this->request->param();
+            !empty($this->request->param()['vouchers'])?$data['vouchers'] = json_encode($this->request->param()['vouchers']):"";
+            !empty($this->request->param()['apply'])?$data['apply'] = json_encode($this->request->param()['apply'] ):"";
+
+            if (Db::name($this->table)->insert($data)){
+                $this->success('保存成功');
+            }else{
+                $this->error('保存失败');
+            }
+        }else{
+            $this->error('保存失败');
+        }
+
     }
 
     /**

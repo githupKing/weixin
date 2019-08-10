@@ -1,0 +1,45 @@
+.container{
+	width: 100%;
+	height: 100%;
+	background-repeat: no-repeat;
+	background-size:100% 100%;
+	background-image: url('../../img/bk@2x.png');
+	font-size: 10px;
+}
+.imgBoxs {
+	width: 100%;
+	text-align: center;
+	position: relative;
+}
+.imgBoxs > p{
+	position: absolute;
+	bottom: .2rem;
+	left: 0;
+	font-size: .24rem;
+	color: #20212c;
+	right: 0;
+}
+.imgBoxs > img{
+	width: 3.7rem;
+	height: 3.7rem;
+	padding: .6rem;
+	background-color: #fff;
+	text-align: center;
+}
+.titles{
+	font-size: .36rem;
+	color: #fff;
+	text-align: center;
+	margin-bottom: .5rem;
+	margin-top: .5rem;
+}
+.contants{
+	margin-top: .39rem;
+	margin-left: .6rem;
+	margin-right: .6rem;
+	font-size: .28rem;
+	color: #fff;
+	line-height: .45rem;
+	letter-spacing:.1rem;
+	text-indent : .6rem;
+}

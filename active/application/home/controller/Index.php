@@ -37,24 +37,34 @@ class Index extends Controller
             if (!empty($data)){
                 $this->authWechat($this->request->url(true));
                 $this->assign('jsSdk',$this->jsSdk($this->request->url(true)));
+                $to_id = '';
+                if (isset($_GET['to_id'])){
+                    $to_id = $_GET['to_id'];
+                }
+                $this->assign('to_id',$to_id);
+                Db::name('active_info')->where('id',$_GET['a_id'])->setInc('active_preview',1);
                 if (session('user_info.subscribe')){
+                    $this->assign('postersCode',$this->showQrc(0,$this->request->domain()."/index.php/home/index/index?a_id={$_GET['a_id']}&to_id=".session('user_info.id').""));
                     //已关注
                     //$this->assign('actInfo',$this->getActive($_GET['a_id']));
+
                     $active = $this->getActive($_GET['a_id']);
-                    $this->assign('actInfo',$active[0]);
-                    $this->assign('mer',$active[1]);
-                    $this->assign('share',[]);
-                    switch ($this->active['active_tags']){
-                        case 0:
-                            $this->fetch('index');
-                            break;
-                        case 1:
-                            $this->fetch('shopActive');
-                            break;
-                        default:
-                            $this->fetch('focus');
-                            break;
+
+                    if (!empty($active[0])){
+                        if (isset($_GET['to_id']) && $_GET['to_id'] !== session('user_info.id')){
+
+                        }
+                        $this->assign('actInfo',$active[0]);
+                        $this->assign('mer',$active[1]);
+                        if (time() > strtotime($active[0]['stop_time'])){
+                            $this->fetch('end');
+                        }
+                        $this->assign('share',[]);
+                        $this->fetch('index');
+                    }else{
+                        $this->fetch('focus');
                     }
+
                 }else{
                     //未关注
                     if (isset($_GET['to_id']) && isset($_GET['a_id'])){
@@ -87,6 +97,7 @@ class Index extends Controller
             }
         }
     }
+
 
     /**
      * @name {preview} 活动预览
@@ -188,6 +199,55 @@ class Index extends Controller
     public function reflect()
     {
         $this->fetch();
+    }
+
+
+    /**
+     * @name {shareSuccess}
+     * @Date {2019/8/10 0010}
+     * @author 嘿嘿 <skwordss@163.com>
+     * @copyright v0.1
+     * @since {2019/8/10 0010}-宋康-创建
+     * @return object
+     */
+    public function shareSuccess()
+    {
+        if ($this->request->isAjax()){
+            $active = $this->getActive($this->request->param('id'));
+            if (!empty($active)){
+               if ($active['active_pack_switch'] == 'on'){
+                   //开启红包
+                   $pack = Db::name('active_packet')
+                       ->where([
+                           'a_id' => $this->request->param('id'),
+                           'u_id' => session('user_info.id')
+                       ])
+                       ->find();
+                   if (empty($pack)){
+                       //首次分享
+                       switch ($active['pack_share']){
+                           case 0:
+                             // Db::name()->insert();
+                               break;
+                           case 1:
+
+                               break;
+                       }
+                   }else{
+                       //好友分享
+                       if (!empty($this->request->param('to_id'))){
+
+                       }else{
+
+                       }
+                   }
+               }
+               if ($active['active_distribution'] == 'on' && $active['active_tags'] !== 1){
+                   //开启分销
+               }
+            }
+            return json(['code'=>1,'msg'=>'抱歉，活动以关闭或者不存在']);
+        }
     }
 
     /**
@@ -311,7 +371,6 @@ class Index extends Controller
                 }
                 break;
         }
-//        $this->active = $active;
         return [$active,$mer];
     }
 
@@ -345,24 +404,42 @@ class Index extends Controller
      */
     public function goPay()
     {
-        $pay = WechatService::WePayOrder();
-        $openid = session('user_info.openid');
-        $options = [
-            'body'             => '测试活动',
-            'out_trade_no'     => time(),
-            'total_fee'        => '1',
-            'openid'           => $openid,
-            'trade_type'       => 'JSAPI',
-            'notify_url'       => url('@wechat/api.tools/notify', '', true, true),
-            'spbill_create_ip' => request()->ip(),
-        ];
-        // 生成预支付码
-        $result = $pay->create($options);
-        // 创建JSAPI参数签名
-        $options = $pay->jsapiParams($result['prepay_id']);
-      //  $optionJSON = json_encode($options, JSON_UNESCAPED_UNICODE);
-        // JSSDK 签名配置
-    //    $configJSON = json_encode(WechatService::getWebJssdkSign(), JSON_UNESCAPED_UNICODE);
-        return json(['option'=>$options,'config'=>WechatService::getWebJssdkSign()]);
+
+        if ($this->request->isAjax()){
+            $active = Db::name('active_info')->where('id',$this->request->param('aid'))->find();
+            if (empty($active)){
+                return ['code'=>0,'info'=>'获取支付失败'];
+            }
+            if (empty($active['vouchers'])){
+                return ['code'=>0,'info'=>'优惠券信息错误'];
+            }
+            $vouchers = json_decode($active['vouchers'],true);
+            if (empty($vouchers[$this->request->param('id')])){
+                return ['code'=>0,'info'=>'优惠券信息错误'];
+            }
+            if (session('user_info')){
+                $pay = WechatService::WePayOrder();
+                $openid = session('user_info.openid');
+                $options = [
+                    'body'             => '测试活动',
+                    'out_trade_no'     => time(),
+                    'total_fee'        => '1',
+                    'openid'           => $openid,
+                    'trade_type'       => 'JSAPI',
+                    'notify_url'       => url('@wechat/api.tools/notify', '', true, true),
+                    'spbill_create_ip' => request()->ip(),
+                ];
+                // 生成预支付码
+                $result = $pay->create($options);
+                // 创建JSAPI参数签名
+                $options = $pay->jsapiParams($result['prepay_id']);
+                //  $optionJSON = json_encode($options, JSON_UNESCAPED_UNICODE);
+                // JSSDK 签名配置
+                //    $configJSON = json_encode(WechatService::getWebJssdkSign(), JSON_UNESCAPED_UNICODE);
+                return json(['option'=>$options,'config'=>WechatService::getWebJssdkSign()]);
+            }else{
+                return ['code'=>0,'info'=>'请重新登录'];
+            }
+        }
     }
 }
