@@ -19,7 +19,9 @@
     <audio preload="auto" id="media" src="{$actInfo.active_bg_music}" preload loop="loop"></audio>
     {/if}
     <div class="contBox">
-        <div class="card imgContens" style="background-size:100% 100%;background-image: url({$actInfo.active_bg_images_top});height: 4rem;margin-bottom: -0.4rem;margin-left: 0rem;margin-right: 0rem;border-radius: 0px;"></div>
+        <!-- <div class="card imgContens"
+             style="background-size:cover;background-image: url({$actInfo.active_bg_images_top});height: 4rem;margin-bottom: -0.4rem;margin-left: 0rem;margin-right: 0rem;border-radius: 0px;"></div> -->
+             <img src="{$actInfo.active_bg_images_top}" style="width: 100%;height: 100%;z-index: -1;margin-bottom: -0.4rem;position: relative;" alt="">
         <div class="card ">
             <div class="time">
                 <span class="font28">距离结束：</span>
@@ -35,10 +37,11 @@
             <div class="code ccc">---------------------------</div>
             <!--<div class="bold c20212 padding30">100元提货卡</div>-->
             <div class="activeClor font24">活动时间：{$actInfo.start_time} —— {$actInfo.stop_time}</div>
-           {if $actInfo.active_tags eq 2}
+            {if $actInfo.active_tags eq 2}
             <div class="progressbarbox margin24">
                 <?php $z = '50%';?>
-                <div class="success" style="position: absolute;width: {$z};height: 100%;background-color: #ee7b42;border-radius: 25px;"></div>
+                <div class="success"
+                     style="position: absolute;width: {$z};height: 100%;background-color: #ee7b42;border-radius: 25px;"></div>
             </div>
             <div class="numBox activeClor">
                 <div>已中奖:0份</div>
@@ -68,7 +71,7 @@
             </div>
         </div>
         <!--红包排行榜数据-->
-        <div class="envelope">
+        <div class="envelope isHides">
             <img src="/static/weixin/img/btn-honhbao@2x.png" alt="">
             <div class="display">
                 <p>您已获得<span class="red">{$noMoney}</span>元</p>
@@ -84,9 +87,9 @@
                 {foreach $packList as $vo=>$k}
                 <div class="display contents">
                     {if $vo eq 0}
-                        <p style="width: 30%;text-align: left;">1</p>
+                    <p style="width: 30%;text-align: left;">1</p>
                     {else}
-                        <p style="width: 30%;text-align: left;">{$vo+1}</p>
+                    <p style="width: 30%;text-align: left;">{$vo+1}</p>
                     {/if}
 
                     <div class="centerBoxy" style="width: 30%;text-align: left;">
@@ -124,31 +127,7 @@
         {/notempty}
         {/if}
 
-        {if $actInfo.active_tags eq 2}
-        <!--邀请排行-->
-        <div class="envelope">
-            <img src="/static/weixin/img/btn-invatation@2x.png" alt="">
-            <div class="display titles">
-                <p>排名</p>
-                <p>客户</p>
-                <p>邀请人数</p>
-            </div>
-            <div class="ranking">
-                {notempty name="share"}
-                {foreach $share as $vo=>$k}
-                <div class="display contents">
-                    <p>{$vo}</p>
-                    <div class="centerBoxy">
-                        <img src="{$k.u_name_headimages}" alt="">
-                        <span class="name">{$k.u_name}</span>
-                    </div>
-                    <p class="red">{$k.packet_price}元</p>
-                </div>
-                {/foreach}
-                {/notempty}
-            </div>
-        </div>
-        {/if}
+
 
         <div class="myActive">
             <div class="display">
@@ -163,7 +142,7 @@
 
         {if $actInfo.active_tags eq 2}
         <!--获利排行-->
-        <div class="envelope">
+        <!-- <div class="envelope">
             <img src="/static/weixin/img/btn-shopping@2x.png" alt="">
             <div class="display">
                 <p>您已获得<span class="red">0</span>元</p>
@@ -189,7 +168,7 @@
                 {/notempty}
 
             </div>
-        </div>
+        </div> -->
         {/if}
 
         {if $actInfo.active_tags eq 1}
@@ -214,8 +193,16 @@
                 </div>
             </div>
             <div style="text-align: center;padding-top: 10px;font-size: .32rem;font-weight: 600;">
-                <p style="padding-top: 10px;padding-right: 10px;padding-left: 10px;">预付款99准想要预付款99准想要预付款99准想要</p>
-                <p style="padding-top: 10px;padding-right: 10px;padding-left: 10px;">预付款99准想要预付款99准想要预付款99准想要</p>
+                <?php
+                    if(isset($k['text'])){
+                        $k['text'] = explode('|',$k['text']);
+                    }
+                ?>
+                {notempty name="k.text"}
+                {foreach $k['text'] as $vo}
+                <p style="padding-top: 10px;padding-right: 10px;padding-left: 10px;">{$vo}</p>
+                {/foreach}
+                {/notempty}
             </div>
         </div>
         {/foreach}
@@ -223,32 +210,37 @@
         {/if}
 
         <div class="shopBtns">
-                <img onclick="location.href='{:url('myInfo')}'" class="getHOngb" src="/static/weixin/img/shopping@2x.png" alt="">
-            </div>
+            <img onclick="location.href='{:url('myInfo')}'" class="getHOngb" src="/static/weixin/img/shopping@2x.png"
+                 alt="">
+        </div>
 
-            {if $actInfo.active_pack_switch eq 'on' || $actInfo.active_distribution eq 'on'}
-            <div class="sharBtns">
-                <img class="getHOngb" src="/static/weixin/img/share@2x.png" alt="">
-            </div>
+        {if $actInfo.active_pack_switch eq 'on' || $actInfo.active_distribution eq 'on'}
+        <div class="sharBtns">
+            <img class="getHOngb" src="/static/weixin/img/share@2x.png" alt="">
+        </div>
+        {/if}
+        {notempty name="actInfo.vouchers"}
+        <div class="callBtns">
+            <a class="getHOngb buyShaops" attrId="0" href="javascript:void(0);">
+                <img class="getHOngb" src="/static/weixin/img/phone@2x.png"alt="">
+            </a>
+        </div>
+        {/notempty}
+        <div class="btnBoxs">
+            <!--{if !empty($packet)}-->
+            <!--<img class="getHOngb" src="/static/weixin/img/btn-zhuan@2x.png" alt="">-->
+            <!--{/if}-->
+            {if $actInfo.active_business_switch eq 'on'}
+            <img class="getHOngb" src="/static/weixin/img/btn-shangjia@2x.png" alt="">
             {/if}
-            <div class="callBtns">
-                <a class="getHOngb buyShaops" attrId="0" href="javascript:void(0);"><img class="getHOngb" src="/static/weixin/img/phone@2x.png" alt=""></a>
-            </div>
-            <div class="btnBoxs">
-                <!--{if !empty($packet)}-->
-                <!--<img class="getHOngb" src="/static/weixin/img/btn-zhuan@2x.png" alt="">-->
-                <!--{/if}-->
-                {if $actInfo.active_business_switch eq 'on'}
-                <img class="getHOngb" src="/static/weixin/img/btn-shangjia@2x.png" alt="">
-                {/if}
-            </div>
-            {notempty name="actInfo.active_instructions"}
-            <div class="edit">
-                <!--<p class="font36">图文编辑窗口</p>-->
-                <!--<p class="font28">图片+文字+视频+分享流程图</p>-->
-                {$actInfo.active_instructions|raw}
-            </div>
-            {/notempty}
+        </div>
+        {notempty name="actInfo.active_instructions"}
+        <div class="edit">
+            <!--<p class="font36">图文编辑窗口</p>-->
+            <!--<p class="font28">图片+文字+视频+分享流程图</p>-->
+            {$actInfo.active_instructions|raw}
+        </div>
+        {/notempty}
 
         {if $actInfo.active_tags eq 2}
 
@@ -271,18 +263,43 @@
             </div>
             {/foreach}
         </div>
+
+        <!--邀请排行-->
+        <div class="envelope">
+            <img src="/static/weixin/img/btn-invatation@2x.png" alt="">
+            <div class="display titles">
+                <p>排名</p>
+                <p>客户</p>
+                <p>邀请人数</p>
+            </div>
+            <div class="ranking">
+                {notempty name="share"}
+                {foreach $share as $vo=>$k}
+                <div class="display contents">
+                    <p>{$vo}</p>
+                    <div class="centerBoxy">
+                        <img src="{$k.u_name_headimages}" alt="">
+                        <span class="name">{$k.u_name}</span>
+                    </div>
+                    <p class="red">{$k.packet_price}元</p>
+                </div>
+                {/foreach}
+                {/notempty}
+            </div>
+        </div>
+
         <div class="footer">
             <button class="connext"><a style="color:#fff;" href="tel:{$actInfo.business_phone}">联系客服</a></button>
             <button class="baoming" id="sd3">现在报名￥{$actInfo.apply_price}</button>
         </div>
         {else}
-         <div class="btnSharBox" style="margin-bottom: .2rem;">
+        <div class="btnSharBox" style="margin-bottom: .2rem;">
             <img class="getHOngb getHOngbPay" defId='' src="/static/weixin/img/btn-share@2x.png" alt="">
         </div>
-       <!--  <div class="footer">
-            <button class="connext" style="width: 100%">联系客服</button>
-            <button class="baoming">现在报名￥230</button>
-        </div> -->
+        <!--  <div class="footer">
+             <button class="connext" style="width: 100%">联系客服</button>
+             <button class="baoming">现在报名￥230</button>
+         </div> -->
 
         {/if}
     </div>
@@ -292,7 +309,7 @@
         <div class="bgImg"></div>
         <img class="hogbao123" src="/static/weixin/img/hongbao123.png" alt="">
         <img class="showOrhide" src="/static/weixin/img/hongbaotu@2x.png" alt="">
-        <p class="showOrhide price SharesPrice">8.88<span>元</span></p> 
+        <p class="showOrhide price SharesPrice">8.88<span>元</span></p>
         <p class="agin showOrhide">分享链接再得红包</p>
         <button class="btn share showOrhide" id="aginShare">再次分享</button>
     </div>
@@ -303,7 +320,8 @@
         <img src="{$actInfo.business_images}" alt="">
         <p class="font28">长按识别二维码添加客服微信</p>
         <p class="font28">--联系电话--</p>
-        <p class="phone font28">{$actInfo.business_phone}<a  style="color:#fff;" href="tel:{$actInfo.business_phone}">拨打</a></p>
+        <p class="phone font28">{$actInfo.business_phone}<a style="color:#fff;"
+                                                            href="tel:{$actInfo.business_phone}">拨打</a></p>
     </div>
     <div class="yclose">X</div>
 </div>
@@ -339,10 +357,10 @@
 <script>
 
     //微信JS注入及方法
-    $(function(){
+    $(function () {
         //控制播放方法
         $('#yinfu').removeClass('rotate');
-        if("{$actInfo.active_bg_music}"){
+        if ("{$actInfo.active_bg_music}") {
             autoPlayAudio()
         }
         //
@@ -350,106 +368,108 @@
         $('#canvesBoxId').hide();
 
         wx.config({
-            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
             appId: "{$jsSdk['configJso']['appId']}", // 必填，公众号的唯一标识
             timestamp: "{$jsSdk['configJso']['timestamp']}", // 必填，生成签名的时间戳
             nonceStr: "{$jsSdk['configJso']['nonceStr']}", // 必填，生成签名的随机串
             signature: "{$jsSdk['configJso']['signature']}",// 必填，签名
             jsApiList: [
-               'checkJsApi',
-              'onMenuShareTimeline',
-              'onMenuShareAppMessage',
-              'onMenuShareQQ',
-              'onMenuShareWeibo',
-              'onMenuShareQZone',
-              'hideMenuItems',
-              'showMenuItems',
-              'hideAllNonBaseMenuItem',
-              'showAllNonBaseMenuItem',
-              'translateVoice',
-              'startRecord',
-              'stopRecord',
-              'updateAppMessageShareData',
-              'onVoiceRecordEnd',
-              'playVoice',
-              'onVoicePlayEnd',
-              'pauseVoice',
-              'stopVoice',
-              'uploadVoice',
-              'downloadVoice',
-              'chooseImage',
-              'previewImage',
-              'uploadImage',
-              'downloadImage',
-              'getNetworkType',
-              'openLocation',
-              'updateTimelineShareData',
-              'getLocation',
-              'hideOptionMenu',
-              'showOptionMenu',
-              'closeWindow',
-              'scanQRCode',
-              'chooseWXPay',
-              'openProductSpecificView',
-              'addCard',
-              'chooseCard',
-              'openCard'
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo',
+                'onMenuShareQZone',
+                'hideMenuItems',
+                'showMenuItems',
+                'hideAllNonBaseMenuItem',
+                'showAllNonBaseMenuItem',
+                'translateVoice',
+                'startRecord',
+                'stopRecord',
+                'updateAppMessageShareData',
+                'onVoiceRecordEnd',
+                'playVoice',
+                'onVoicePlayEnd',
+                'pauseVoice',
+                'stopVoice',
+                'uploadVoice',
+                'downloadVoice',
+                'chooseImage',
+                'previewImage',
+                'uploadImage',
+                'downloadImage',
+                'getNetworkType',
+                'openLocation',
+                'updateTimelineShareData',
+                'getLocation',
+                'hideOptionMenu',
+                'showOptionMenu',
+                'closeWindow',
+                'scanQRCode',
+                'chooseWXPay',
+                'openProductSpecificView',
+                'addCard',
+                'chooseCard',
+                'openCard'
 
             ] // 必填，需要使用的JS接口列表
         });
-        $('.getHOngbPay').on('click',function(){
-            if($(this).attr('defId') == 0){
-                $.alert("点击右上角分享到朋友圈或者朋友","温馨提示",function(){});
-            }else{
+        $('.getHOngbPay').on('click', function () {
+            if ($(this).attr('defId') == 0) {
+                $.alert("点击右上角分享到朋友圈或者朋友", "温馨提示", function () {
+                });
+            } else {
                 $('.model_def').fadeIn(300)
             }
         })
-        $('.hogbao123').on('click',function(){
-            $(this).fadeOut(300,function(){
+        $('.hogbao123').on('click', function () {
+            $(this).fadeOut(300, function () {
                 $('.showOrhide').show(300);
             })
         })
-        $('#yinfu').on('click',function(){
-            var status =$('#media')[0].paused
-            if(status){
+        $('#yinfu').on('click', function () {
+            var status = $('#media')[0].paused
+            if (status) {
                 $('#media')[0].play()
                 $('#yinfu').addClass('rotate')
-            }else{
+            } else {
                 $('#media')[0].pause();// 这个就是暂停
                 $('#yinfu').removeClass('rotate')
             }
         })
-        $('.yclose').on('click',function(e){
+        $('.yclose').on('click', function (e) {
             e.preventDefault();
             $('.model_defshop').hide();
             $('.canvesBox').hide();
             $('.model_def').hide();
             $('.model_defshop_join').hide()
         })
-        $('#sd3').on('click',function(){
+        $('#sd3').on('click', function () {
             $('.model_defshop_join').show()
         })
-        $('.btnBoxs').on('click',function(){
+        $('.btnBoxs').on('click', function () {
             $('.model_defshop').show();
         })
-        
-         $('.buyShaops').on('click',function(){
+
+        $('.buyShaops').on('click', function () {
             var id = $(this).attr('attrId')
             paySing(id)
         });
-        $('.payPhone').on('click',function(){
+        $('.payPhone').on('click', function () {
             var id = $(this).attr('attrId')
             paySing(id)
         });
-        function paySing(id){
-             $.ajax({
-                url:"{:url('goPay')}",
-                method:'get',
-                data:{
-                    id:id,
-                    aid:"{$actInfo.id}"
+
+        function paySing(id) {
+            $.ajax({
+                url: "{:url('goPay')}",
+                method: 'get',
+                data: {
+                    id: id,
+                    aid: "{$actInfo.id}"
                 },
-                success:function(res){
+                success: function (res) {
                     wx.chooseWXPay({
                         timestamp: res.option.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
                         nonceStr: res.option.nonceStr, // 支付签名随机串，不长于 32 位
@@ -457,21 +477,22 @@
                         signType: res.option.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
                         paySign: res.option.paySign, // 支付签名
                         success: function (data) {
-                           $.confirm("支付成功是否前往使用?", "支付成功", function() {
+                            $.confirm("支付成功是否前往使用?", "支付成功", function () {
                                 window.location.herf = '#'
-                            }, function() {
+                            }, function () {
                                 //取消操作
                             });
                         }
                     });
                 },
-                error:function(){
+                error: function () {
 
                 }
             })
         }
+
         //展示地图
-        $('.shopLokBtn').on('click',function(){
+        $('.shopLokBtn').on('click', function () {
             wx.openLocation({
                 latitude: 0, // 纬度，浮点数，范围为90 ~ -90
                 longitude: 0, // 经度，浮点数，范围为180 ~ -180。
@@ -481,24 +502,24 @@
                 infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
             });
         });
-        wx.ready(function() {
+        wx.ready(function () {
             wx.onMenuShareAppMessage({
                 title: "{$actInfo.active_name}", // 分享标题
                 desc: '{$actInfo.active_name}', // 分享描述
                 link: "https://yuming.sccenze.com/index.php/home/index?to_id={:session('user_info.id')}&a_id={$actInfo.id}",
-                imgUrl: "{$actInfo.active_bg_images}", // 分享图标
+                imgUrl: "{$actInfo.active_bg_images_top}", // 分享图标
                 success: function () {
                     $.ajax({
-                        url:"{:url('shareSuccess')}",
-                        method:'get',
-                        data:{'id':"{$actInfo.id}"},
-                        dataType:"JSON",
-                        success:function(res){
-                            $('.getHOngbPay').attr('defId','1')
+                        url: "{:url('shareSuccess')}",
+                        method: 'get',
+                        data: {'id': "{$actInfo.id}"},
+                        dataType: "JSON",
+                        success: function (res) {
+                            $('.getHOngbPay').attr('defId', '1')
                             $('.SharesPrice').text()
                         },
-                        error:function(){
-                            $('.getHOngbPay').attr('defId','0')
+                        error: function () {
+                            $('.getHOngbPay').attr('defId', '0')
                         }
                     })
                 }
@@ -506,39 +527,80 @@
             wx.onMenuShareTimeline({
                 title: "{$actInfo.active_name}", // 分享标题
                 link: "https://yuming.sccenze.com/index.php/home/index?to_id={:session('user_info.id')}&a_id={$actInfo.id}",
-                imgUrl: "{$actInfo.active_bg_images}", // 分享图标
+                imgUrl: "{$actInfo.active_bg_images_top}", // 分享图标
                 success: function () {
-                     $.ajax({
-                         url:"{:url('shareSuccess')}",
-                         method:'get',
-                         data:{'id':"{$actInfo.id}"},
-                         dataType:"JSON",
-                        success:function(res){
-                            $('.getHOngbPay').attr('defId','1')
+                    $.ajax({
+                        url: "{:url('shareSuccess')}",
+                        method: 'get',
+                        data: {'id': "{$actInfo.id}"},
+                        dataType: "JSON",
+                        success: function (res) {
+                            $('.getHOngbPay').attr('defId', '1')
                             $('.SharesPrice').text()
                         },
-                        error:function(){
-                            $('.getHOngbPay').attr('defId','0')
+                        error: function () {
+                            $('.getHOngbPay').attr('defId', '0')
                         }
                     })
                 }
             })
+            wx.getLocation({
+                type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success: function (res) {
+                    var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                    var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                    var _dataJson = {
+                        lan: res.latitude,
+                        lat: res.longitude,
+                        id: "{$actInfo.id}"
+                    }
+                    $.ajax({
+                        url: "{:url('setLocation')}",
+                        method: 'get',
+                        data: _dataJson,
+                        dataType: "JSON",
+                        success: function (res) {
+                            var data = JSON.parse(res)
+                            if (data.code == 0) {
+                                if (data.msg == 'ok') {
+                                    $('.Qrcode').show()
+                                    $('.isHides').show()
+                                } else {
+                                    $('.Qrcode').hide()
+                                    $('.isHides').hide()
+                                }
+                            } else {
+                                $('.Qrcode').hide()
+                                $('.isHides').hide()
+                            }
+                        },
+                        error: function () {
+                            $('.Qrcode').hide()
+                            $('.isHides').hide()
+                        }
+                    })
+                }, error: function () {
+                    $('.Qrcode').hide()
+                    $('.isHides').hide()
+                }
+            });
         });
         getDate();
         setInterval(getDate, 1000);
         // 合成图片
-        $('.sharBtns').on('click',function(){
+        $('.sharBtns').on('click', function () {
             $('.canvesBox').show()
             $('#canvesBoxId').show()
-            html2canvas(document.getElementById("canvesBoxId"),{useCORS: true}).then(function(canvas) {
-                url=canvas.toDataURL();
-                $('#a').href=url;
+            html2canvas(document.getElementById("canvesBoxId"), {useCORS: true}).then(function (canvas) {
+                url = canvas.toDataURL();
+                $('#a').href = url;
                 $("#canImgs").attr("src", url);
                 $('#canvesBoxId').hide()
             });
         });
-        $('#aginShare').on('click',function(){
-            $.alert("点击右上角分享到朋友圈或者朋友","温馨提示",function(){});
+        $('#aginShare').on('click', function () {
+            $.alert("点击右上角分享到朋友圈或者朋友", "温馨提示", function () {
+            });
         })
     });
 
@@ -566,7 +628,7 @@
         $('.hour').text(hour)
         $('.minute').text(minute)
         $('.second').text(second)
-      }
+    }
 </script>
 </body>
 </html>

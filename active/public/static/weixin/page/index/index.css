@@ -374,6 +374,9 @@ a
 
     justify-content: center;
 }
+.edit img{
+    width: 100%;
+}
 .btnBoxs
 {
     position: fixed;
@@ -876,8 +879,8 @@ a
 }
 .list > img
 {
-    width: .9rem;
-    height: .9rem;
+    width: 50px;
+    height: 50px;
     margin-right: .3rem;
 
     vertical-align: middle;
@@ -911,24 +914,20 @@ a
 .canvesBox > .BgCanvasBox
 {
     position: relative;
-
-    display: flex;
-
     width: 80%;
     height: 80%;
     margin: 0 auto;
-
     background-color: #fff;
     background-image: url('../../img/hbbk@2x.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;
-
-    align-items: flex-end;
-    justify-content: center;
 }
 .canvesBox > .BgCanvasBox > img
 {
     width: 30%;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }
 .canvesBox > a
 {
