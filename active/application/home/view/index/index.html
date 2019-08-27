@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
+    <title>{$actInfo.active_name}</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,user-scalable=no">
     <link rel="stylesheet" href="/static/weixin/page/index/index.css">
     <link rel="stylesheet" href="/static/weixin/common/css/weui.css">
@@ -39,21 +39,21 @@
             <div class="activeClor font24">活动时间：{$actInfo.start_time} —— {$actInfo.stop_time}</div>
             {if $actInfo.active_tags eq 2}
             <div class="progressbarbox margin24">
-                <?php $z = '50%';?>
+                <?php $z = round($apply_count/$actInfo['apply_sum']*100,2)."%";?>
                 <div class="success"
                      style="position: absolute;width: {$z};height: 100%;background-color: #ee7b42;border-radius: 25px;"></div>
             </div>
             <div class="numBox activeClor">
-                <div>已中奖:0份</div>
-                <div>剩余数量：0份</div>
+                <div>已报名:{$apply_count}份</div>
+                <div>剩余数量：<?php echo $actInfo['apply_sum']-$apply_count; ?>份</div>
             </div>
             {/if}
             <div class="c20212 margin50">已有{$actInfo.active_preview}人预览</div>
         </div>
         <!--是否有红包-->
-
-        {if $actInfo.active_pack_switch eq 'on'}
+        {if $actInfo.active_pack_switch eq 'on' and $actInfo.pack_money > 0}
         <div class="Qrcode margin50">
+            <input type="hidden" name="packs" value="">
             <div class="QrcodeBoxs">
                 <div class="codeImgBox">
                     <img src="data:image/png;base64,{$packetCode|default=''}" alt="">
@@ -66,9 +66,15 @@
                     </ol>
                 </div>
             </div>
+            {notempty name="packs"}
+            <div class="btnSharBox">
+                <img class="getHOngb getHOngbPay" defId="{$packs.id}" src="/static/weixin/img/btn-share@2x.png" alt="">
+            </div>
+            {else/}
             <div class="btnSharBox">
                 <img class="getHOngb getHOngbPay" defId='' src="/static/weixin/img/btn-share@2x.png" alt="">
             </div>
+            {/notempty}
         </div>
         <!--红包排行榜数据-->
         <div class="envelope isHides">
@@ -192,7 +198,7 @@
                     <p>抢购</p>
                 </div>
             </div>
-            <div style="text-align: center;padding-top: 10px;font-size: .32rem;font-weight: 600;">
+            <div style="text-align: left;padding-top: 10px;font-size: .32rem;font-weight: 600;">
                 <?php
                     if(isset($k['text'])){
                         $k['text'] = explode('|',$k['text']);
@@ -258,7 +264,7 @@
                         <p>{$key.mer_name}</p>
                         <span>{$key.mer_address}</span>
                     </div>
-                    <p class="" style="width: 80px;color: #fff;"><a href="">联系商家</a></p>
+                    <p class="" style="width: 80px;color: #fff;"><a href="tel:{$key.mer_tel}">联系商家</a></p>
                 </div>
             </div>
             {/foreach}
@@ -289,7 +295,8 @@
         </div>
 
         <div class="footer">
-            <button class="connext"><a style="color:#fff;" href="tel:{$actInfo.business_phone}">联系客服</a></button>
+            <button class="connext"><a style="color:#fff;" href="tel:{:sysconf('site_customer')}">联系客服</a></button>
+            <!--<button class="baoming"  onclick="applyPay()">现在报名￥{$actInfo.apply_price}</button>-->
             <button class="baoming" id="sd3">现在报名￥{$actInfo.apply_price}</button>
         </div>
         {else}
@@ -306,12 +313,21 @@
 </div>
 <div class="model_def">
     <div class="bgBoxs">
+        {notempty name="packs"}
+        <div class="bgImg"></div>
+        <!--<img class="hogbao123" src="/static/weixin/img/hongbao123.png" alt="">-->
+        <img class="" src="/static/weixin/img/hongbaotu@2x.png" alt="">
+        <p class=" price SharesPrice">{$packs.price}<span>元</span></p>
+        <p class="agin">您已经领取过该活动红包</p>
+        <button class="btn share" id="aginShare">分享好友还有哦~</button>
+        {else/}
         <div class="bgImg"></div>
         <img class="hogbao123" src="/static/weixin/img/hongbao123.png" alt="">
         <img class="showOrhide" src="/static/weixin/img/hongbaotu@2x.png" alt="">
-        <p class="showOrhide price SharesPrice">8.88<span>元</span></p>
-        <p class="agin showOrhide">分享链接再得红包</p>
-        <button class="btn share showOrhide" id="aginShare">再次分享</button>
+        <p class="showOrhide price SharesPrice" id="setPrice"></p>
+        <p class="agin showOrhide setPrice">恭喜您获得</p>
+        <button class="btn share showOrhide" id="aginShare">分享好友还有哦~</button>
+        {/notempty}
     </div>
     <div class="yclose" style="bottom: -11.1rem;">X</div>
 </div>
@@ -358,6 +374,13 @@
 
     //微信JS注入及方法
     $(function () {
+        $('.edit video').attr('controls','controls')
+        $('.edit video').attr('x5-playsinline','')
+        $('.edit video').attr('webkit-playsinline','true')
+        $('.edit video').attr('x-webkit-airplay','true')
+        $('.edit video').attr('x5-video-player-type','h5')
+        $('.edit video').attr('x5-video-player-fullscreen','')
+        $('.edit video').attr('x5-video-orientation','portraint')
         //控制播放方法
         $('#yinfu').removeClass('rotate');
         if ("{$actInfo.active_bg_music}") {
@@ -446,7 +469,9 @@
             $('.model_defshop_join').hide()
         })
         $('#sd3').on('click', function () {
-            $('.model_defshop_join').show()
+            //$('.model_defshop_join').show()
+            applyPay();
+
         })
         $('.btnBoxs').on('click', function () {
             $('.model_defshop').show();
@@ -460,6 +485,34 @@
             var id = $(this).attr('attrId')
             paySing(id)
         });
+
+        function applyPay() {
+            $.ajax({
+                url: "{:url('activeSing')}",
+                method: 'get',
+                data: {
+                    aid: "{$actInfo.id}"
+                },
+                success: function (res) {
+                    wx.chooseWXPay({
+                        timestamp: res.option.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                        nonceStr: res.option.nonceStr, // 支付签名随机串，不长于 32 位
+                        package: res.option.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+                        signType: res.option.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                        paySign: res.option.paySign, // 支付签名
+                        success: function (data) {
+                            $.confirm("支付成功是否前往使用?", "支付成功", function () {
+                                window.location.herf = '#'
+                            }, function () {
+                                //取消操作
+                            });
+                        }
+                    });
+                },
+                error: function (err) {
+                }
+            })
+        }
 
         function paySing(id) {
             $.ajax({
@@ -509,19 +562,29 @@
                 link: "https://yuming.sccenze.com/index.php/home/index?to_id={:session('user_info.id')}&a_id={$actInfo.id}",
                 imgUrl: "{$actInfo.active_bg_images_top}", // 分享图标
                 success: function () {
-                    $.ajax({
-                        url: "{:url('shareSuccess')}",
-                        method: 'get',
-                        data: {'id': "{$actInfo.id}"},
-                        dataType: "JSON",
-                        success: function (res) {
-                            $('.getHOngbPay').attr('defId', '1')
-                            $('.SharesPrice').text()
-                        },
-                        error: function () {
-                            $('.getHOngbPay').attr('defId', '0')
-                        }
-                    })
+                    if ($("input[name='packs']").val() === 'ok') {
+                        $.ajax({
+                            url: "{:url('shareSuccess')}",
+                            method: 'get',
+                            data: {'id': "{$actInfo.id}"},
+                            dataType: "JSON",
+                            success: function (res) {
+                                if (res.code){
+                                    $.alert('您已经领取过该红包');
+                                } else {
+                                    $('.getHOngbPay').attr('defId', '1');
+                                    $("#setPrice").text(res.money)
+                                    $.alert('分享成功');
+                                }
+                            },
+                            error: function () {
+                                $('.getHOngbPay').attr('defId', '0')
+                            }
+                        })
+                    }else {
+                        $.alert('您不在红包领取区域,不能领取红包');
+                    }
+
                 }
             });
             wx.onMenuShareTimeline({
@@ -529,26 +592,33 @@
                 link: "https://yuming.sccenze.com/index.php/home/index?to_id={:session('user_info.id')}&a_id={$actInfo.id}",
                 imgUrl: "{$actInfo.active_bg_images_top}", // 分享图标
                 success: function () {
-                    $.ajax({
-                        url: "{:url('shareSuccess')}",
-                        method: 'get',
-                        data: {'id': "{$actInfo.id}"},
-                        dataType: "JSON",
-                        success: function (res) {
-                            $('.getHOngbPay').attr('defId', '1')
-                            $('.SharesPrice').text()
-                        },
-                        error: function () {
-                            $('.getHOngbPay').attr('defId', '0')
-                        }
-                    })
+                    if ($("input[name='packs']").val() === 'ok') {
+                        $.ajax({
+                            url: "{:url('shareSuccess')}",
+                            method: 'get',
+                            data: {'id': "{$actInfo.id}"},
+                            dataType: "JSON",
+                            success: function (res) {
+                                if (res.code){
+                                    $.alert('您已经领取过该红包');
+                                } else {
+                                    $('.getHOngbPay').attr('defId', '1');
+                                    $("#setPrice").text(res.money)
+                                    $.alert('分享成功');
+                                }
+                            },
+                            error: function () {
+                                $('.getHOngbPay').attr('defId', '0')
+                            }
+                        })
+                    }else {
+                        $.alert('您不在红包领取区域,不能领取红包');
+                    }
                 }
-            })
+            });
             wx.getLocation({
                 type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
                 success: function (res) {
-                    var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-                    var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
                     var _dataJson = {
                         lan: res.latitude,
                         lat: res.longitude,
@@ -563,24 +633,33 @@
                             var data = JSON.parse(res)
                             if (data.code == 0) {
                                 if (data.msg == 'ok') {
-                                    $('.Qrcode').show()
-                                    $('.isHides').show()
+                                    $.toptip('定位成功',3000,'success');
+                                   $('.Qrcode').show();
+                                   $('.isHides').show();
+                                   $("input[name='packs']").val('ok');
                                 } else {
-                                    $('.Qrcode').hide()
-                                    $('.isHides').hide()
+                                    $.toptip('抱歉您不在红包领取区域,无法领取红包',3000,'warning');
+                                   $('.Qrcode').hide();
+                                   $('.isHides').hide();
+                                   $("input[name='packs']").val('no');
                                 }
                             } else {
-                                $('.Qrcode').hide()
-                                $('.isHides').hide()
+                                $.toptip('抱歉读取活动信息失败',5000,'error');
+                               $('.Qrcode').hide();
+                               $('.isHides').hide();
+                                $("input[name='packs']").val('no');
                             }
                         },
                         error: function () {
-                            $('.Qrcode').hide()
-                            $('.isHides').hide()
+                            $.toptip('请先同意微信获取您的地理位置',5000,'error');
+                           $('.Qrcode').hide();
+                           $('.isHides').hide();
+                            $("input[name='packs']").val('no');
                         }
                     })
                 }, error: function () {
-                    $('.Qrcode').hide()
+                    $.toptip('请先同意微信获取您的地理位置',5000,'error');
+                    $('.Qrcode').hide();
                     $('.isHides').hide()
                 }
             });

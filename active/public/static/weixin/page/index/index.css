@@ -377,6 +377,7 @@ a
 .edit img{
     width: 100%;
 }
+
 .btnBoxs
 {
     position: fixed;
@@ -837,7 +838,7 @@ a
     position: fixed;
     right: .4rem;
     bottom: 7.3rem;
-    z-index: 3;
+    z-index: 99999;
 }
 .callBtns
 {
@@ -956,4 +957,6 @@ a
 .imgContens{
     background-repeat: no-repeat;
     max-width: 30rem;
+}
+.VideoCLass{
 }
