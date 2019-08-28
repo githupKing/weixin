@@ -19,30 +19,37 @@
             <div class="weui-navbar__item">已过期</div>
         </div>
     </div>
+    {foreach $list.apply1 as $vo=>$key}
     <div class="index0 index">
-        <span>优惠活动</span>
-        <p class="font28 paddingTop30">沃尔玛优惠活动，每周六，周天，沃尔玛好货打折不停,欢迎进店选购</p>
+        <span>{$key.a_name}</span>
+        <p class="font28 paddingTop30" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;width: 60%;">活动名称:{$key.a_name} | 商家名称:{$key.m_name}</p>
         <div class="display">
-            <span>2018.12.12-2018.12.12</span>
-            <a href="{:url('coupons')}?id=1" class="useBtn">立即使用</a>
+            <span>{$key.use_time}</span>
+            <a href="{:url('coupons')}?id={$key.id}&tags=2" class="useBtn">立即使用</a>
         </div>
     </div>
+    {/foreach}
+    {foreach $list.apply2 as $vo=>$key}
     <div class="index1 index">
-        <span>优惠活动</span>
-        <p class="font28 paddingTop30">沃尔玛优惠活动，每周六，周天，沃尔玛好货打折不停,欢迎进店选购</p>
+        <span>{$key.a_name}</span>
+        <p class="font28 paddingTop30" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;width: 60%;">活动名称:{$key.a_name} | 商家名称:{$key.m_name}</p>
         <div class="display">
-            <span>2018.12.12-2018.12.12</span>
+            <span>{$key.use_time}</span>
             <img class="itemCenter" src="/static/weixin/img/yishiyong@2x.png" alt="">
         </div>
     </div>
+    {/foreach}
+
+    {foreach $list.apply3 as $vo=>$key}
     <div class="index2 index">
-        <span>优惠活动</span>
-        <p class="font28 paddingTop30">沃尔玛优惠活动，每周六，周天，沃尔玛好货打折不停,欢迎进店选购</p>
+        <span>{$key.a_name}</span>
+        <p class="font28 paddingTop30" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;width: 60%;">活动名称:{$key.a_name} | 商家名称:{$key.m_name}</p>
         <div class="display">
-            <span>2018.12.12-2018.12.12</span>
+            <span>{$key.use_time}</span>
             <img class="itemCenter" src="/static/weixin/img/yiguoqi@2x.png" alt="">
         </div>
     </div>
+    {/foreach}
 </div>
 <script src="/static/weixin/common/js/zepto.min.js"></script>
 <script src="/static/weixin/common/js/zepto.weui.min.js"></script>

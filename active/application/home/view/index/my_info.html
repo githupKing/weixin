@@ -28,66 +28,69 @@
     <p class="listTitle">优惠券</p>
     <div class="weui-tab" id="t1" style="height:44px;">
         <div class="weui-navbar">
-            <div class="weui-navbar__item">未使用(0)</div>
-            <div class="weui-navbar__item">已使用(0)</div>
-            <div class="weui-navbar__item">已过期(0)</div>
+            <div class="weui-navbar__item">未使用({:count($vouchers.unused)})</div>
+            <div class="weui-navbar__item">已使用({:count($vouchers.have)})</div>
+            <div class="weui-navbar__item">已过期({:count($vouchers.expired)})</div>
         </div>
     </div>
     {notempty name="vouchers.unused"}
     {foreach $vouchers.unused as $vo=>$key}
     <div class="index0 index">
         <div class="itemLeft">
-            <div>
-                <span class="moneyCont">{$key.worth}</span>
+            <div style="width: 100%;text-align: center;">
+                <span class="moneyCont">{$key.value}</span>
                 <span>￥</span>
-                <p>{$key.name}</p>
+                <p style="width: 100%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;width: 100%;">{$key.name}</p>
             </div>
         </div>
         <div class="itemRight">
-            <p class="font28 paddingTop30">{$key.name}</p>
+            <p class="font28 paddingTop30" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{$key.text}</p>
             <div class="display">
-                <span>到期时间: {$key.stop_time}</span>
-                <a href="{:url('coupons')}?id={$key.id}" class="useBtn">立即使用</a>
+                <span style="width: 75%">到期时间: {$key.vouchers_time}</span>
+                <a href="{:url('coupons')}?id={$key.id}&tags=1" class="useBtn">立即使用</a>
             </div>
         </div>
     </div>
     {/foreach}
     {/notempty}
     {notempty name="vouchers.have"}
+    {foreach $vouchers.have as $vo=>$key}
     <div class="index1 index">
-        {foreach $vouchers.have as $vo=>$key}
-        <div class="itemLeft">
-            <div>
-                <span class="moneyCont">10</span>
+        <div class="itemLeft" style="min-width: 1.8rem;max-width: 1.8rem;">
+            <div style="width: 100%;text-align: center;">
+                <span class="moneyCont">{$key.value}</span>
                 <span>￥</span>
-                <p>抵扣券</p>
+                <p style="width: 100%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;width: 100%;">{$key.name}</p>
             </div>
         </div>
-        <div class="itemRight">
-            <p class="font28 paddingTop30">部分自营商品使用</p>
-            <span>到期时间: 2018.12.12</span>
+        <div class="itemRight" style="width: 47%;">
+            <p class="font28 paddingTop30" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{$key.text}</p>
+            <span style="width: 73%">到期时间: {$key.vouchers_time}</span>
         </div>
         <img class="itemCenter" src="/static/weixin/img/yishiyong@2x.png" alt="">
-        {/foreach}
+        
     </div>
+    {/foreach}
     {/notempty}
     {notempty name="vouchers.expired"}
+    {foreach $vouchers.expired as $vo=>$key}
     <div class="index2 index">
-        {foreach $vouchers.expired as $vo=>$key}
-        <div class="itemLeft">
-            <div>
-                <span class="moneyCont">10</span>
+        
+        <div class="itemLeft" style="min-width: 1.8rem;max-width: 1.8rem;">
+            <div style="width: 100%;text-align: center;">
+                <span class="moneyCont">{$key.value}</span>
                 <span>￥</span>
-                <p>抵扣券</p>
+                <p style="width: 100%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{$key.name}</p>
             </div>
         </div>
-        <div class="itemRight">
-            <p class="font28 paddingTop30">部分自营商品使用</p>
-            <span>到期时间: 2018.12.12</span>
+        <div class="itemRight" style="width: 47%;">
+            <p class="font28 paddingTop30" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{$key.text}</p>
+            <span style="width: 73%">到期时间: {$key.vouchers_time}</span>
         </div>
         <img class="itemCenter" src="/static/weixin/img/yiguoqi@2x.png" alt="">
-        {/foreach}
+        
     </div>
+    {/foreach}
     {/notempty}
 </div>
 <script src="/static/weixin/common/js/zepto.min.js"></script>
