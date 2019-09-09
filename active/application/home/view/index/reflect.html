@@ -16,15 +16,65 @@
     <p class="moneys">提现金额</p>
     <div class="inputPrice">
         <p>￥</p>
-        <input type="number">
+        <input type="number" name="price" value="" placeholder="请输入提现金额" id="TixianMoney">
     </div>
     <div class="center">
-        <a class="btnTixian">立即提现</a>
+        <a class="btnTixian" onclick="withdrawal()">立即提现</a>
     </div>
-    <p class="dec mydec">账户余额{:session('user_info.fansinfo.price')}元,<span>全部提现</span></p>
+    <p class="dec mydec">账户余额{:session('user_info.fansinfo.price')}元,<span class="allTixian">全部提现</span></p>
 </div>
 <script src="/static/weixin/common/js/zepto.min.js"></script>
 <script src="/static/weixin/common/js/zepto.weui.min.js"></script>
 <script src="/static/weixin/common/js/common.js"></script>
+<script>
+    var money = Number("{:session('user_info.fansinfo.price')}");
+    $(function () {
+        $('.allTixian').on('click', function () {
+            // alert($('#TixianMoney').val())
+            $('#TixianMoney').val(money)
+        })
+    });
+
+    /**
+     * 余额提现
+     */
+    function withdrawal() {
+        var price = Number($("input[name=price]").val());
+        if (price){
+            if (typeof price === 'number'){
+                if (price > money){
+                    $.toptip('余额不足',5000,'warning');
+                }else {
+                    //执行提现请求
+                    $.ajax({
+                        'type':"get",
+                        'url':"{:url('withdrawal')}",
+                        'data':{'price':price},
+                        'dataType':"JSON",
+                        success:function (suc) {
+                            suc = JSON.parse(suc);
+                            if (suc.code){
+                                $.toptip(suc.msg,3000,'warning');
+                            }else {
+                                $.toptip(suc.msg,3000,'success');
+                            }
+                            setTimeout(function() {
+                                //alert(1);
+                                location.reload()
+                            }, 4000);
+                        },error:function (err) {
+                            $.toptip('错误',5000,'error');
+                        }
+                    });
+                }
+            } else {
+                $.toptip('请输入正确的金额',5000,'warning');
+            }
+        } else {
+            $.toptip('请输入提现金额',5000,'error');
+        }
+
+    }
+</script>
 </body>
 </html>

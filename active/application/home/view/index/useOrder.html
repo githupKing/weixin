@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,user-scalable=no">
+    <title>商家核销</title>
+    <link rel="stylesheet" href="/static/weixin/page/CancelAfterOrder/index.css">
+    <link rel="stylesheet" href="/static/weixin/common/css/weui.css">
+    <link rel="stylesheet" href="/static/weixin/common/css/weuix.css">
+    <link rel="stylesheet" href="/static/weixin/common/css/common.css">
+</head>
+<body>
+<div class="container">
+    <div class="content">
+        <div class="orderNum">
+            <p class="font28">订单编号:<span class="font24">{$order.out_trade_no}</span></p>
+        </div>
+        <div class="orderNum">
+            <p>用户名称：<span>{$order.u_name}</span>	</p>
+        </div>
+        <div class="orderNum">
+            <p>金额：<span>{$order.price}</span></p>
+        </div>
+        <div class="orderNum">
+            <p>核销类型：
+                {if $tags eq 1}
+                <span>优惠券活动</span>
+                {else/}
+                <span>报名活动</span>
+                {/if}
+            </p>
+        </div>
+        <div class="orderNum">
+            <p>活动名称：<span>{$order.a_name}</span></p>
+        </div>
+        <div class="orderNum">
+            <p>商家名称：<span>{$order.m_name}</span></p>
+        </div>
+        {if $tags eq 1}
+        <div class="orderNum">
+            <p>有效期：<span>{$order.vouchers_time}</span></p>
+        </div>
+        {else/}
+        <div class="orderNum">
+            <p>有效期：<span>{$order.use_time}</span></p>
+        </div>
+        {/if}
+        <div class="useBtn">
+            <button class="btn">确认核销</button>
+        </div>
+    </div>
+    <div class="history">
+        <p>核销历史</p>
+    </div>
+    <div style=" padding: 0.2rem;background: #fff;">
+        <table >
+            <thead>
+            <tr>
+                <th>序列号</th>
+                <th>订单编号</th>
+                <th>手机号</th>
+                <th>金额</th>
+            </tr>
+            </thead>
+            <tbody >
+            <tr>
+                <td>1</td>
+                <td>唐朝</td>
+                <td>刺客</td>
+                <td>刺客</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>唐朝</td>
+                <td>刺客</td>
+                <td>刺客</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>唐朝</td>
+                <td>刺客</td>
+                <td>刺客</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="/static/weixin/common/js/zepto.min.js"></script>
+<script src="/static/weixin/common/js/zepto.weui.min.js"></script>
+<script src="/static/weixin/common/js/common.js"></script>
+</body>
+</html>

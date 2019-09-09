@@ -4,37 +4,30 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,user-scalable=no">
+    <title>活动结束</title>
+    <link rel="stylesheet" href="/static/weixin/page/activeEnd/activeEnd.css">
     <link rel="stylesheet" href="/static/weixin/common/css/weui.css">
     <link rel="stylesheet" href="/static/weixin/common/css/weuix.css">
     <link rel="stylesheet" href="/static/weixin/common/css/common.css">
-    <link rel="stylesheet" href="/static/weixin/page/coupons/index.css">
-    <title>订单核销</title>
 </head>
 <body>
 <div class="container">
-    {if $tags eq 1}
-    <p class="titles">{$order.name}</p>
-    {else/}
-    <p class="titles">{$order.a_name}</p>
-    {/if}
-    <div class="imgBoxs">
-        <img src="data:image/png;base64,{:useCode($id,$tags)}" alt="">
-        <p>券码:{$order.out_trade_no}</p>
+    <img src="/static/weixin/img/picture@2x.png" alt="">
+    {if $actInfo['active_tags'] eq 1}
+    {notempty name="mer"}
+    <p>商家名称：{$mer[0]['mer_name']}</p>
+    <p>商家电话：{:getConf('site_customer')}</p>
+    <p>详细地址：{$mer[0]['mer_address']}</p>
+    <div class="buy">
+        <p>购买须知：</p>
+        {$actInfo.active_rules|raw}
     </div>
-    {if $tags eq 1}
-    <p class="contants">
-        备注:{$order.text}
-    </p>
-    {else/}
-    <p class="contants">
-        备注:报名活动名称《{$order.a_name}》。使用商家名称《{$order.m_name}》。有效期至《{$order.use_time}》
-    </p>
+    {/notempty}
     {/if}
-
+    <p>投诉电话：{:getConf('site_customer')}</p>
 </div>
 <script src="/static/weixin/common/js/zepto.min.js"></script>
 <script src="/static/weixin/common/js/zepto.weui.min.js"></script>
-<script src="/static/weixin/common/js/iscroll-lite.js"></script>
 <script src="/static/weixin/common/js/common.js"></script>
 </body>
 </html>

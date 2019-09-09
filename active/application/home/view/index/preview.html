@@ -13,11 +13,15 @@
 <body>
 
 <div class="container" style="background-size:100% 100%;background-image: url({$actInfo.active_bg_images});">
+
     {if $actInfo.active_music_switch eq 'on'}
     <div id="yinfu" class="rotate rotateBg"></div>
     <audio preload="auto" id="media" src="{$actInfo.active_bg_music}" preload loop="loop"></audio>
     {/if}
     <div class="contBox">
+        <!-- <div class="card imgContens"
+             style="background-size:cover;background-image: url({$actInfo.active_bg_images_top});height: 4rem;margin-bottom: -0.4rem;margin-left: 0rem;margin-right: 0rem;border-radius: 0px;"></div> -->
+        <img src="{$actInfo.active_bg_images_top}" style="width: 100%;height: 100%;z-index: -1;margin-bottom: -0.4rem;position: relative;" alt="">
         <div class="card ">
             <div class="time">
                 <span class="font28">距离结束：</span>
@@ -33,14 +37,17 @@
             <div class="code ccc">---------------------------</div>
             <!--<div class="bold c20212 padding30">100元提货卡</div>-->
             <div class="activeClor font24">活动时间：{$actInfo.start_time} —— {$actInfo.stop_time}</div>
+            {if $actInfo.active_tags eq 2}
             <div class="progressbarbox margin24">
                 <?php $z = '50%';?>
-                <div class="success" style="position: absolute;width: {$z};height: 100%;background-color: #ee7b42;border-radius: 25px;"></div>
+                <div class="success"
+                     style="position: absolute;width: {$z};height: 100%;background-color: #ee7b42;border-radius: 25px;"></div>
             </div>
             <div class="numBox activeClor">
-                <div>已中奖:55份</div>
-                <div>剩余数量：45份</div>
+                <div>已中奖:0份</div>
+                <div>剩余数量：0份</div>
             </div>
+            {/if}
             <div class="c20212 margin50">已有{$actInfo.active_preview}人预览</div>
         </div>
         <!--是否有红包-->
@@ -53,10 +60,9 @@
                 </div>
                 <div class="codeWord">
                     <ol>
-                        <li>长按本图识别二维码</li>
-                        <li>分享链接到朋友圈</li>
-                        <li>0.3元现金红包立即到账</li>
-                        <li>每位好友点击你分享的链接再得0.1元现金红包立马到账</li>
+                        {foreach $actInfo.pack_text as $vo=>$key}
+                        <li>{$key.pack_text}</li>
+                        {/foreach}
                     </ol>
                 </div>
             </div>
@@ -65,11 +71,11 @@
             </div>
         </div>
         <!--红包排行榜数据-->
-        <div class="envelope">
+        <div class="envelope isHides">
             <img src="/static/weixin/img/btn-honhbao@2x.png" alt="">
             <div class="display">
-                <p>您已获得<span class="red">0</span>元</p>
-                <p>排行第<span class="red">999</span>名</p>
+                <p>您已获得<span class="red">{$noMoney}</span>元</p>
+                <p>排行第<span class="red">{$nos}</span>名</p>
             </div>
             <div class="display titles">
                 <p>排名</p>
@@ -77,15 +83,20 @@
                 <p>获得红包</p>
             </div>
             <div class="ranking">
-                {notempty name="share"}
-                {foreach $share as $vo=>$k}
+                {notempty name="packList"}
+                {foreach $packList as $vo=>$k}
                 <div class="display contents">
-                    <p>{$vo}</p>
-                    <div class="centerBoxy">
-                        <img src="{$k.u_name_headimages}" alt="">
-                        <span class="name">{$k.u_name}</span>
+                    {if $vo eq 0}
+                    <p style="width: 30%;text-align: left;">1</p>
+                    {else}
+                    <p style="width: 30%;text-align: left;">{$vo+1}</p>
+                    {/if}
+
+                    <div class="centerBoxy" style="width: 30%;text-align: left;">
+                        <img src="{$k.headimgurl}" alt="">
+                        <span class="name">{$k.nickname}</span>
                     </div>
-                    <p class="red">{$k.packet_price}元</p>
+                    <p class="red" style="width: 30%;text-align: right;">{$k.money}元</p>
                 </div>
                 {/foreach}
                 {/notempty}
@@ -93,6 +104,7 @@
         </div>
         {/if}
 
+        {if $actInfo.active_tags neq 2}
         {notempty name="mer"}
         {foreach $mer as $vo=>$k}
         <div class="shopInfo">
@@ -113,6 +125,8 @@
         </div>
         {/foreach}
         {/notempty}
+        {/if}
+
 
 
         <div class="myActive">
@@ -122,22 +136,14 @@
                 <img src="/static/weixin/img/right@2x.png" alt="">
             </div>
             <div class="word">
-                <!--<p>沃尔玛联合中江爱达乐(邮政街店)送福利啦!</p>-->
-                <!--<ol>-->
-                <!--<li>集齐‘爱达乐福利大回馈'全部字样，可免费领取价值100元提货卡一张， 领取时间为2019年5月之前有效。 </li>-->
-                <!--<li>集齐后请按券面规则到中江爱达乐(邮政街店)内兑换</li>-->
-                <!--<li>活动期间，参与者每天均有初始的3次集字机会!</li>-->
-                <!--<li>活动期间，参与者通过分享活动链接给好友(分享给朋友、分享到微信群、分享至朋友圈) ,当好 友通过您分享的链接进入活动页面后，即可以多获取3次抽奖机会[每天最多可获取15次机会],分享后请朋友打开链接，再打开页面就可继续抽奖!</li>-->
-                <!--<li>联系电话: 0838-7206005</li>-->
-                <!--<li>地址:中江县中江人民路幼J L园斜对面(邮政街店)</li>-->
-                <!--</ol>-->
                 {$actInfo.active_rules|raw}
             </div>
         </div>
 
         {if $actInfo.active_tags eq 2}
-        <div class="envelope">
-            <img src="/static/weixin/img/btn-invatation@2x.png" alt="">
+        <!--获利排行-->
+        <!-- <div class="envelope">
+            <img src="/static/weixin/img/btn-shopping@2x.png" alt="">
             <div class="display">
                 <p>您已获得<span class="red">0</span>元</p>
                 <p>排行第<span class="red">999</span>名</p>
@@ -145,7 +151,7 @@
             <div class="display titles">
                 <p>排名</p>
                 <p>客户</p>
-                <p>获得红包</p>
+                <p>获得奖金</p>
             </div>
             <div class="ranking">
                 {notempty name="share"}
@@ -162,14 +168,15 @@
                 {/notempty}
 
             </div>
-        </div>
+        </div> -->
         {/if}
 
         {if $actInfo.active_tags eq 1}
         {notempty name="actInfo.vouchers"}
         {foreach $actInfo.vouchers as $vo=>$k}
-        <div class="detalisy">
-            <div class="bannerImgs clear">
+        <div class="detalisy" style="background-color: #fff;padding-bottom: 20px;">
+            <!-- <div class="bannerImgs clear" style="background-image: url();"> -->
+            <div class="bannerImgs clear" style="">
                 <div class="lista">
                     <div class="bannerImgsLeft" style="width: 30%;">
                         <span style="display: inline-block;padding: .2rem;color: #fff;font-size: .46rem;font-weight: 800;">{$k.value}</span>
@@ -185,68 +192,115 @@
                     <p>抢购</p>
                 </div>
             </div>
+            <div style="text-align: center;padding-top: 10px;font-size: .32rem;font-weight: 600;">
+                <?php
+                    if(isset($k['text'])){
+                        $k['text'] = explode('|',$k['text']);
+                    }
+                ?>
+                {notempty name="k.text"}
+                {foreach $k['text'] as $vo}
+                <p style="padding-top: 10px;padding-right: 10px;padding-left: 10px;">{$vo}</p>
+                {/foreach}
+                {/notempty}
+            </div>
         </div>
         {/foreach}
         {/notempty}
         {/if}
 
+        <div class="shopBtns">
+            <img onclick="location.href='{:url('myInfo')}'" class="getHOngb" src="/static/weixin/img/shopping@2x.png"
+                 alt="">
+        </div>
 
-        <div class="edit">
-
-            <div class="shopBtns">
-                <img class="getHOngb" src="/static/weixin/img/shopping@2x.png" alt="">
-            </div>
-
-            {if $actInfo.active_pack_switch eq 'on' || $actInfo.active_distribution eq 'on'}
-            <div class="sharBtns">
-                <img class="getHOngb" src="/static/weixin/img/share@2x.png" alt="">
-            </div>
+        {if $actInfo.active_pack_switch eq 'on' || $actInfo.active_distribution eq 'on'}
+        <div class="sharBtns">
+            <img class="getHOngb" src="/static/weixin/img/share@2x.png" alt="">
+        </div>
+        {/if}
+        {notempty name="actInfo.vouchers"}
+        <div class="callBtns">
+            <a class="getHOngb buyShaops" attrId="0" href="javascript:void(0);">
+                <img class="getHOngb" src="/static/weixin/img/phone@2x.png"alt="">
+            </a>
+        </div>
+        {/notempty}
+        <div class="btnBoxs">
+            <!--{if !empty($packet)}-->
+            <!--<img class="getHOngb" src="/static/weixin/img/btn-zhuan@2x.png" alt="">-->
+            <!--{/if}-->
+            {if $actInfo.active_business_switch eq 'on'}
+            <img class="getHOngb" src="/static/weixin/img/btn-shangjia@2x.png" alt="">
             {/if}
-            <div class="callBtns">
-                <a class="getHOngb" href="tel:10086"><img class="getHOngb" src="/static/weixin/img/phone@2x.png" alt=""></a>
-            </div>
-
+        </div>
+        {notempty name="actInfo.active_instructions"}
+        <div class="edit">
             <!--<p class="font36">图文编辑窗口</p>-->
             <!--<p class="font28">图片+文字+视频+分享流程图</p>-->
             {$actInfo.active_instructions|raw}
-            <div class="btnBoxs">
-                <!--{if !empty($packet)}-->
-                <!--<img class="getHOngb" src="/static/weixin/img/btn-zhuan@2x.png" alt="">-->
-                <!--{/if}-->
-                {if $actInfo.active_business_switch eq 'on'}
-                <img class="getHOngb" src="/static/weixin/img/btn-shangjia@2x.png" alt="">
-                {/if}
-            </div>
         </div>
-
+        {/notempty}
 
         {if $actInfo.active_tags eq 2}
+
         <div class="myActive">
             <div class="display">
                 <img src="/static/weixin/img/left@2x.png" alt="">
                 <p class="titke">参与商</p>
                 <img src="/static/weixin/img/right@2x.png" alt="">
             </div>
-            <div class="shops">
+            {foreach $mer as $vo=>$key}
+            <div class="shops" style="margin-bottom: 10px;">
                 <div class="list">
-                    <img src="/static/weixin/img/headshangjia@2x.png" alt="">
+                    <img src="{$key.mer_headimg}" alt="">
                     <div class="shopsBox">
-                        <p>爱达乐</p>
-                        <span>中江县中江人民路幼J L园斜对面</span>
+                        <p>{$key.mer_name}</p>
+                        <span>{$key.mer_address}</span>
                     </div>
-                    <p class="">点击查看</p>
+                    <p class="" style="width: 80px;color: #fff;"><a href="">联系商家</a></p>
                 </div>
             </div>
+            {/foreach}
         </div>
+
+        <!--邀请排行-->
+        <div class="envelope">
+            <img src="/static/weixin/img/btn-invatation@2x.png" alt="">
+            <div class="display titles">
+                <p>排名</p>
+                <p>客户</p>
+                <p>邀请人数</p>
+            </div>
+            <div class="ranking">
+                {notempty name="share"}
+                {foreach $share as $vo=>$k}
+                <div class="display contents">
+                    <p>{$vo}</p>
+                    <div class="centerBoxy">
+                        <img src="{$k.u_name_headimages}" alt="">
+                        <span class="name">{$k.u_name}</span>
+                    </div>
+                    <p class="red">{$k.packet_price}元</p>
+                </div>
+                {/foreach}
+                {/notempty}
+            </div>
+        </div>
+
         <div class="footer">
-            <button class="connext">联系客服</button>
-            <button class="baoming" id="sd3">现在报名￥230</button>
+            <button class="connext"><a style="color:#fff;" href="tel:{$actInfo.business_phone}">联系客服</a></button>
+            <button class="baoming" id="sd3">现在报名￥{$actInfo.apply_price}</button>
         </div>
         {else}
-        <div class="footer">
-            <button class="connext" style="width: 100%">联系客服</button>
-            <!--<button class="baoming">现在报名￥230</button>-->
+        <div class="btnSharBox" style="margin-bottom: .2rem;">
+            <img class="getHOngb getHOngbPay" defId='' src="/static/weixin/img/btn-share@2x.png" alt="">
         </div>
+        <!--  <div class="footer">
+             <button class="connext" style="width: 100%">联系客服</button>
+             <button class="baoming">现在报名￥230</button>
+         </div> -->
+
         {/if}
     </div>
 </div>
@@ -255,26 +309,27 @@
         <div class="bgImg"></div>
         <img class="hogbao123" src="/static/weixin/img/hongbao123.png" alt="">
         <img class="showOrhide" src="/static/weixin/img/hongbaotu@2x.png" alt="">
-        <p class="showOrhide price">8.88 <span>元</span></p>
+        <p class="showOrhide price SharesPrice">8.88<span>元</span></p>
         <p class="agin showOrhide">分享链接再得红包</p>
         <button class="btn share showOrhide" id="aginShare">再次分享</button>
     </div>
     <div class="yclose" style="bottom: -11.1rem;">X</div>
 </div>
 <div class="model_defshop">
-    <div class="bgBoxShop">
+    <div class="bgBoxShop" style="background-size:100% 100%;background-image: url({$actInfo.active_bg_images});">
         <img src="{$actInfo.business_images}" alt="">
         <p class="font28">长按识别二维码添加客服微信</p>
         <p class="font28">--联系电话--</p>
-        <p class="phone font28">{$actInfo.business_phone}<a href="tel:{$actInfo.business_phone}">拨打</a></p>
+        <p class="phone font28">{$actInfo.business_phone}<a style="color:#fff;"
+                                                            href="tel:{$actInfo.business_phone}">拨打</a></p>
     </div>
     <div class="yclose">X</div>
 </div>
 <div class="canvesBox">
-    <img src="{$actInfo.active_posters_img}" id="canImgs" alt="">
-    <div class="BgCanvasBox" id="canvesBoxId">
+    <img src="" id="canImgs" alt="">
+    <div style="background-image: url({$actInfo.active_posters_img})" class="BgCanvasBox" id="canvesBoxId">
         <!-- //图片合成原始图片 -->
-        <img src="data:image/png;base64,{$packetCode|default=''}" alt="">
+        <img src="data:image/png;base64,{$postersCode|default=''}" alt="">
     </div>
     <div class="yclose" style="bottom: -0.4rem;">X</div>
 </div>
@@ -293,7 +348,6 @@
     <div class="yclose">X</div>
 </div>
 
-
 <script src="/static/weixin/common/js/zepto.min.js"></script>
 <script src="/static/weixin/common/js/zepto.weui.min.js"></script>
 <script src="/static/weixin/common/js/common.js"></script>
@@ -301,58 +355,74 @@
 <script src="/static/weixin/page/index/index.js"></script>
 <script src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script>
-    $(function(){
+
+    //微信JS注入及方法
+    $(function () {
         //控制播放方法
-        $('#yinfu').removeClass('rotate')
+        $('#yinfu').removeClass('rotate');
+        if ("{$actInfo.active_bg_music}") {
+            autoPlayAudio()
+        }
+        //
+        $('.canvesBox').hide();
+        $('#canvesBoxId').hide();
 
-        $('.canvesBox').hide()
-        $('#canvesBoxId').hide()
-
-
-        $('.getHOngbPay').on('click',function(){
-            if($(this).attr('defId') == 0){
-                $.alert("点击右上角分享到朋友圈或者朋友","温馨提示",function(){});
-            }else{
+       
+        $('.getHOngbPay').on('click', function () {
+            if ($(this).attr('defId') == 0) {
+                $.alert("点击右上角分享到朋友圈或者朋友", "温馨提示", function () {
+                });
+            } else {
                 $('.model_def').fadeIn(300)
             }
         })
-        $('.hogbao123').on('click',function(){
-            $(this).fadeOut(300,function(){
+        $('.hogbao123').on('click', function () {
+            $(this).fadeOut(300, function () {
                 $('.showOrhide').show(300);
             })
         })
-        $('#yinfu').on('click',function(){
-            var status =$('#media')[0].paused
-            if(status){
+        $('#yinfu').on('click', function () {
+            var status = $('#media')[0].paused
+            if (status) {
                 $('#media')[0].play()
                 $('#yinfu').addClass('rotate')
-            }else{
+            } else {
                 $('#media')[0].pause();// 这个就是暂停
                 $('#yinfu').removeClass('rotate')
             }
         })
-        $('.yclose').on('click',function(e){
+        $('.yclose').on('click', function (e) {
             e.preventDefault();
             $('.model_defshop').hide();
             $('.canvesBox').hide();
             $('.model_def').hide();
             $('.model_defshop_join').hide()
         })
-        $('#sd3').on('click',function(){
+        $('#sd3').on('click', function () {
             $('.model_defshop_join').show()
         })
-        $('.btnBoxs').on('click',function(){
+        $('.btnBoxs').on('click', function () {
             $('.model_defshop').show();
         })
-        $('.payPhone').on('click',function(){
+
+        $('.buyShaops').on('click', function () {
             var id = $(this).attr('attrId')
+            paySing(id)
+        });
+        $('.payPhone').on('click', function () {
+            var id = $(this).attr('attrId')
+            paySing(id)
+        });
+
+        function paySing(id) {
             $.ajax({
-                url:"{:url('goPay')}",
-                method:'get',
-                data:{
-                    id:id
+                url: "{:url('goPay')}",
+                method: 'get',
+                data: {
+                    id: id,
+                    aid: "{$actInfo.id}"
                 },
-                success:function(res){
+                success: function (res) {
                     wx.chooseWXPay({
                         timestamp: res.option.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
                         nonceStr: res.option.nonceStr, // 支付签名随机串，不长于 32 位
@@ -360,46 +430,53 @@
                         signType: res.option.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
                         paySign: res.option.paySign, // 支付签名
                         success: function (data) {
-                            $.confirm("支付成功是否前往使用?", "支付成功", function() {
+                            $.confirm("支付成功是否前往使用?", "支付成功", function () {
                                 window.location.herf = '#'
-                            }, function() {
+                            }, function () {
                                 //取消操作
                             });
                         }
                     });
                 },
-                error:function(){
+                error: function () {
 
                 }
             })
-        })
+        }
+
+
 
         getDate();
         setInterval(getDate, 1000);
         // 合成图片
-        $('.sharBtns').on('click',function(){
+        $('.sharBtns').on('click', function () {
             $('.canvesBox').show()
             $('#canvesBoxId').show()
-            html2canvas(document.getElementById("canvesBoxId"),{useCORS: true}).then(function(canvas) {
-                url=canvas.toDataURL();
-                $('#a').href=url;
+            html2canvas(document.getElementById("canvesBoxId"), {useCORS: true}).then(function (canvas) {
+                url = canvas.toDataURL();
+                $('#a').href = url;
                 $("#canImgs").attr("src", url);
                 $('#canvesBoxId').hide()
             });
+        });
+        $('#aginShare').on('click', function () {
+            $.alert("点击右上角分享到朋友圈或者朋友", "温馨提示", function () {
+            });
         })
-        $('#aginShare').on('click',function(){
-            $.alert("点击右上角分享到朋友圈或者朋友","温馨提示",function(){});
-        })
-    })
+    });
 
+    //背景音乐控制
     function autoPlayAudio() {
         $('#media')[0].play()
         $('#yinfu').addClass('rotate')
     };
+
+
+    //活动时间控制
     function getDate() {
         var oDate = new Date();//获取日期对象
         var oldTime = oDate.getTime();//现在距离1970年的毫秒数
-        var newDate = new Date('2019-08-21');
+        var newDate = new Date("{$actInfo.stop_time}");
         var newTime = newDate.getTime();//2019年距离1970年的毫秒数
         var second = Math.floor((newTime - oldTime) / 1000);//未来时间距离现在的秒数
         var day = Math.floor(second / 86400);//整数部分代表的是天；一天有24*60*60=86400秒 ；

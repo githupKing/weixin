@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{$actInfo.name}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,user-scalable=no">
+    <link rel="stylesheet" href="/static/weixin/page/index/index.css">
+    <link rel="stylesheet" href="/static/weixin/common/css/weui.css">
+    <link rel="stylesheet" href="/static/weixin/common/css/weuix.css">
+    <link rel="stylesheet" href="/static/weixin/common/css/common.css">
+</head>
+<style>
+    /*抽奖大转盘开始*/
+    .ck-wheel {
+        width: 100%;
+        height: 6.64rem;
+        /*background: url(/static/weixin/img/wheel-bg.png) no-repeat left top;*/
+        /*background-size: 7.5rem 5.68rem;*/
+        margin: .3rem 0;
+    }
+
+    .wheel {
+        display: block;
+        width: 6.64rem;
+        height: 6.64rem;
+        position: relative;
+        background-image: url(/static/weixin/img/wheel-bg.png);
+        background-size: 100% 100%;
+        margin: 0 auto;
+    }
+
+    img.pointer {
+        position: absolute;
+        width: 3rem;
+        height: 3.3rem;
+        left: 1.82rem;
+        top: 1.67rem;
+    }
+
+    #wheelCanvas {
+        width: 6.64rem;
+        height: 6.64rem;
+    }
+    .myActive
+    {
+        font-size: 10px;
+
+        margin-right: .2rem;
+        margin-left: .2rem;
+        padding-top: .3rem;
+        padding-bottom: .3rem;
+
+        border-radius: 10px;
+        background-color:transparent;
+        box-shadow: 0 0 8px -2px;
+    }
+    ui,li {
+        list-style: none;
+    }
+    #news{
+        height: 75px;
+        overflow: hidden;
+    }
+    /*抽奖大转盘结束*/
+</style>
+<body>
+
+<div class="container" style="background-size:100% 100%;background-image: url({$actInfo.active_bg_images});">
+    {notempty name="actInfo.active_bg_music"}
+    <div id="yinfu" class="rotate rotateBg"></div>
+    <audio preload="auto" id="media" src="{$actInfo.active_bg_music}" preload loop="loop"></audio>
+    {/notempty}
+    <div class="contBox">
+        <!-- <div class="card imgContens"
+             style="background-size:cover;background-image: url({$actInfo.active_bg_images_top});height: 4rem;margin-bottom: -0.4rem;margin-left: 0rem;margin-right: 0rem;border-radius: 0px;"></div> -->
+        <img src="{$actInfo.active_bg_images_top}"
+             style="width: 100%;height: 100%;z-index: -1;margin-bottom: -0.4rem;position: relative;" alt="">
+        <div class="myActive">
+            <div class="display">
+                <img src="/static/weixin/img/left@2x.png" alt="">
+                <p class="titke">活动抽奖</p>
+                <img src="/static/weixin/img/right@2x.png" alt="">
+            </div>
+            <div class="ck-wheel">
+                <div class="wheel">
+                    <canvas class="item" id="wheelCanvas" width="844px" height="844px"></canvas>
+                    <img class="pointer" src="/static/weixin/img/wheel-pointer.png"/>
+                </div>
+            </div>
+            <div id="news">
+                <ul>
+                    <li><a href="#" title="aaaaaaaaaaaaaaa">aaaaaaaaaaaaaaa</a></li>
+                    <li><a href="#" title="bbbbbbbbbbbbbbb">bbbbbbbbbbbbbbb</a></li>
+                    <li><a href="#" title="ccccccccccccccc">ccccccccccccccc</a></li>
+                    <li><a href="#" title="ddddddddddddddd">ddddddddddddddd</a></li>
+                    <li><a href="#" title="eeeeeeeeeeeeeee">eeeeeeeeeeeeeee</a></li>
+                    <li><a href="#" title="fffffffffffffff">fffffffffffffff</a></li>
+                    <li><a href="#" title="ggggggggggggggg">ggggggggggggggg</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="edit">
+            <!--<p class="font36">图文编辑窗口</p>-->
+            <!--<p class="font28">图片+文字+视频+分享流程图</p>-->
+            {$actInfo.active_desc|raw}
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="/static/weixin/common/js/zepto.min.js"></script>
+<script src="/static/weixin/common/js/zepto.weui.min.js"></script>
+<script src="/static/weixin/common/js/common.js"></script>
+<script src="/static/weixin/common/js/html2canvas.js"></script>
+<script src="/static/weixin/common/js/jQueryRotate.js"></script>
+<script src="/static/weixin/page/index/index.js"></script>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+<script>
+
+    //微信JS注入及方法
+    $(function () {
+        $('.edit video').attr('controls', 'controls')
+        $('.edit video').attr('x5-playsinline', '')
+        $('.edit video').attr('webkit-playsinline', 'true')
+        $('.edit video').attr('x-webkit-airplay', 'true')
+        $('.edit video').attr('x5-video-player-type', 'h5')
+        $('.edit video').attr('x5-video-player-fullscreen', '')
+        $('.edit video').attr('x5-video-orientation', 'portraint')
+        //控制播放方法
+        $('#yinfu').removeClass('rotate');
+        if ("{$actInfo.active_bg_music}") {
+            autoPlayAudio()
+        }
+        //
+        $('.canvesBox').hide();
+        $('#canvesBoxId').hide();
+
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: "{$jsSdk['configJso']['appId']}", // 必填，公众号的唯一标识
+            timestamp: "{$jsSdk['configJso']['timestamp']}", // 必填，生成签名的时间戳
+            nonceStr: "{$jsSdk['configJso']['nonceStr']}", // 必填，生成签名的随机串
+            signature: "{$jsSdk['configJso']['signature']}",// 必填，签名
+            jsApiList: [
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo',
+                'onMenuShareQZone',
+                'hideMenuItems',
+                'showMenuItems',
+                'hideAllNonBaseMenuItem',
+                'showAllNonBaseMenuItem',
+                'translateVoice',
+                'startRecord',
+                'stopRecord',
+                'updateAppMessageShareData',
+                'onVoiceRecordEnd',
+                'playVoice',
+                'onVoicePlayEnd',
+                'pauseVoice',
+                'stopVoice',
+                'uploadVoice',
+                'downloadVoice',
+                'chooseImage',
+                'previewImage',
+                'uploadImage',
+                'downloadImage',
+                'getNetworkType',
+                'openLocation',
+                'updateTimelineShareData',
+                'getLocation',
+                'hideOptionMenu',
+                'showOptionMenu',
+                'closeWindow',
+                'scanQRCode',
+                'chooseWXPay',
+                'openProductSpecificView',
+                'addCard',
+                'chooseCard',
+                'openCard'
+
+            ] // 必填，需要使用的JS接口列表
+        });
+        $('.getHOngbPay').on('click', function () {
+            if ($(this).attr('defId') == 0) {
+                $.alert("点击右上角分享到朋友圈或者朋友", "温馨提示", function () {
+                });
+            } else {
+                $('.model_def').fadeIn(300)
+            }
+        })
+        $('.hogbao123').on('click', function () {
+            $(this).fadeOut(300, function () {
+                $('.showOrhide').show(300);
+            })
+        })
+        $('#yinfu').on('click', function () {
+            var status = $('#media')[0].paused
+            if (status) {
+                $('#media')[0].play()
+                $('#yinfu').addClass('rotate')
+            } else {
+                $('#media')[0].pause();// 这个就是暂停
+                $('#yinfu').removeClass('rotate')
+            }
+        })
+        $('.yclose').on('click', function (e) {
+            e.preventDefault();
+            $('.model_defshop').hide();
+            $('.canvesBox').hide();
+            $('.model_def').hide();
+            $('.model_defshop_join').hide()
+        })
+        $('#sd3').on('click', function () {
+            //$('.model_defshop_join').show()
+            applyPay();
+
+        })
+        $('.btnBoxs').on('click', function () {
+            $('.model_defshop').show();
+        })
+
+        $('.buyShaops').on('click', function () {
+            var id = $(this).attr('attrId')
+            paySing(id)
+        });
+        $('.payPhone').on('click', function () {
+            var id = $(this).attr('attrId')
+            paySing(id)
+        });
+
+        function applyPay() {
+            $.ajax({
+                url: "{:url('activeSing')}",
+                method: 'get',
+                data: {
+                    aid: "{$actInfo.id}"
+                },
+                success: function (res) {
+                    wx.chooseWXPay({
+                        timestamp: res.option.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                        nonceStr: res.option.nonceStr, // 支付签名随机串，不长于 32 位
+                        package: res.option.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+                        signType: res.option.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                        paySign: res.option.paySign, // 支付签名
+                        success: function (data) {
+                            $.confirm("支付成功是否前往使用?", "支付成功", function () {
+                                window.location.herf = '#'
+                            }, function () {
+                                //取消操作
+                            });
+                        }
+                    });
+                },
+                error: function (err) {
+                }
+            })
+        }
+
+        function paySing(id) {
+            $.ajax({
+                url: "{:url('goPay')}",
+                method: 'get',
+                data: {
+                    id: id,
+                    aid: "{$actInfo.id}"
+                },
+                success: function (res) {
+                    wx.chooseWXPay({
+                        timestamp: res.option.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                        nonceStr: res.option.nonceStr, // 支付签名随机串，不长于 32 位
+                        package: res.option.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+                        signType: res.option.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                        paySign: res.option.paySign, // 支付签名
+                        success: function (data) {
+                            $.confirm("支付成功是否前往使用?", "支付成功", function () {
+                                window.location.herf = '#'
+                            }, function () {
+                                //取消操作
+                            });
+                        }
+                    });
+                },
+                error: function () {
+
+                }
+            })
+        }
+
+        //展示地图
+        $('.shopLokBtn').on('click', function () {
+            wx.openLocation({
+                latitude: 0, // 纬度，浮点数，范围为90 ~ -90
+                longitude: 0, // 经度，浮点数，范围为180 ~ -180。
+                name: '', // 位置名
+                address: '', // 地址详情说明
+                scale: 1, // 地图缩放级别,整形值,范围从1~28。默认为最大
+                infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
+            });
+        });
+        wx.ready(function () {
+            wx.onMenuShareAppMessage({
+                title: "{$actInfo.name}", // 分享标题
+                desc: '{$actInfo.name}', // 分享描述
+                link: "https://yuming.sccenze.com/index.php/home/index?to_id={:session('user_info.id')}&a_id={$actInfo.id}",
+                imgUrl: "{$actInfo.active_bg_images_top}", // 分享图标
+                success: function () {
+                    if ($("input[name='packs']").val() === 'ok') {
+                        $.ajax({
+                            url: "{:url('shareSuccess')}",
+                            method: 'get',
+                            data: {'id': "{$actInfo.id}"},
+                            dataType: "JSON",
+                            success: function (res) {
+                                if (res.code) {
+                                    $.alert('您已经领取过该红包');
+                                } else {
+                                    $('.getHOngbPay').attr('defId', '1');
+                                    $("#setPrice").text(res.money)
+                                    $.alert('分享成功');
+                                }
+                            },
+                            error: function () {
+                                $('.getHOngbPay').attr('defId', '0')
+                            }
+                        })
+                    } else {
+                        $.alert('您不在红包领取区域,不能领取红包');
+                    }
+
+                }
+            });
+            wx.onMenuShareTimeline({
+                title: "{$actInfo.name}", // 分享标题
+                link: "https://yuming.sccenze.com/index.php/home/index?to_id={:session('user_info.id')}&a_id={$actInfo.id}",
+                imgUrl: "{$actInfo.active_bg_images_top}", // 分享图标
+                success: function () {
+                    if ($("input[name='packs']").val() === 'ok') {
+                        $.ajax({
+                            url: "{:url('shareSuccess')}",
+                            method: 'get',
+                            data: {'id': "{$actInfo.id}"},
+                            dataType: "JSON",
+                            success: function (res) {
+                                if (res.code) {
+                                    $.alert('您已经领取过该红包');
+                                } else {
+                                    $('.getHOngbPay').attr('defId', '1');
+                                    $("#setPrice").text(res.money)
+                                    $.alert('分享成功');
+                                }
+                            },
+                            error: function () {
+                                $('.getHOngbPay').attr('defId', '0')
+                            }
+                        })
+                    } else {
+                        $.alert('您不在红包领取区域,不能领取红包');
+                    }
+                }
+            });
+
+        });
+        getDate();
+        setInterval(getDate, 1000);
+        // 合成图片
+        $('.sharBtns').on('click', function () {
+            $('.canvesBox').show()
+            $('#canvesBoxId').show()
+            html2canvas(document.getElementById("canvesBoxId"), {useCORS: true}).then(function (canvas) {
+                url = canvas.toDataURL();
+                $('#a').href = url;
+                $("#canImgs").attr("src", url);
+                $('#canvesBoxId').hide()
+            });
+        });
+        $('#aginShare').on('click', function () {
+            $.alert("点击右上角分享到朋友圈或者朋友", "温馨提示", function () {
+            });
+        })
+    });
+
+    //背景音乐控制
+    function autoPlayAudio() {
+        $('#media')[0].play()
+        $('#yinfu').addClass('rotate')
+    };
+
+
+    //活动时间控制
+    function getDate() {
+        var oDate = new Date();//获取日期对象
+        var oldTime = oDate.getTime();//现在距离1970年的毫秒数
+        var newDate = new Date("{$actInfo.stop_time}");
+        var newTime = newDate.getTime();//2019年距离1970年的毫秒数
+        var second = Math.floor((newTime - oldTime) / 1000);//未来时间距离现在的秒数
+        var day = Math.floor(second / 86400);//整数部分代表的是天；一天有24*60*60=86400秒 ；
+        second = second % 86400;//余数代表剩下的秒数；
+        var hour = Math.floor(second / 3600);//整数部分代表小时；
+        second %= 3600; //余数代表 剩下的秒数；
+        var minute = Math.floor(second / 60);
+        second %= 60;
+        $('.day').text(day)
+        $('.hour').text(hour)
+        $('.minute').text(minute)
+        $('.second').text(second)
+    }
+
+    //抽奖转盘
+    var turnWheel = {
+        rewardNames: [], //转盘奖品名称数组
+        rewardUrl: [], //转盘奖品图片
+        prizeId: [],
+        colors: [], //转盘奖品区块对应背景颜色
+        outsideRadius: 340, //转盘外圆的半径
+        textRadius: 320, //转盘奖品位置距离圆心的距离
+        insideRadius: 68, //转盘内圆的半径
+        startAngle: 0, //开始角度
+        bRotate: false //false:停止;ture:旋转
+    };
+    turnWheel.rewardNames = ["380元白酒抵用券", "谢谢参与", "30积分", "谢谢参与", "10积分", "谢谢参与"];
+    //6个图片地址,需要自己写一下
+    turnWheel.rewardUrl = [];
+    turnWheel.prizeId = ["6", "1", "2", "3", "4", "5"];
+    turnWheel.colors = [
+        "#AE3EFF",
+        "#4D3FFF",
+        "#FC262C",
+        "#3A8BFF",
+        "#EE7602",
+        "#FE339F"
+    ];
+    // 图片信息
+    var imgUrl1 = new Image();
+    imgUrl1.src = turnWheel.rewardUrl[0];
+    var imgUrl2 = new Image();
+    imgUrl2.src = turnWheel.rewardUrl[1];
+    var imgUrl3 = new Image();
+    imgUrl3.src = turnWheel.rewardUrl[2];
+    var imgUrl4 = new Image();
+    imgUrl4.src = turnWheel.rewardUrl[3];
+    var imgUrl5 = new Image();
+    imgUrl5.src = turnWheel.rewardUrl[4];
+    var imgUrl6 = new Image();
+    imgUrl6.src = turnWheel.rewardUrl[5];
+    window.onload = function () {
+        drawWheelCanvas();
+    };
+    //旋转转盘 item:奖品序号，从0开始的; txt：提示语 ,count 奖品的总数量;
+    var rotateFunc = function (item, tip, count) {
+        // 应该旋转的角度，旋转插件角度参数是角度制。
+        var baseAngle = 360 / count;
+        // 旋转角度 == 270°（当前第一个角度和指针位置的偏移量） - 奖品的位置 * 每块所占的角度 - 每块所占的角度的一半(指针指向区域的中间)
+        angles = 360 * 3 / 4 - (item * baseAngle) - baseAngle / 2; // 因为第一个奖品是从0°开始的，即水平向右方向
+        $('#wheelCanvas').stopRotate();
+        // 注意，jqueryrotate 插件传递的角度不是弧度制。
+        // 哪个标签调用方法，旋转哪个控件
+        $('#wheelCanvas').rotate({
+            angle: 0,
+            animateTo: angles + 360 * 5, // 这里多旋转了5圈，圈数越多，转的越快
+            duration: 8000,
+            callback: function () { // 回调方法
+                alert(tip);
+                turnWheel.bRotate = !turnWheel.bRotate;
+            }
+        });
+    };
+    // 抽取按钮按钮点击触发事件
+    $('.pointer').click(function () {
+        // 正在转动，直接返回
+        if (turnWheel.bRotate) return;
+        turnWheel.bRotate = !turnWheel.bRotate;
+         var count = turnWheel.rewardNames.length;
+        //rotateFunc(item, turnWheel.rewardNames[item], count);
+        // // 这里应该是从服务器获取用户真实的获奖信息（对应的获奖序号）
+        turnWheel.prizeId.forEach(function (currentValue, index) {
+            console.log(currentValue);
+            var item = index;
+            console.log(index);
+           // $(".award-warp .content").html(data.prize.name);
+            // 开始抽奖
+            rotateFunc(item, turnWheel.rewardNames[item], count);
+            // if (  == data.prize.id) {
+            //
+            // }
+        })
+        // $.ajax({
+        //     type: "POST",
+        //     url: "./aaaaaa.htm",
+        //     data: {customerId: 2589},
+        //     async: false,
+        //     dataType: "json", // 返回数据类型
+        //     success: function (data) {
+        //         console.log(data);
+        //         if (data.type == 1) {//积分不足
+        //         } else if (data.type == 2) {//抽奖次数已经用完
+        //         } else {//抽奖
+        //             turnWheel.prizeId.forEach(function (currentValue, index) {
+        //                 if (currentValue == data.prize.id) {
+        //                     var item = index;
+        //                     console.log(index);
+        //                     $(".award-warp .content").html(data.prize.name);
+        //                     // 开始抽奖
+        //                     rotateFunc(item, turnWheel.rewardNames[item], count);
+        //                 }
+        //             })
+        //         }
+        //     },
+        //     error: function (data) {
+        //         console.log("网络错误，请检查您的网络设置！");
+        //     }
+        // });
+    });
+
+    function drawWheelCanvas() {
+        var canvas = document.getElementById("wheelCanvas");
+        var baseAngle = Math.PI * 2 / (turnWheel.rewardNames.length);
+        var ctx = canvas.getContext("2d");
+        var canvasW = canvas.width; // 画板的高度
+        var canvasH = canvas.height; // 画板的宽度
+        console.log(canvasW);
+        ctx.fillStyle = "#fff000";
+        ctx.clearRect(0, 0, canvasW, canvasH);//去掉背景默认的黑色
+        console.log(canvasW);
+        ctx.strokeStyle = "#199301"; //线的颜色
+        ctx.font = '26px Microsoft YaHei';
+        //ctx.closePath();
+        //使用了beginPath(),canvas会知道是重新画一条，如果给这几条设置不同的属性也是可以的。
+        for (var index = 0; index < turnWheel.rewardNames.length; index++) {
+            var angle = turnWheel.startAngle + index * baseAngle;
+            ctx.fillStyle = turnWheel.colors[index];
+            ctx.beginPath();
+            ctx.arc(canvasW * 0.5, canvasH * 0.5, turnWheel.outsideRadius, angle, angle + baseAngle, false);
+            ctx.arc(canvasW * 0.5, canvasH * 0.5, turnWheel.insideRadius, angle + baseAngle, angle, true);
+            ctx.stroke();
+            ctx.fill();
+            ctx.save();
+            ctx.fillStyle = "#FFFF00";
+            var rewardName = turnWheel.rewardNames[index];
+            var line_height = 24;
+            var translateX = canvasW * 0.5 + Math.cos(angle + baseAngle / 2) * turnWheel.textRadius;
+            var translateY = canvasH * 0.5 + Math.sin(angle + baseAngle / 2) * turnWheel.textRadius;
+            ctx.translate(translateX, translateY);
+            ctx.rotate(angle + baseAngle / 2 + Math.PI / 2);
+            //ctx.drawImage(imgUrl1, -15, 10);
+            ctx.fillText(rewardName, -ctx.measureText(rewardName).width / 2, 100);
+            //添加对应图标
+            if (turnWheel.rewardUrl.length > 0){
+                if (index == 0) {
+                    ctx.drawImage(imgUrl1, -35, 0, 60, 60);
+                } else if (index == 1) {
+                    ctx.drawImage(imgUrl2, -35, 0, 60, 60);
+                } else if (index == 2) {
+                    ctx.drawImage(imgUrl3, -35, 0, 60, 60);
+                } else if (index == 3) {
+                    ctx.drawImage(imgUrl4, -35, 0, 60, 60);
+                } else if (index == 4) {
+                    ctx.drawImage(imgUrl5, -35, 0, 60, 60);
+                } else {
+                    ctx.drawImage(imgUrl6, -35, 0, 60, 60);
+                }
+            }
+
+            ctx.restore(); //很关键
+        }
+            // var $this = $("#news");
+            // var scrollTimer;
+            // $this.hover(function() {
+            //     clearInterval(scrollTimer);
+            // }, function() {
+            //     scrollTimer = setInterval(function() {
+            //         scrollNews($this);
+            //     }, 2000);
+            // }).trigger("mouseleave");
+
+            // function scrollNews(obj) {
+            //     var $self = obj.find("ul");
+            //     var lineHeight = $self.find("li:first").height(); 
+            //     $self.animate({
+            //         "marginTop": -lineHeight + "px"
+            //     }, 600, function() {
+            //         $self.css({
+            //             marginTop: 0
+            //         }).find("li:first").appendTo($self);
+            //     })
+            // }
+    }
+</script>
+</body>
+</html>
